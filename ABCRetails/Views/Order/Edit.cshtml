@@ -3,12 +3,27 @@
 @{
     ViewData["Title"] = "Edit Order";
 }
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
 <h2><i class="fas fa-edit"></i> Edit Order</h2>
 
 <div class="row">
     <div class="col-md-8">
-        <form asp-action="Edit" method="post">
+        <form asp-action="Edit" method="post" id="orderEditForm">
             <input type="hidden" asp-for="RowKey" />
             <input type="hidden" asp-for="PartitionKey" />
             <input type="hidden" asp-for="ETag" />
@@ -69,12 +84,25 @@
 
             <div class="form-group mb-3">
                 <label asp-for="Status" class="form-label"></label>
-                <select asp-for="Status" class="form-select">
-                    <option value="Pending">Pending</option>
-                    <option value="Processing">Processing</option>
-                    <option value="Completed">Completed</option>
-                    <option value="Cancelled">Cancelled</option>
-                </select>
+
+                @if (Model.Status == "Completed" || Model.Status == "Cancelled")
+                {
+                    Console.WriteLine("1");
+                    <input type="text" class="form-control" value="@Model.Status" readonly />
+                    <input type="hidden" asp-for="Status" />
+                }
+                else
+                {
+                    Console.WriteLine("2");
+
+                    <select asp-for="Status" class="form-select">
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                }
+
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
 
@@ -117,22 +145,33 @@
     </div>
 </div>
 
-@functions {
-    string GetStatusBadgeClass(string status)
+@{
+
+    string GetStatusBadgeClass(string status) => status?.ToLowerInvariant() switch
     {
-        return status?.ToLower() switch
-        {
-            "submitted" => "primary",
-            "processing" => "info",
-            "completed" => "success",
-            "cancelled" => "danger",
-            _ => "secondary"
-        };
-    }
+        "submitted" => "primary",
+        "processing" => "info",
+        "completed" => "success",
+        "cancelled" => "danger",
+        _ => "secondary"
+    };
 }
 
+
 @section Scripts {
+    <script>
+        document.getElementById('orderEditForm').addEventListener('submit', function (e) {
+            // Remove this if you had preventDefault() in other scripts
+            // e.preventDefault();
+
+            // Just log for debugging
+            console.log("Submitting orderEditForm...");
+
+            // Let it submit naturally
+        });
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
 }

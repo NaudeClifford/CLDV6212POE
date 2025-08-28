@@ -16,8 +16,8 @@ namespace ABCRetails.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var customers = await _storageService.GetAllEntitiesAsync<Product>();
-            return View(customers);
+            var products = await _storageService.GetAllEntitiesAsync<Product>();
+            return View(products);
         }
 
         public IActionResult Create() //Create action
@@ -34,10 +34,11 @@ namespace ABCRetails.Controllers
             {
                 _logger.LogInformation("Raw price from form: '{PriceFormValue}'", priceFormValue.ToString());
 
-                if (decimal.TryParse(priceFormValue, out var parsedPrice))
+                if (double.TryParse(priceFormValue, out var parsedPrice))
                 {
 
                     product.Price = parsedPrice;
+                    product.PriceString = parsedPrice.ToString("F2");
                     _logger.LogInformation("Successfully parsed price: {Price}", parsedPrice);
 
                 }
@@ -105,7 +106,7 @@ namespace ABCRetails.Controllers
             if (Request.Form.TryGetValue("Price", out var priceFormValue)) //price parsing
             {
 
-                if (decimal.TryParse(priceFormValue, out var parsedPrice))
+                if (double.TryParse(priceFormValue, out var parsedPrice))
                 {
 
                     product.Price = parsedPrice;
@@ -132,6 +133,7 @@ namespace ABCRetails.Controllers
                     originalProduct.ProductName = product.ProductName;
                     originalProduct.Description = product.Description;
                     originalProduct.Price = product.Price;
+                    originalProduct.PriceString = product.Price.ToString("F2");
                     originalProduct.StockAvailable = product.StockAvailable;
 
                     //upload new image
@@ -162,7 +164,7 @@ namespace ABCRetails.Controllers
 
             try
             {
-                await _storageService.DeleteEntityAsync<Customer>("Product", id);
+                await _storageService.DeleteEntityAsync<Product>("Product", id);
                 TempData["Success"] = "Product deleted successfully!";
                 return RedirectToAction(nameof(Index));
             }

@@ -38,7 +38,7 @@ namespace ABCRetails.Models
         [Required]
         [Display(Name = "Order Date")]
         [DataType(DataType.Date)]
-        public DateTime OrderDate { get; set; } = DateTime.Today;
+        public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.UtcNow.Date;
 
         [Required]
         [Display(Name = "Quantity")]
@@ -47,11 +47,11 @@ namespace ABCRetails.Models
 
         [Display(Name = "Unit Price")]
         [DataType(DataType.Currency)]
-        public decimal UnitPrice { get; set; }
+        public double UnitPrice { get; set; }
 
         [Display(Name = "Total Price")]
         [DataType(DataType.Currency)]
-        public decimal TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
 
         [Required]
         [Display(Name = "Status")]

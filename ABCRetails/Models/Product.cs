@@ -2,6 +2,7 @@
 using Azure;
 using Azure.Data.Tables;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
 namespace ABCRetails.Models
 {
@@ -33,15 +34,16 @@ namespace ABCRetails.Models
 
         [Display(Name = "Price")]
 
-        public decimal Price {
-            get 
+        public double Price
+        {
+            get
             {
-                return decimal.TryParse(PriceString, out var result) ? result : 0m; ;
+                return double.TryParse(PriceString, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : 0;
             }
-            set 
+            set
             {
-                PriceString = value.ToString("F2");
-            } 
+                PriceString = value.ToString("F2", CultureInfo.InvariantCulture);
+            }
         }
 
         [Required]

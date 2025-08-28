@@ -12,7 +12,7 @@ namespace ABCRetails.Controllers
         {
             _storageService = storageService;
         }
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View(new FileUploadModel());
         }
@@ -29,10 +29,10 @@ namespace ABCRetails.Controllers
                     if (model.ProofOfPayment != null && model.ProofOfPayment.Length > 0)
                     {
                         //upload to blob storage
-                        var fileName = await _storageService.UploadToFileShareAsync(model.ProofOfPayment, "payment-proofs");
+                        var fileName = await _storageService.UploadFileAsync(model.ProofOfPayment, "payment-proofs");
 
                         //Upload to file share for contracts
-                        await _storageService.UploadToFileShareAsync(model.ProofOfPayment,"contracts", "payments");
+                        await _storageService.UploadToFileShareAsync(model.ProofOfPayment, "contracts", "payments");
 
                         TempData["Success"] = $"File upload successfully! File name: {fileName}";
 

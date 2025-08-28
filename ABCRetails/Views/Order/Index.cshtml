@@ -73,6 +73,7 @@
                                                     <a class="dropdown-item" href="#" onclick="updateOrderStatus('@order.RowKey', 'Completed')">
                                                         <i class="fas fa-check text-success"></i> Mark as Completed
                                                     </a>
+
                                                 </li>
                                             }
                                             <li>
@@ -119,13 +120,17 @@ else
                 <form id="deleteForm" method="post" style="display: inline;">
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
+
             </div>
         </div>
     </div>
 </div>
 
+
+
 @{
-    string GetStatusBadgeClass(string status) => status?.ToLower() switch
+
+    string GetStatusBadgeClass(string status) => status?.ToLowerInvariant() switch
     {
         "submitted" => "primary",
         "processing" => "info",
@@ -142,6 +147,7 @@ else
             document.getElementById('deleteForm').action = '/Order/Delete/' + orderRowKey;
             new bootstrap.Modal(document.getElementById('deleteModal')).show();
         }
+
 
         function updateOrderStatus(orderRowKey, newStatus) {
             if (confirm(`Are you sure you want to change the status to "${newStatus}"?`)) {
@@ -169,5 +175,7 @@ else
                 });
             }
         }
+
     </script>
+
 }

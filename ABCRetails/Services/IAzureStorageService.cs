@@ -23,5 +23,6 @@ namespace ABCRetails.Services
         //File Share operations
         Task<string> UploadToFileShareAsync(IFormFile file, string shareName, string directoryName = "");
         Task<byte[]> DownloadFromFileShareAsync(string shareName, string fileName, string directoryName = "");
+
     }
 }

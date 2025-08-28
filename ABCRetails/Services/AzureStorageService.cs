@@ -4,6 +4,7 @@ using Azure.Storage.Queues;
 using Azure.Storage.Files.Shares;
 using ABCRetails.Models;
 using System.Text.Json;
+using Azure;
 
 namespace ABCRetails.Services
 {
@@ -16,6 +17,7 @@ namespace ABCRetails.Services
         private readonly QueueServiceClient _queueServiceClient;
         private readonly ShareServiceClient _shareServiceClient;
         private readonly ILogger<AzureStorageService> _logger;
+        private readonly string _fileShareConnectionString;
 
         public AzureStorageService(
             IConfiguration configuration,
@@ -109,6 +111,7 @@ namespace ABCRetails.Services
 
             try
             {
+
                 var response = await tableClient.GetEntityAsync<T>(partitionKey, rowKey);
                 return response.Value;
             }
@@ -133,29 +136,30 @@ namespace ABCRetails.Services
         //update entity operations
         public async Task<T> UpdateEntityAsync<T>(T entity) where T : class, ITableEntity
         {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
 
             var tableName = GetTableName<T>();
             var tableClient = _tableServiceClient.GetTableClient(tableName);
 
             try
             {
-                //use IfMatch condition for optimistic concurrency
-                await tableClient.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Replace);
-                return entity;
+                Console.WriteLine("3");
 
+                await tableClient.UpdateEntityAsync(entity, ETag.All, TableUpdateMode.Merge);
+                return entity;
             }
             catch (Azure.RequestFailedException ex) when (ex.Status == 412)
             {
-                //Precondition failed - entity was modified
-                _logger.LogWarning("Entity update failed due to ETag mismatch for {EntityType} with RowKey{RowKey}",
-                    typeof(T).Name, entity.RowKey);
-                throw new InvalidOperationException("The entity was modified by another process. Please refreash and try again.");
+                _logger.LogWarning("Entity update failed due to ETag mismatch for {EntityType} with RowKey {RowKey}",
+                    typeof(T).Name, entity.RowKey ?? "<null>");
+                throw new InvalidOperationException("The entity was modified by another process. Please refresh and try again.");
             }
+
             catch (Exception ex)
             {
-                //Precondition failed - entity was modified
                 _logger.LogWarning("Error updating entity {EntityType} with RowKey {RowKey}: {Message}",
-                    typeof(T).Name, entity.RowKey, ex.Message);
+                    typeof(T).Name, entity.RowKey ?? "<null>", ex.Message);
                 throw;
             }
         }
@@ -206,7 +210,7 @@ namespace ABCRetails.Services
 
                 var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
 
-                //Ensure container exists
+                //Make sure that the container exists
                 await containerClient.CreateIfNotExistsAsync(Azure.Storage.Blobs.Models.PublicAccessType.None);
 
                 var fileName = $"{DateTime.Now:yyyyMMdd_HHmmss}_{file.FileName}";
@@ -223,7 +227,9 @@ namespace ABCRetails.Services
                    containerName, ex.Message);
                 throw;
 
-            }
+            
+
+        }
 
         }
 

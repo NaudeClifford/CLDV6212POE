@@ -52,6 +52,13 @@
             </div>
         </div>
 
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
+        }
+
         <div class="mt-4">
             <div class="alert alert-info">
                 <h6><i class="fas fa-info-circle"></i> Upload Instructions:</h6>

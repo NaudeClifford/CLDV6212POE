@@ -141,7 +141,7 @@ namespace ABCRetails.Controllers
             return View(order);
         }
 
-        public async Task<IActionResult> Edit(string id) //Edit action
+        public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -150,9 +150,7 @@ namespace ABCRetails.Controllers
 
             var order = await _storageService.GetEntityAsync<Order>("Order", id);
             if (order == null)
-            {
                 return NotFound();
-            }
 
             return View(order);
         }
@@ -161,15 +159,39 @@ namespace ABCRetails.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Order order)
         {
-
             if (ModelState.IsValid)
             {
 
                 try
                 {
-                    await _storageService.UpdateEntityAsync(order);
+                    // Validate keys
+                    if (string.IsNullOrEmpty(order.PartitionKey) || string.IsNullOrEmpty(order.RowKey))
+                    {
+                        ModelState.AddModelError("", "Missing Order keys. Please reload and try again.");
+                        return View(order);
+                    }
+
+                    // Fetch original entity from storage
+                    var originalOrder = await _storageService.GetEntityAsync<Order>("Order", order.RowKey);
+                    if (originalOrder == null)
+                    {
+                        ModelState.AddModelError("", "Order not found.");
+
+                        return NotFound();
+                    }
+
+                    originalOrder.OrderDate = order.OrderDate;
+                    originalOrder.Status = order.Status;
+
+                    // Update entity in storage
+                    await _storageService.UpdateEntityAsync(originalOrder);
+                    // Fetch existing entity from Azure Table
                     TempData["Success"] = "Order updated successfully!";
                     return RedirectToAction(nameof(Index));
+                }
+                catch (InvalidOperationException ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
                 }
                 catch (Exception ex)
                 {
@@ -180,10 +202,8 @@ namespace ABCRetails.Controllers
         }
 
         [HttpPost]
-
-        public async Task<IActionResult> Delete(string id) //Delete action
+        public async Task<IActionResult> Delete(string id)
         {
-
             try
             {
                 await _storageService.DeleteEntityAsync<Order>("Order", id);
@@ -193,11 +213,10 @@ namespace ABCRetails.Controllers
             {
                 TempData["Error"] = $"Error deleting order: {ex.Message}";
             }
-
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost]
+        [HttpGet]
 
         public async Task<JsonResult> GetProductPrice(string productId) //Get product price action
         {
@@ -224,24 +243,32 @@ namespace ABCRetails.Controllers
         }
 
         [HttpPost]
-
-        public async Task<JsonResult> UpdateOrderStatus(string id, string newStatus) //Upload order status action
+        public async Task<JsonResult> UpdateOrderStatus([FromBody] UpdateOrderStatusModel model)
         {
+            if (model == null || string.IsNullOrEmpty(model.Id) || string.IsNullOrEmpty(model.NewStatus))
+            {
+                return Json(new { success = false, message = "Invalid input." });
+            }
+
+            var allowedStatuses = new[] { "Submitted", "Processing", "Completed", "Cancelled" };
+            if (!allowedStatuses.Contains(model.NewStatus))
+            {
+                return Json(new { success = false, message = "Invalid status value." });
+            }
 
             try
             {
-                var order = await _storageService.GetEntityAsync<Order>("Order", id);
+                var order = await _storageService.GetEntityAsync<Order>("Order", model.Id);
 
                 if (order == null)
                 {
-                    return Json(new { success = false, message = "Order not found" });
+                    return Json(new { success = false, message = "Order not found." });
                 }
 
                 var previousStatus = order.Status;
-                order.Status = newStatus;
+                order.Status = model.NewStatus;
                 await _storageService.UpdateEntityAsync(order);
 
-                //Send queue message for the status update
                 var statusMessage = new
                 {
                     OrderId = order.OrderId,
@@ -249,14 +276,14 @@ namespace ABCRetails.Controllers
                     CustomerName = order.Username,
                     ProductName = order.ProductName,
                     PreviousStatus = previousStatus,
-                    NewStatus = newStatus,
+                    NewStatus = model.NewStatus,
                     UpdatedDate = DateTime.UtcNow,
                     UpdatedBy = "System"
                 };
 
                 await _storageService.SendMessageAsync("order-notifications", JsonSerializer.Serialize(statusMessage));
 
-                return Json(new { success = true, message = $"Order status updated to {newStatus}" });
+                return Json(new { success = true, message = $"Order status updated to {model.NewStatus}" });
             }
             catch (Exception ex)
             {
@@ -270,5 +297,11 @@ namespace ABCRetails.Controllers
             model.Products = await _storageService.GetAllEntitiesAsync<Product>();
         }
 
+    }
+
+    public class UpdateOrderStatusModel
+    {
+        public string Id { get; set; }
+        public string NewStatus { get; set; }
     }
 }
