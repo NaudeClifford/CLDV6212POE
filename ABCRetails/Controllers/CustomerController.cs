@@ -1,21 +1,18 @@
-﻿using System.Linq.Expressions;
-using ABCRetails.Models;
-using ABCRetails.Services;
+﻿using ABCRetails.Models;
 using Microsoft.AspNetCore.Mvc;
+using ABCRetails.Services;
+
 
 namespace ABCRetails.Controllers
 {
     public class CustomerController : Controller
     {
-        private readonly IAzureStorageService _storageService;
+        private readonly IFunctionApi _api;
 
-        public CustomerController(IAzureStorageService storageService)
-        {
-            _storageService = storageService;
-        }
+        public CustomerController(IFunctionApi api) => _api = api;
         public async Task<IActionResult> Index()
         {
-            var customers = await _storageService.GetAllEntitiesAsync<Customer>();
+            var customers = await _api.GetCustomersAsync();
             return View(customers);
         }
 
@@ -24,8 +21,7 @@ namespace ABCRetails.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Create(Customer customer) 
         {
@@ -33,7 +29,7 @@ namespace ABCRetails.Controllers
             {
                 try
                 {
-                    await _storageService.AddEntityAsync(customer);
+                    await _api.CreateCustomerAsync(customer);
                     TempData["Success"] = "Customer created successfully!";
                     return RedirectToAction(nameof(Index));
                 }
@@ -47,22 +43,16 @@ namespace ABCRetails.Controllers
 
         public async Task<IActionResult> Edit(string id) //Edit action
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return NotFound();
-            }
-
-            var customer = await _storageService.GetEntityAsync<Customer>("Customer", id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
+            if (string.IsNullOrEmpty(id)) return NotFound();
+            
+            var customer = await _api.GetCustomerAsync(id);
+            
+            if (customer == null) return NotFound();
+           
             return View(customer);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Customer customer)
         {
 
@@ -71,12 +61,8 @@ namespace ABCRetails.Controllers
 
                 try
                 {
-                    var originalCustomer = await _storageService.GetEntityAsync<Customer>("Customer", customer.RowKey);
-                    if (originalCustomer == null) {
-                        return NotFound();
-                    }
-
-                    await _storageService.UpdateEntityAsync(customer);
+                                       
+                    await _api.UpdateCustomerAsync(customer.CustomerId, customer);
                     TempData["Success"] = "Customer updated successfully!";
                     return RedirectToAction(nameof(Index));
                 }
@@ -93,19 +79,17 @@ namespace ABCRetails.Controllers
         public async Task<IActionResult> Delete(string id) //Delete action
         {
 
-                try
-                {
-                    await _storageService.DeleteEntityAsync<Customer>("Customer", id);
-                    TempData["Success"] = "Customer deleted successfully!";
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", $"Error deleting customer: {ex.Message}");
-                }
+            try
+            {
+                await _api.DeleteCustomerAsync(id);
+                TempData["Success"] = "Customer deleted successfully!";
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error deleting customer: {ex.Message}");
+            }
                
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

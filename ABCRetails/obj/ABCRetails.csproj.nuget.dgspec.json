@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE-Part1\\ABCRetails\\ABCRetails.csproj": {}
+    "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\ABCRetails.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE-Part1\\ABCRetails\\ABCRetails.csproj": {
+    "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\ABCRetails.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE-Part1\\ABCRetails\\ABCRetails.csproj",
+        "projectUniqueName": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\ABCRetails.csproj",
         "projectName": "ABCRetails",
-        "projectPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE-Part1\\ABCRetails\\ABCRetails.csproj",
+        "projectPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\ABCRetails.csproj",
         "packagesPath": "C:\\Users\\lab_services_student\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE-Part1\\ABCRetails\\obj\\",
+        "outputPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -22,15 +22,15 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net9.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net9.0": {
-            "targetAlias": "net9.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -44,11 +44,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net9.0": {
-          "targetAlias": "net9.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Azure.Data.Tables": {
               "target": "Package",
@@ -56,7 +56,7 @@
             },
             "Azure.Storage.Blobs": {
               "target": "Package",
-              "version": "[12.25.0, )"
+              "version": "[12.25.1, )"
             },
             "Azure.Storage.Files.Shares": {
               "target": "Package",
@@ -66,9 +66,37 @@
               "target": "Package",
               "version": "[12.23.0, )"
             },
-            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+            "Microsoft.AspNetCore.WebUtilities": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[8.0.20, )"
+            },
+            "Microsoft.Azure.Functions.Worker": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Microsoft.Azure.Functions.Worker.Extensions.Http": {
+              "target": "Package",
+              "version": "[3.3.0, )"
+            },
+            "Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore": {
+              "target": "Package",
+              "version": "[2.0.2, )"
+            },
+            "Microsoft.Azure.Functions.Worker.Extensions.Storage": {
+              "target": "Package",
+              "version": "[6.8.0, )"
+            },
+            "Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues": {
+              "target": "Package",
+              "version": "[5.5.3, )"
+            },
+            "Microsoft.Azure.Functions.Worker.Sdk": {
+              "target": "Package",
+              "version": "[2.0.5, )"
+            },
+            "Microsoft.Azure.Functions.Worker.Sdk.Analyzers": {
+              "target": "Package",
+              "version": "[1.2.2, )"
             }
           },
           "imports": [
@@ -90,7 +118,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

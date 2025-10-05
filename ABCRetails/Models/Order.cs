@@ -1,8 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Azure;
 using Azure.Data.Tables;
-using System.ComponentModel.DataAnnotations;
-using Humanizer;
 
 namespace ABCRetails.Models
 {

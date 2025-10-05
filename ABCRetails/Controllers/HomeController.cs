@@ -38,6 +38,11 @@ namespace ABCRetails.Controllers
             return View();
         }
 
+        public IActionResult Contact_Us()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> InitializeStorage()
         {

@@ -1,5 +1,6 @@
 using System.Globalization;
 using ABCRetails.Services;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace ABCRetails
 {
@@ -12,8 +13,22 @@ namespace ABCRetails
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            //Register Azure storage Service
-            builder.Services.AddScoped<IAzureStorageService, AzureStorageService>();
+            builder.Services.AddHttpClient("Functions", (sp, client) =>
+            {
+                var service = sp.GetRequiredService<IConfiguration>();
+                var baseUrl = service["Functions:BaseUrl"] ?? throw new InvalidOperationException();
+                client.BaseAddress = new Uri(baseUrl.TrimEnd('/') + "/api/");
+                client.Timeout = TimeSpan.FromSeconds(100);
+            });
+
+            //Register the typed client
+            builder.Services.AddScoped<IFunctionApi, FunctionApiClient>();
+
+            //allow larger multipart uploads
+            builder.Services.Configure<FormOptions>(o =>
+            {
+                o.MultipartBodyLengthLimit = 50 * 1024 * 1024; //50MB
+            });
 
             //Add logging
             builder.Services.AddLogging();
@@ -39,7 +54,6 @@ namespace ABCRetails
 
             app.UseAuthorization();
 
-            app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
