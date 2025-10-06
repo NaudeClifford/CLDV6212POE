@@ -10,11 +10,26 @@ namespace ABCRetails.Controllers
         private readonly IFunctionApi _api;
 
         public CustomerController(IFunctionApi api) => _api = api;
-        public async Task<IActionResult> Index()
+        
+        public async Task<IActionResult> Index(string? searchString)
         {
+            ViewData["SearchString"] = searchString;
+            
             var customers = await _api.GetCustomersAsync();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                customers = customers.Where(c =>
+                    c.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                    c.Surname.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
+                    c.Username.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+            }
+
             return View(customers);
+
         }
+
 
         public IActionResult Create() //Create action
         {

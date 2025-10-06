@@ -152,11 +152,14 @@ namespace ABCRetails.Services
         public async Task<Order> CreateOrderAsync(string customerId, string productId, int quantity)
         {
             var payload = new { customerId, productId, quantity };
+            var content = JsonBody(payload);
 
-            var dto = await ReadJsonAsync<OrderDto>(await _http.GetAsync(OrdersRoute, JsonBody(payload)));
+            var response = await _http.PostAsync(OrdersRoute, content);
+            var dto = await ReadJsonAsync<OrderDto>(response);
 
             return ToOrder(dto);
         }
+
 
 
         public async Task UpdateOrderStatusAsync(string id, string newStatus)
@@ -197,19 +200,21 @@ namespace ABCRetails.Services
         //Mapping
         private static Order ToOrder(OrderDto d)
         {
-            var status = Enum.TryParse<OrderStatus>(d.Status, ignoreCase: true, out var s)
-                ? s : OrderStatus.Submitted;
+            var status = !string.IsNullOrWhiteSpace(d.Status) &&
+                         Enum.TryParse<OrderStatus>(d.Status, ignoreCase: true, out var s)
+                         ? s.ToString()
+                         : OrderStatus.Submitted.ToString();
 
             return new Order
             {
 
-                Id = d.Id,
+                RowKey = d.Id,
                 CustomerId = d.CustomerId,
                 ProductId = d.ProductId,
                 ProductName = d.ProductName,
                 Quantity = d.Quantity,
-                UnitPrice = d.UnitPrice,
-                OrderDateUtc = d.OrderDateUtc,
+                UnitPrice = (double)d.UnitPrice,
+                OrderDate = d.OrderDateUtc,
                 Status = status
             };
         }
@@ -222,7 +227,7 @@ namespace ABCRetails.Services
             string ProductName,
             int Quantity,
             decimal UnitPrice,
-            DateTimeOffset OrderDataUtc,
+            DateTimeOffset OrderDateUtc,
             string Status
             );
     }

@@ -16,12 +16,15 @@ namespace ABCRetails.Controllers
         {
             try
             {
-                var productsTask = await _api.GetProductsAsync();
-                var customersTask = await _api.GetCustomersAsync();
-                var ordersTask = await _api.GetOrdersAsync();
+                // Start all async operations concurrently (no await yet)
+                var productsTask = _api.GetProductsAsync();
+                var customersTask = _api.GetCustomersAsync();
+                var ordersTask = _api.GetOrdersAsync();
 
+                // Await all tasks at once
                 await Task.WhenAll(productsTask, customersTask, ordersTask);
 
+                // Extract results
                 var products = productsTask.Result ?? new List<Product>();
                 var customers = customersTask.Result ?? new List<Customer>();
                 var orders = ordersTask.Result ?? new List<Order>();
@@ -42,6 +45,7 @@ namespace ABCRetails.Controllers
                 return View(new HomeViewModel());
             }
         }
+
 
         public IActionResult Privacy()
         {
