@@ -1,12 +1,13 @@
+using System.Text.Json;
 using ABCRetailersFunctions.Entities;
 using ABCRetailersFunctions.Helpers;
 using ABCRetailersFunctions.Models;
-using Azure;
 using Azure.Data.Tables;
-using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Configuration;
+using static ABCRetailersFunctions.Functions.CustomersFunctions;
 
 namespace ABCRetailersFunctions.Functions;
 
@@ -21,12 +22,12 @@ public class OrdersFunctions
 
     public OrdersFunctions(IConfiguration con)
     {
-        _conn = con["STORAGE_CONNECTION"] ?? throw new InvalidOperationException();
+        _conn = con["STORAGE_CONNECTION"] ?? throw new InvalidOperationException("STORAGE_CONNECTION missing");
         _ordersTable = con["TABLE_ORDER"] ?? "Order";
         _productsTable = con["TABLE_PRODUCT"] ?? "Product";
         _customersTable = con["TABLE_CUSTOMER"] ?? "Customer";
-        _queueOrder = con["QUEUE_ORDER_NOTIFICATIONS"] ?? "order_notifications";
-        _queueStock = con["QUEUE_STOCK_UPDATES"] ?? "stock_updates";
+        _queueOrder = con["QUEUE_ORDER_NOTIFICATIONS"] ?? "order-notifications";
+        _queueStock = con["QUEUE_STOCK_UPDATES"] ?? "stock-updates";
     }
 
     [Function("Orders_List")]
@@ -40,7 +41,7 @@ public class OrdersFunctions
         await foreach (var e in table.QueryAsync<OrderEntity>(x => x.PartitionKey == "Order"))
             items.Add(Map.ToDto(e));
 
-        var ordered = items.OrderByDescending(o => o.OrderDate).ToList();
+        var ordered = items.OrderByDescending(o => o.OrderDateUtc).ToList();
         return HttpJson.OK(req, ordered);
     }
 
@@ -56,116 +57,159 @@ public class OrdersFunctions
             var entity = await table.GetEntityAsync<OrderEntity>("Order", id);
             return HttpJson.OK(req, Map.ToDto(entity.Value));
         }
-        catch (RequestFailedException ex) when (ex.Status == 404)
+        catch
         {
             return HttpJson.NotFound(req, "Order not found");
         }
     }
+
+    private record OrderCreate(string CustomerId, string ProductId, int Quantity);
 
     [Function("Orders_Create")]
     public async Task<HttpResponseData> Create(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "orders")] HttpRequestData req)
     {
-        var contentType = req.Headers.TryGetValues("Content-Type", out var contentTypes)
-            ? contentTypes.FirstOrDefault()
-            : null;
 
-        var table = new TableClient(_conn, _ordersTable);
-        await table.CreateIfNotExistsAsync();
+        var input = await HttpJson.ReadAsync<OrderCreate>(req);
 
-        string name = "", desc = "", imageUrl = "";
-        double price = 0;
-        int stock = 0;
+        if (input == null || string.IsNullOrWhiteSpace(input.CustomerId) || string.IsNullOrWhiteSpace(input.ProductId) || input.Quantity < 1) 
+            return HttpJson.Bad(req, "CustomerId, ProductId, Quantity >= 1 required");
 
-        if (!string.IsNullOrWhiteSpace(contentType) &&
-            contentType.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase))
-        {
-            var form = await MultipartHelper.ParseAsync(req.Body, contentType);
-            name = form.Text.GetValueOrDefault("ProductName") ?? "";
-            desc = form.Text.GetValueOrDefault("Description") ?? "";
-            double.TryParse(form.Text.GetValueOrDefault("Price"), out price);
-            int.TryParse(form.Text.GetValueOrDefault("StockAvailable"), out stock);
+        var orders = new TableClient(_conn, _ordersTable);
+        var products = new TableClient(_conn, _productsTable);
+        var customers = new TableClient(_conn, _customersTable);
+        await orders.CreateIfNotExistsAsync();
+        await products.CreateIfNotExistsAsync();
+        await customers.CreateIfNotExistsAsync();
 
-            var file = form.Files.FirstOrDefault(f => f.FileName == "ImageFile");
-            if (file != null && file.Data.Length > 0)
-            {
-                var container = new BlobContainerClient(_conn, _productsTable.ToLower());
-                await container.CreateIfNotExistsAsync();
-                var blob = container.GetBlobClient($"{Guid.NewGuid():N}-{file.FileName}");
-                await using var stream = file.Data;
-                await blob.UploadAsync(stream);
-                imageUrl = blob.Uri.ToString();
-            }
-            else
-            {
-                imageUrl = form.Text.GetValueOrDefault("ImageUrl") ?? "";
-            }
-        }
-        else
-        {
-            var body = await HttpJson.ReadAsync<Dictionary<string, object>>(req) ?? new();
-            name = body.TryGetValue("ProductName", out var pn) ? pn?.ToString() ?? "" : "";
-            desc = body.TryGetValue("Description", out var d) ? d?.ToString() ?? "" : "";
-            price = body.TryGetValue("Price", out var pr) && double.TryParse(pr?.ToString(), out var p) ? p : 0;
-            stock = body.TryGetValue("StockAvailable", out var st) && int.TryParse(st?.ToString(), out var s) ? s : 0;
-            imageUrl = body.TryGetValue("ImageUrl", out var iu) ? iu?.ToString() ?? "" : "";
-        }
-
-        if (string.IsNullOrWhiteSpace(name))
-            return HttpJson.Bad(req, "ProductName is required");
-
-        var entity = new ProductEntity
-        {
-            ProductName = name,
-            Description = desc,
-            Price = price,
-            StockAvailable = stock,
-            ImageUrl = imageUrl
-        };
-
-        await table.AddEntityAsync(entity);
-        return HttpJson.Created(req, Map.ToDto(entity));
-    }
-
-    [Function("Orders_Update")]
-    public async Task<HttpResponseData> Update(
-    [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "orders/{id}")] HttpRequestData req,
-    string id)
-    {
-        var table = new TableClient(_conn, _ordersTable);
+        ProductEntity product;
+        CustomerEntity customer;
 
         try
         {
-            var response = await table.GetEntityAsync<OrderEntity>("Order", id);
+            product = (await products.GetEntityAsync<ProductEntity>("Product", input.ProductId)).Value;
+        }
+        catch {
+            return HttpJson.Bad(req, "Invaild CustomerId");
+        }
+
+        try
+        {
+            customer = (await customers.GetEntityAsync<CustomerEntity>("Customer", input.CustomerId)).Value;
+        }
+        catch
+        {
+            return HttpJson.Bad(req, "Invaild CustomerId");
+        }
+
+        if (product.StockAvailable < input.Quantity)
+            return HttpJson.Bad(req, $"Insufficient stock. Available: {product.StockAvailable}");
+
+        var order = new OrderEntity
+        {
+            CustomerId = input.CustomerId,
+            ProductId = input.ProductId,
+            ProductName = product.ProductName,
+            Quantity = input.Quantity,
+            UnitPrice = product.Price,
+            OrderDateUtc = DateTimeOffset.UtcNow,
+            Status = "Submitted"
+
+        };
+        await orders.AddEntityAsync(order);
+
+        product.StockAvailable -= input.Quantity;
+        await products.UpdateEntityAsync(product, product.ETag, TableUpdateMode.Replace);
+
+        //Send queue messages
+        var queueOrder = new QueueClient(_conn, _queueOrder, new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 });
+        var queueStock = new QueueClient(_conn, _queueStock, new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 });
+
+        await queueOrder.CreateIfNotExistsAsync();
+        await queueStock.CreateIfNotExistsAsync();
+
+        var orderMsg = new
+        {
+            Type = "OrderCreated",
+            OrderId = order.RowKey,
+            order.CustomerId,
+            CustomerName = $"{customer.Name} {customer.Surname}",
+            order.ProductId,
+            ProductName = product.ProductName,
+            order.Quantity,
+            order.UnitPrice,
+            TotalAmount = order.UnitPrice * order.Quantity,
+            OrderDateUtc = order.OrderDateUtc,
+            order.Status
+        };
+        await queueOrder.SendMessageAsync(JsonSerializer.Serialize(orderMsg));
+
+        var stockMsg = new
+        {
+            Type = "StockUpdated",
+            productId = product.RowKey,
+            ProductName = product.ProductName,
+            PreviousStock = product.StockAvailable + input.Quantity,
+            NewStock = product.StockAvailable,
+            UpdatedDateUtc = DateTimeOffset.UtcNow,
+            UpdatedBy = "Order System"
+        };
+        await queueStock.SendMessageAsync(JsonSerializer.Serialize(stockMsg));
+
+        return HttpJson.Created(req, Map.ToDto(order));
+    }
+
+    [Function("Orders_UpdateStatus")]
+    public async Task<HttpResponseData> UpdateStatus(
+    [HttpTrigger(AuthorizationLevel.Anonymous, "patch","post", "put", Route = "orders/{id}/status")] HttpRequestData req,
+    string id)
+    {
+
+        var input = await HttpJson.ReadAsync<OrderStatusUpdate>(req);
+
+        if (input == null || string.IsNullOrWhiteSpace(input.Status))
+            return HttpJson.Bad(req, "Status is required");
+
+        var orders = new TableClient(_conn, _ordersTable);
+
+        try
+        {
+            var response = await orders.GetEntityAsync<OrderEntity>("Order", id);
             var entity = response.Value;
+            var previous = entity.Status;
 
-            var body = await HttpJson.ReadAsync<Dictionary<string, object>>(req);
-            if (body == null)
-                return HttpJson.Bad(req, "Request body is empty");
+            entity.Status = input.Status;
+            await orders.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Replace);
 
-            // Update only valid order fields
-            if (body.TryGetValue("Quantity", out var q) && int.TryParse(q?.ToString(), out var quantity))
-                entity.Quantity = quantity;
+            var queueOrder = new QueueClient(_conn, _queueOrder, new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 });
+            await queueOrder.CreateIfNotExistsAsync();
 
-            if (body.TryGetValue("UnitPrice", out var p) && double.TryParse(p?.ToString(), out var price))
-                entity.UnitPrice = price;
+            var statusMsg = new
+            {
 
-            if (body.TryGetValue("Status", out var s))
-                entity.Status = s?.ToString() ?? entity.Status;
-
-            entity.TotalPrice = entity.Quantity * entity.UnitPrice;
-
-            await table.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Replace);
+                Type = "OrderStatusUpdated",
+                OrderId = entity.RowKey,
+                PreviousStatus = previous,
+                NewStatus = entity.Status,
+                UpdatedDateUtc = DateTimeOffset.UtcNow,
+                UpdatedBy = "System"
+            };
+            await queueOrder.SendMessageAsync(JsonSerializer.Serialize(statusMsg));
 
             return HttpJson.OK(req, Map.ToDto(entity));
         }
-        catch (RequestFailedException ex) when (ex.Status == 404)
-        {
+        catch
+        { 
             return HttpJson.NotFound(req, "Order not found");
         }
-        catch (Exception ex)
-        {
-            return HttpJson.Bad(req, $"Internal error: {ex.Message}");
-        }
+    }
+
+    [Function("Orders_Delete")]
+    public async Task<HttpResponseData> Delete(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "orders/{id}")] HttpRequestData req, string id)
+    {
+        var table = new TableClient(_conn, _ordersTable);
+        await table.DeleteEntityAsync("Order", id);
+        return HttpJson.NoContent(req);
     }
 }

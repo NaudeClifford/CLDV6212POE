@@ -25,10 +25,10 @@ namespace ABCRetails.Controllers
 
         public async Task<IActionResult> Create(Customer customer) 
         {
-            if (ModelState.IsValid) 
+            if (!ModelState.IsValid) return View(customer);
+
+            try
             {
-                try
-                {
                     await _api.CreateCustomerAsync(customer);
                     TempData["Success"] = "Customer created successfully!";
                     return RedirectToAction(nameof(Index));
@@ -36,9 +36,9 @@ namespace ABCRetails.Controllers
                 catch (Exception ex)
                 {
                     ModelState.AddModelError("", $"Error creating customer: {ex.Message}");
+                    return View(customer);
                 }
-            }
-            return View(customer);
+            
         }
 
         public async Task<IActionResult> Edit(string id) //Edit action
@@ -56,22 +56,19 @@ namespace ABCRetails.Controllers
         public async Task<IActionResult> Edit(Customer customer)
         {
 
-            if (ModelState.IsValid)
-            {
+            if (!ModelState.IsValid) return View(customer);
 
-                try
-                {
-                                       
-                    await _api.UpdateCustomerAsync(customer.CustomerId, customer);
-                    TempData["Success"] = "Customer updated successfully!";
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", $"Error updating customer: {ex.Message}");
-                }
+            try
+            {
+                await _api.UpdateCustomerAsync(customer.CustomerId, customer);
+                TempData["Success"] = "Customer updated successfully!";
+                return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error updating customer: {ex.Message}");
+                return View(customer);
+            }
         }
 
         [HttpPost]

@@ -684,3 +684,14 @@ C:\Users\lab_services_student\Documents\GitHub\prog6212-part1-NaudeClifford\ABCR
 C:\Users\lab_services_student\Documents\GitHub\prog6212-part1-NaudeClifford\ABCRetails\obj\Debug\net9.0\ABCRetails.pdb
 C:\Users\lab_services_student\Documents\GitHub\prog6212-part1-NaudeClifford\ABCRetails\obj\Debug\net9.0\ABCRetails.genruntimeconfig.cache
 C:\Users\lab_services_student\Documents\GitHub\prog6212-part1-NaudeClifford\ABCRetails\obj\Debug\net9.0\ref\ABCRetails.dll
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.csproj.AssemblyReference.cache
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.AssemblyInfoInputs.cache
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.AssemblyInfo.cs
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.csproj.CoreCompileInputs.cache
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.RazorAssemblyInfo.cache
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.RazorAssemblyInfo.cs
+C:\Users\lab_services_student\Documents\GitHub\CLDV6212POE\ABCRetails\obj\Debug\net9.0\ABCRetails.sourcelink.json

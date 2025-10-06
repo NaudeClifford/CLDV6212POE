@@ -10,7 +10,6 @@ public class QueueProcessorFunctions
     [Function("OrderNotifications_Processor")]
     public void OrderNotificationsProcessor
         ([QueueTrigger("%QUEUE_ORDER_NOTIFICATIONS%", Connection = "STORAGE_CONNECTION")]
-
         string message,
         FunctionContext con)
     {

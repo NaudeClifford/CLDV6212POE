@@ -3,98 +3,42 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Net.Http.Headers;
 using System.Text;
 
-namespace ABCRetailersFunctions.Helpers
+namespace ABCRetailersFunctions.Helpers;
+
+public static class MultipartHelper
 {
-    public static class MultipartHelper
+    public sealed record FilePart(string FieldName, string FileName, Stream Data);
+    public sealed record FormData(IReadOnlyDictionary<string, string> Text, IReadOnlyList<FilePart> Files);
+
+    public static async Task<FormData> ParseAsync(Stream body, string contentType)
     {
-        public class MultipartFormData
+        var boundary = HeaderUtilities.RemoveQuotes(MediaTypeHeaderValue.Parse(contentType).Boundary).Value
+            ?? throw new InvalidOperationException("Multipart boundary missing");
+
+        var reader = new MultipartReader(boundary, body);
+        var text = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var files = new List<FilePart>();
+
+        for (var section = await reader.ReadNextSectionAsync(); section != null; section = await reader.ReadNextSectionAsync()) 
         {
-            public Dictionary<string, string> Text { get; set; } = new();
-            public List<MultipartFile> Files { get; set; } = new();
-        }
-
-        public class MultipartFile
-        {
-            public string FileName { get; set; }
-            public Stream Data { get; set; }
-        }
-
-        public static async Task<MultipartFormData> ParseAsync(Stream body, string contentType)
-        {
-            var formData = new MultipartFormData();
-
-            var mediaTypeHeader = MediaTypeHeaderValue.Parse(contentType);
-            var boundary = HeaderUtilities.RemoveQuotes(mediaTypeHeader.Boundary).Value;
-
-            if (string.IsNullOrEmpty(boundary))
-                throw new InvalidDataException("Missing content-type boundary.");
-
-            var reader = new MultipartReader(boundary, body);
-            MultipartSection? section;
-
-            while ((section = await reader.ReadNextSectionAsync()) != null)
+            var cd = ContentDispositionHeaderValue.Parse(section.ContentDisposition);
+            if (cd.IsFileDisposition())
             {
-                var hasContentDispositionHeader =
-                    ContentDispositionHeaderValue.TryParse(section.ContentDisposition, out var contentDisposition);
-
-                if (!hasContentDispositionHeader)
-                    continue;
-
-                if (contentDisposition.IsFileDisposition())
-                {
-                    var fileName = contentDisposition.FileName.Value ?? contentDisposition.FileNameStar.Value;
-                    using var memoryStream = new MemoryStream();
-                    await section.Body.CopyToAsync(memoryStream);
-                    memoryStream.Position = 0;
-
-                    formData.Files.Add(new MultipartFile
-                    {
-                        FileName = fileName,
-                        Data = memoryStream
-                    });
-                }
-                else if (contentDisposition.IsFormDisposition())
-                {
-                    var key = contentDisposition.Name.Value?.Trim('"');
-                    using var readerStream = new StreamReader(section.Body, Encoding.UTF8);
-                    var value = await readerStream.ReadToEndAsync();
-                    if (key != null)
-                        formData.Text[key] = value;
-                }
+                var fieldName = cd.Name.Value?.Trim('"') ?? "file";
+                var fileName = cd.FileName.Value?.Trim('"') ?? "upload.bin";
+                var ms = new MemoryStream();
+                await section.Body.CopyToAsync(ms);
+                ms.Position = 0;
+                files.Add(new FilePart(fieldName, fileName, ms));
             }
-
-            return formData;
+            else if (cd.IsFormDisposition())
+            {
+                var fieldName = cd.Name.Value?.Trim('"') ?? "";
+                using var sr = new StreamReader(section.Body, Encoding.UTF8);
+                text[fieldName] = await sr.ReadToEndAsync();
+            }
         }
-
-        public static async Task<byte[]> ReadFileAsync(IFormFile file)
-        {
-            using var memoryStream = new MemoryStream();
-            await file.CopyToAsync(memoryStream);
-            return memoryStream.ToArray();
-        }
-
-        public static async Task<string> SaveFileAsync(IFormFile file, string path)
-        {
-            var fileName = Path.GetFileName(file.FileName);
-            var filePath = Path.Combine(path, fileName);
-
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
-            using var stream = new FileStream(filePath, FileMode.Create);
-            await file.CopyToAsync(stream);
-
-            return filePath;
-        }
-
-        public static bool IsSupportedImage(IFormFile file)
-        {
-            var supportedTypes = new[] { "image/jpeg", "image/png", "image/gif" };
-            return supportedTypes.Contains(file.ContentType.ToLower());
-        }
-
-        public static bool IsSupportedDocument(IFormFile file)
-        {
-            var supportedTypes = new[] { "application/pdf", "image/jpeg", "image/png" };
-            return supportedTypes.Contains(file.ContentType.ToLower());
-        }
+        return new FormData(text, files);
     }
 }
+

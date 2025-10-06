@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using ABCRetails.Models;
@@ -11,7 +10,7 @@ namespace ABCRetails.Services
 
         private readonly HttpClient _http;
 
-        private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
+        private static readonly JsonSerializerOptions _json = new(JsonSerializerDefaults.Web);
 
         //Centrailze Funciton Routes
         private const string CustomersRoute = "customers";
@@ -27,7 +26,7 @@ namespace ABCRetails.Services
         //Helpers
 
         private static HttpContent JsonBody(object obj)
-            => new StringContent(JsonSerializer.Serialize(obj, _jsonOptions), Encoding.UTF8, "application/json");
+            => new StringContent(JsonSerializer.Serialize(obj, _json), Encoding.UTF8, "application/json");
 
         private static async Task<T> ReadJsonAsync<T>(HttpResponseMessage resp)
         {
@@ -35,15 +34,15 @@ namespace ABCRetails.Services
 
             var stream = await resp.Content.ReadAsStreamAsync();
 
-            var data = await JsonSerializer.DeserializeAsync<T>(stream, _jsonOptions);
+            var data = await JsonSerializer.DeserializeAsync<T>(stream, _json);
 
             return data!;
         }
 
         //Customers
 
-        public async Task<List<Customer>> GetCustomersAsync() =>
-            await ReadJsonAsync<List<Customer>>(await _http.GetAsync(CustomersRoute));
+        public async Task<List<Customer>> GetCustomersAsync()
+            => await ReadJsonAsync<List<Customer>>(await _http.GetAsync(CustomersRoute));
 
         public async Task<Customer?> GetCustomerAsync(string id)
         {
@@ -55,44 +54,31 @@ namespace ABCRetails.Services
         }
 
         public async Task<Customer> CreateCustomerAsync(Customer c)
-        {
-            var content = JsonBody(new
+            => await ReadJsonAsync<Customer>(await _http.PostAsync(CustomersRoute, JsonBody(new
             {
                 name = c.Name,
                 surname = c.Surname,
                 username = c.Username,
                 email = c.Email,
                 shippingAddress = c.ShippingAddress
-            });
-            var resp = await _http.PostAsync(CustomersRoute, content);
+            })));
 
-            return await ReadJsonAsync<Customer>(resp);
-        }
 
         public async Task<Customer> UpdateCustomerAsync(string id, Customer c)
-        {
-            var content = JsonBody(new
-            {
-                name = c.Name,
-                surname = c.Surname,
-                username = c.Username,
-                email = c.Email,
-                shippingAddress = c.ShippingAddress
-            });
-
-            var resp = await _http.PutAsync($"{CustomersRoute}/{id}", content);
-
-            return await ReadJsonAsync<Customer>(resp);
-        }
+                    => await ReadJsonAsync<Customer>(await _http.PutAsync($"{CustomersRoute}/{id}", JsonBody(new
+                    {
+                        name = c.Name,
+                        surname = c.Surname,
+                        username = c.Username,
+                        email = c.Email,
+                        shippingAddress = c.ShippingAddress
+                    })));
 
         public async Task DeleteCustomerAsync(string id)
-        {
-            var resp = await _http.DeleteAsync($"{CustomersRoute}/{id}");
-
-            resp.EnsureSuccessStatusCode();
-        }
+            => (await _http.DeleteAsync($"{CustomersRoute}/{id}")).EnsureSuccessStatusCode();
 
         //Products
+
         public async Task<List<Product>> GetProductsAsync()
             => await ReadJsonAsync<List<Product>>(await _http.GetAsync(ProductsRoute));
 
@@ -108,134 +94,144 @@ namespace ABCRetails.Services
         public async Task<Product> CreateProductAsync(Product p, IFormFile? imageFile)
         {
             using var form = new MultipartFormDataContent();
-
-            form.Add(new StringContent(p.ProductName ?? string.Empty), nameof(p.ProductName));
-            form.Add(new StringContent(p.Description ?? string.Empty), nameof(p.Description));
-            form.Add(new StringContent(p.Price.ToString(CultureInfo.InvariantCulture)), nameof(p.Price));
-            form.Add(new StringContent(p.StockAvailable.ToString()), nameof(p.StockAvailable));
-
-            if (!string.IsNullOrWhiteSpace(p.ImageUrl))
-                form.Add(new StringContent(p.ImageUrl), nameof(p.ImageUrl));
-
+            form.Add(new StringContent(p.ProductName), "ProductName");
+            form.Add(new StringContent(p.Description ?? string.Empty), "Description");
+            form.Add(new StringContent(p.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Price");
+            form.Add(new StringContent(p.StockAvailable.ToString(System.Globalization.CultureInfo.InvariantCulture)), "StockAvailable");
+            if (!string.IsNullOrWhiteSpace(p.ImageUrl)) form.Add(new StringContent(p.ImageUrl), "ImageUrl");
             if (imageFile is not null && imageFile.Length > 0)
             {
-                var streamContent = new StreamContent(imageFile.OpenReadStream());
-                streamContent.Headers.ContentType = new MediaTypeHeaderValue(imageFile.ContentType);
-                form.Add(streamContent, "imageFile", imageFile.FileName);
+                var file = new StreamContent(imageFile.OpenReadStream());
+                file.Headers.ContentType = new MediaTypeHeaderValue(imageFile.ContentType ?? "application/octet-stream");
+                form.Add(file, "ImageFile", imageFile.FileName);
             }
-
-            var resp = await _http.PostAsync(ProductsRoute, form);
-
-            return await ReadJsonAsync<Product>(resp);
+            return await ReadJsonAsync<Product>(await _http.PostAsync(ProductsRoute, form));
         }
+
 
         public async Task<Product> UpdateProductAsync(string id, Product p, IFormFile? imageFile)
         {
             using var form = new MultipartFormDataContent();
-
-            form.Add(new StringContent(p.ProductName ?? string.Empty), nameof(p.ProductName));
-            form.Add(new StringContent(p.Description ?? string.Empty), nameof(p.Description));
-            form.Add(new StringContent(p.Price.ToString(CultureInfo.InvariantCulture)), nameof(p.Price));
-            form.Add(new StringContent(p.StockAvailable.ToString()), nameof(p.StockAvailable));
-
-            if (!string.IsNullOrWhiteSpace(p.ImageUrl))
-                form.Add(new StringContent(p.ImageUrl), nameof(p.ImageUrl));
-
+            form.Add(new StringContent(p.ProductName), "ProductName");
+            form.Add(new StringContent(p.Description ?? string.Empty), "Description");
+            form.Add(new StringContent(p.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Price");
+            form.Add(new StringContent(p.StockAvailable.ToString(System.Globalization.CultureInfo.InvariantCulture)), "StockAvailable");
+            if (!string.IsNullOrWhiteSpace(p.ImageUrl)) form.Add(new StringContent(p.ImageUrl), "ImageUrl");
             if (imageFile is not null && imageFile.Length > 0)
             {
-                var streamContent = new StreamContent(imageFile.OpenReadStream());
-                streamContent.Headers.ContentType = new MediaTypeHeaderValue(imageFile.ContentType);
-                form.Add(streamContent, "imageFile", imageFile.FileName);
+                var file = new StreamContent(imageFile.OpenReadStream());
+                file.Headers.ContentType = new MediaTypeHeaderValue(imageFile.ContentType ?? "application/octet-stream");
+                form.Add(file, "ImageFile", imageFile.FileName);
             }
+            return await ReadJsonAsync<Product>(await _http.PostAsync($"{ProductsRoute}/{id}", form));
 
-            var resp = await _http.PutAsync($"{ProductsRoute}/{id}", form);
-
-            return await ReadJsonAsync<Product>(resp);
         }
 
         public async Task DeleteProductAsync(string id)
+            => (await _http.DeleteAsync($"{ProductsRoute}/{id}")).EnsureSuccessStatusCode();
+
+        // Orders(use DTOs + map to enum)
+        public async Task<List<Order>> GetOrdersAsync()
         {
-            var resp = await _http.DeleteAsync($"{ProductsRoute}/{id}");
+            var dtos = await ReadJsonAsync<List<OrderDto>>(await _http.GetAsync(OrdersRoute));
 
-
-            resp.EnsureSuccessStatusCode();
+            return dtos.Select(ToOrder).ToList();
         }
-
-        // Orders
-
-        public async Task<List<Order>> GetOrdersAsync() =>
-            await ReadJsonAsync<List<Order>>(await _http.GetAsync(OrdersRoute));
-
         public async Task<Order?> GetOrderAsync(string id)
         {
             var resp = await _http.GetAsync($"{OrdersRoute}/{id}");
 
             if (resp.StatusCode == System.Net.HttpStatusCode.NotFound) return null;
 
-            return await ReadJsonAsync<Order>(resp);
+            var dto = await ReadJsonAsync<OrderDto>(resp);
+
+            return ToOrder(dto);
         }
+
 
         public async Task<Order> CreateOrderAsync(string customerId, string productId, int quantity)
         {
-            var content = JsonBody(new
-            {
-                customerId,
-                productId,
-                quantity
-            });
+            var payload = new { customerId, productId, quantity };
 
-            var resp = await _http.PostAsync(OrdersRoute, content);
+            var dto = await ReadJsonAsync<OrderDto>(await _http.GetAsync(OrdersRoute, JsonBody(payload)));
 
-            return await ReadJsonAsync<Order>(resp);
+            return ToOrder(dto);
         }
 
-        public async Task UpdateOrderAsync(string id, string newStatus)
+
+        public async Task UpdateOrderStatusAsync(string id, string newStatus)
         {
-            var content = JsonBody(new { status = newStatus });
 
-            var resp = await _http.PutAsync($"{OrdersRoute}/{id}/status", content);
-
-            resp.EnsureSuccessStatusCode();
+            var payload = new { status = newStatus };
+            (await _http.PatchAsync($"{OrdersRoute}/{id}/status", JsonBody(payload))).EnsureSuccessStatusCode();
         }
 
         public async Task DeleteOrderAsync(string id)
-        {
-            var resp = await _http.DeleteAsync($"{OrdersRoute}/{id}");
-
-            resp.EnsureSuccessStatusCode();
-        }
+            => (await _http.DeleteAsync($"{OrdersRoute}/{id}")).EnsureSuccessStatusCode();
 
         // Uploads
-        public async Task<string> UploadProofOfPaymentAsync(IFormFile file, string? orderId, string? customerId)
+        public async Task<string> UploadProofOfPaymentAsync(IFormFile file, string? orderId, string? customerName)
         {
             using var form = new MultipartFormDataContent();
 
             var streamContent = new StreamContent(file.OpenReadStream());
 
-            streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+            streamContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType ?? "application/octet-stream");
 
-            form.Add(streamContent, "proofOfPayment", file.FileName);
+            form.Add(streamContent, "ProofOfPayment", file.FileName);
 
             if (!string.IsNullOrWhiteSpace(orderId))
                 form.Add(new StringContent(orderId), "orderId");
 
-            if (!string.IsNullOrWhiteSpace(customerId))
-                form.Add(new StringContent(customerId), "customerId");
+            if (!string.IsNullOrWhiteSpace(customerName))
+                form.Add(new StringContent(customerName), "CustomerName");
 
             var resp = await _http.PostAsync(UploadsRoute, form);
 
             resp.EnsureSuccessStatusCode();
 
-            // Assume API returns URL or ID of uploaded file as plain string or JSON
-            var result = await resp.Content.ReadAsStringAsync();
-
-            return result;
+            var doc = await ReadJsonAsync<Dictionary<string, string>>(resp);
+            return doc.TryGetValue("fileName", out var name) ? name : file.FileName;
         }
 
-        public Task<List<Order>> GetOrderAsync()
+        //Mapping
+        private static Order ToOrder(OrderDto d)
         {
-            throw new NotImplementedException();
+            var status = Enum.TryParse<OrderStatus>(d.Status, ignoreCase: true, out var s)
+                ? s : OrderStatus.Submitted;
+
+            return new Order
+            {
+
+                Id = d.Id,
+                CustomerId = d.CustomerId,
+                ProductId = d.ProductId,
+                ProductName = d.ProductName,
+                Quantity = d.Quantity,
+                UnitPrice = d.UnitPrice,
+                OrderDateUtc = d.OrderDateUtc,
+                Status = status
+            };
         }
+
+        //DTOs that match Functions JSON (camelCase)
+        private sealed record OrderDto(
+            string Id,
+            string CustomerId,
+            string ProductId,
+            string ProductName,
+            int Quantity,
+            decimal UnitPrice,
+            DateTimeOffset OrderDataUtc,
+            string Status
+            );
     }
+        //Minimal PATCH extension for HttpClient
+        internal static class HttpClientPatchExtensions
+        {
+            public static Task<HttpResponseMessage> PatchAsync(this HttpClient client, string requestUri,
+                HttpContent content)
+                => client.SendAsync(new HttpRequestMessage(HttpMethod.Patch, requestUri) { Content = content});
+        }
 }
 

@@ -12,20 +12,21 @@ public interface IFunctionApi
     Task DeleteCustomerAsync(string id);
 
     //Product
+    Task<List<Product>> GetProductsAsync();
     Task<Product?> GetProductAsync(string id);
     Task<Product> CreateProductAsync(Product p, IFormFile? imageFile);
     Task<Product> UpdateProductAsync(string id, Product p, IFormFile? imageFile);
     Task DeleteProductAsync(string id);
 
     //Orders
-    Task<List<Order>> GetOrderAsync();
+    Task<List<Order>> GetOrdersAsync();
     Task<Order?> GetOrderAsync(string id);
     Task<Order> CreateOrderAsync(string customerId, string productId, int quantity);
-    Task UpdateOrderAsync(string id, string newStatus);
+    Task UpdateOrderStatusAsync(string id, string newStatus);
     Task DeleteOrderAsync(string id);
 
     //Uploads
-    Task<string> UploadProofOfPaymentAsync(IFormFile file, string? orderId, string? customerId);
+    Task<string> UploadProofOfPaymentAsync(IFormFile file, string? orderId, string? customerName);
 
 }
 

@@ -1,9 +1,7 @@
 using ABCRetailersFunctions.Entities;
 using ABCRetailersFunctions.Helpers;
 using ABCRetailersFunctions.Models;
-using Azure;
 using Azure.Data.Tables;
-using Azure.Storage.Blobs;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +15,7 @@ public class CustomersFunctions
 
     public CustomersFunctions(IConfiguration con)
     {
-        _conn = con["STORAGE_CONNECTION"] ?? throw new InvalidOperationException();
+        _conn = con["STORAGE_CONNECTION"] ?? throw new InvalidOperationException("STORAGE_CONNECTION missing");
         _table = con["TABLE_PRODUCT"] ?? "Customer";
     }
 
@@ -35,14 +33,12 @@ public class CustomersFunctions
             items.Add(Map.ToDto(e));
         }
 
-
         return HttpJson.OK(req, items);
     }
 
-    [Function("Products_Get")]
-
+    [Function("Customers_Get")]
     public async Task<HttpResponseData> Get(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "products/{id}")] HttpRequestData req
+        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customers/{id}")] HttpRequestData req
         , string id)
     {
 
@@ -50,77 +46,39 @@ public class CustomersFunctions
         
         try
         {
-            var e = await table.GetEntityAsync<ProductEntity>("Product", id);
+            var e = await table.GetEntityAsync<CustomerEntity>("Customer", id);
             return HttpJson.OK(req, Map.ToDto(e.Value));
         }
-        catch (RequestFailedException ex) when (ex.Status == 404)
+        catch
         {
-            return HttpJson.NotFound(req, "Product not found");
+            return HttpJson.NotFound(req, "Customer not found");
         }
 
     }
 
-    [Function("Product_Create")]
+    public record CustomerCreateUpdate(string? Name, string? Surname, string? Username, string? Email, string? ShippingAddress);
+
+    [Function("Customers_Create")]
 
     public async Task<HttpResponseData> Create(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "products")] HttpRequestData req
-        )
+        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "customers")] HttpRequestData req)
     {
 
-        var contentType = req.Headers.TryGetValues("Content-Type", out var ct) ? ct.ToString() : null;
+        var input = await HttpJson.ReadAsync<CustomerCreateUpdate>(req);
+
+        if (input == null || string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrWhiteSpace(input.Email))
+            return HttpJson.Bad(req, "Name and Email are required");
+
         var table = new TableClient(_conn, _table);
         await table.CreateIfNotExistsAsync();
 
-        string name = "", desc = "", imageUrl = "";
-        double price = 0;
-        int stock = 0;
-
-        if (contentType.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase))
+        var e = new CustomerEntity
         {
-            var form = await MultipartHelper.ParseAsync(req.Body, contentType);
-            
-            name = form.Text.GetValueOrDefault("ProductName") ?? "";
-            desc = form.Text.GetValueOrDefault("Description") ?? "";
-            double.TryParse(form.Text.GetValueOrDefault("Price") ?? "0", out price);
-            int.TryParse(form.Text.GetValueOrDefault("StockAvailable") ?? "0", out stock);
-
-            var file = form.Files.FirstOrDefault(form => form.FileName == "ImageFile");
-            if (file is not null && file.Data.Length > 0)
-            {
-                var container = new BlobContainerClient(_conn, _table);
-                await container.CreateIfNotExistsAsync();
-                var blob = container.GetBlobClient($"{Guid.NewGuid():N}-{file.FileName}");
-                await using var s = file.Data;
-                await blob.UploadAsync(s);
-                imageUrl = blob.Uri.ToString();
-            }
-            else
-            {
-                imageUrl = form.Text.GetValueOrDefault("ImageUrl") ?? "";
-            }
-        }
-        else
-        {
-            //JSON fallback
-            var body = await HttpJson.ReadAsync<Dictionary<string, object>>(req) ?? new Dictionary<string, object>();
-            name = body.TryGetValue("ProductName", out var pn) ? pn?.ToString() ?? "" : "";
-            desc = body.TryGetValue("Description", out var d) ? d?.ToString() ?? "" : "";
-            price = body.TryGetValue("Price", out var pr) && double.TryParse(pr?.ToString(), out var parsedPrice) ? parsedPrice : 0;
-            stock = body.TryGetValue("StockAvailable", out var st) && int.TryParse(st?.ToString(), out var parsedStock) ? parsedStock : 0;
-            imageUrl = body.TryGetValue("ImageUrl", out var iu) ? iu?.ToString() ?? "" : "";
-
-        }
-
-        if (string.IsNullOrWhiteSpace(name))
-            return HttpJson.Bad(req, "ProductName is required");
-
-        var e = new ProductEntity
-        {
-            ProductName = name,
-            Description = desc,
-            Price = price,
-            StockAvailable = stock,
-            ImageUrl = imageUrl
+            Name = input.Name,
+            Surname = input.Surname ?? "",
+            Username = input.Username ?? "",
+            Email = input.Email,
+            ShippingAddress = input.ShippingAddress ?? ""
         };
         await table.AddEntityAsync(e);
 
@@ -128,90 +86,40 @@ public class CustomersFunctions
 
     }
 
-    [Function("Products_Update")]
+    [Function("Customer_Update")]
     public async Task<HttpResponseData> Update(
-    [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "products/{id}")] HttpRequestData req,
+    [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "customers/{id}")] HttpRequestData req,
         string id)
     {
-        var contentType = req.Headers.TryGetValues("Content-Type", out var ct) ? ct.FirstOrDefault() : null;
-        
+        var input = await HttpJson.ReadAsync<CustomerCreateUpdate>(req);
+
+        if (input == null) return HttpJson.Bad(req, "Invalid body");
+
         var table = new TableClient(_conn, _table);
 
         try
         {
-            var response = await table.GetEntityAsync<ProductEntity>("Product", id);
-            
+            var response = await table.GetEntityAsync<CustomerEntity>("Customer", id);
+
             var entity = response.Value;
 
-            string name = entity.ProductName;
-            
-            string desc = entity.Description;
-            
-            double price = entity.Price;
-            
-            int stock = entity.StockAvailable;
-            
-            string imageUrl = entity.ImageUrl;
+            entity.Name = input.Name ?? entity.Name;
 
-            if (contentType != null && contentType.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase))
-            {
-                var form = await MultipartHelper.ParseAsync(req.Body, contentType);
-                
-                name = form.Text.GetValueOrDefault("ProductName") ?? name;
-                
-                desc = form.Text.GetValueOrDefault("Description") ?? desc;
-                
-                double.TryParse(form.Text.GetValueOrDefault("Price") ?? price.ToString(), out price);
-                
-                int.TryParse(form.Text.GetValueOrDefault("StockAvailable") ?? stock.ToString(), out stock);
+            entity.Surname = input.Surname ?? entity.Surname;
 
-                var file = form.Files.FirstOrDefault(f => f.FileName == "ImageFile");
-                
-                if (file is not null && file.Data.Length > 0)
-                {
-                    var container = new BlobContainerClient(_conn, _table);
-                    await container.CreateIfNotExistsAsync();
-                    var blob = container.GetBlobClient($"{Guid.NewGuid():N}-{file.FileName}");
-                    await using var s = file.Data;
-                    await blob.UploadAsync(s, overwrite: true);
-                    imageUrl = blob.Uri.ToString();
-                }
-                else
-                {
-                    imageUrl = form.Text.GetValueOrDefault("ImageUrl") ?? imageUrl;
-                }
-            }
-            else
-            {
-                var body = await HttpJson.ReadAsync<Dictionary<string, object>>(req);
-                if (body is not null)
-                {
-                    name = body.TryGetValue("ProductName", out var pn) ? pn?.ToString() ?? name : name;
-                    desc = body.TryGetValue("Description", out var d) ? d?.ToString() ?? desc : desc;
-                    price = body.TryGetValue("Price", out var pr) && double.TryParse(pr?.ToString(), out var newPrice) ? newPrice : price;
-                    stock = body.TryGetValue("StockAvailable", out var st) && int.TryParse(st?.ToString(), out var newStock) ? newStock : stock;
-                    imageUrl = body.TryGetValue("ImageUrl", out var iu) ? iu?.ToString() ?? imageUrl : imageUrl;
-                }
-            }
+            entity.Username = input.Username ?? entity.Username;
 
-            entity.ProductName = name;
-            entity.Description = desc;
-            entity.Price = price;
-            entity.StockAvailable = stock;
-            entity.ImageUrl = imageUrl;
+            entity.Email = input.Email ?? entity.Email;
+
+            entity.ShippingAddress = input.ShippingAddress ?? entity.ShippingAddress;
 
             await table.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Replace);
 
             return HttpJson.OK(req, Map.ToDto(entity));
         }
-        catch (RequestFailedException ex) when (ex.Status == 404)
-        {
-            return HttpJson.NotFound(req, "Product not found");
-        }
         catch (Exception ex)
         {
-            return HttpJson.Bad(req, $"Internal error: {ex.Message}");
+            return HttpJson.NotFound(req, "Customer not found");
         }
     }
-
 }

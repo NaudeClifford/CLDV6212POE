@@ -29,9 +29,8 @@ namespace ABCRetailersFunctions.Entities
 
         public string ProductName { get; set; } = "";
         public string Description { get; set; } = "";
-        public string PriceString { get; set; } = "";
-        public double Price { get; set; } = 0;
-        public int StockAvailable { get; set; } = 0;
+        public double Price { get; set; }
+        public int StockAvailable { get; set; }
         public string ImageUrl { get; set; } = "";
     }
 
@@ -43,13 +42,12 @@ namespace ABCRetailersFunctions.Entities
         public ETag ETag { get; set; }
 
         public string CustomerId { get; set; } = "";
-        public string Username { get; set; } = "";
         public string ProductId { get; set; } = "";
         public string ProductName { get; set; } = "";
-        public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.UtcNow.Date;
-        public int Quantity { get; set; } = 0;
-        public double UnitPrice { get; set; } = 0;
+        public int Quantity { get; set; }
+        public double UnitPrice { get; set; }
+        public DateTimeOffset OrderDateUtc { get; set; } = DateTimeOffset.UtcNow.Date;
         public double TotalPrice { get; set; } = 0;
-        public string Status { get; set; } = "";
+        public string Status { get; set; } = "Submitted";
     }
 }

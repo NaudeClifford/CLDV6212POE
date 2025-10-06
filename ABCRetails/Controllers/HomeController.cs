@@ -14,21 +14,33 @@ namespace ABCRetails.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await _api.GetProductsAsync();
-            var customers = await _api.GetCustomersAsync();
-            var orders = await _api.GetOrdersAsync();
-
-            await Task.WhenAll(products, customers, orders);
-
-            var viewModel = new HomeViewModel
+            try
             {
-                FeaturedProducts = products.Take(5).ToList(),
-                ProductCount = products.Count,
-                CustomerCount = customers.Count,
-                OrderCount = orders.Count
-            };
+                var productsTask = await _api.GetProductsAsync();
+                var customersTask = await _api.GetCustomersAsync();
+                var ordersTask = await _api.GetOrdersAsync();
 
-            return View(viewModel);
+                await Task.WhenAll(productsTask, customersTask, ordersTask);
+
+                var products = productsTask.Result ?? new List<Product>();
+                var customers = customersTask.Result ?? new List<Customer>();
+                var orders = ordersTask.Result ?? new List<Order>();
+
+                var viewModel = new HomeViewModel
+                {
+                    FeaturedProducts = products.Take(5).ToList(),
+                    ProductCount = products.Count,
+                    CustomerCount = customers.Count,
+                    OrderCount = orders.Count
+                };
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "Could not load data. Please try again";
+                return View(new HomeViewModel());
+            }
         }
 
         public IActionResult Privacy()
@@ -39,22 +51,6 @@ namespace ABCRetails.Controllers
         public IActionResult ContactUs()
         {
             return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> InitializeStorage()
-        {
-            try
-            {
-                await _api.GetCustomersAsync(); // trigger initialization
-                TempData["Success"] = "Azure Storage initialized successfully!";
-            }
-            catch (Exception ex)
-            {
-                TempData["Error"] = $"Failed to initialize storage: {ex.Message}";
-            }
-
-            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
