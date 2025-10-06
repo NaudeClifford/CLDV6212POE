@@ -8,15 +8,13 @@ namespace ABCRetails.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IAzureStorageService _storageService;
+        private readonly IFunctionApi _api;
 
-        public OrderController(IAzureStorageService storageService)
-        {
-            _storageService = storageService;
-        }
+        public OrderController(IFunctionApi api) => _api = api;
+
         public async Task<IActionResult> Index()
         {
-            var orders = await _storageService.GetAllEntitiesAsync<Order>();
+            var orders = await _api.GetCustomersAsync();
             return View(orders);
         }
 
@@ -34,8 +32,7 @@ namespace ABCRetails.Controllers
             return View(viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken]
 
         public async Task<IActionResult> Create(OrderCreateViewModel model)
         {

@@ -8,22 +8,20 @@ namespace ABCRetails.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IAzureStorageService _storageService;
+        private readonly IFunctionApi _api;
 
-        public HomeController(IAzureStorageService storageService)
-        {
-            _storageService = storageService;
-        }
+        public HomeController(IFunctionApi api) => _api = api;
 
         public async Task<IActionResult> Index()
         {
-            var products = await _storageService.GetAllEntitiesAsync<Product>();
-            var customers = await _storageService.GetAllEntitiesAsync<Customer>();
-            var orders = await _storageService.GetAllEntitiesAsync<Order>();
+            var products = await _api.GetProductsAsync();
+            var customers = await _api.GetCustomersAsync();
+            var orders = await _api.GetOrdersAsync();
+
+            await Task.WhenAll(products, customers, orders);
 
             var viewModel = new HomeViewModel
             {
-
                 FeaturedProducts = products.Take(5).ToList(),
                 ProductCount = products.Count,
                 CustomerCount = customers.Count,
@@ -38,7 +36,7 @@ namespace ABCRetails.Controllers
             return View();
         }
 
-        public IActionResult Contact_Us()
+        public IActionResult ContactUs()
         {
             return View();
         }
@@ -46,12 +44,13 @@ namespace ABCRetails.Controllers
         [HttpPost]
         public async Task<IActionResult> InitializeStorage()
         {
-            try//Initialization of storage
+            try
             {
-                await _storageService.GetAllEntitiesAsync<Customer>(); //trigger for the initialzation
+                await _api.GetCustomersAsync(); // trigger initialization
                 TempData["Success"] = "Azure Storage initialized successfully!";
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 TempData["Error"] = $"Failed to initialize storage: {ex.Message}";
             }
 

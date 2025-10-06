@@ -11,11 +11,7 @@ namespace ABCRetails.Services
 
         private readonly HttpClient _http;
 
-        private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            PropertyNameCaseInsensitive = true
-        };
+        private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web);
 
         //Centrailze Funciton Routes
         private const string CustomersRoute = "customers";
