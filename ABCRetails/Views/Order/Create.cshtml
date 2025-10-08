@@ -17,7 +17,7 @@
                     <option value="">-- Select Customer --</option>
                     @foreach (var customer in Model.Customers)
                     {
-                        <option value="@customer.RowKey">@customer.Name @customer.Surname (@customer.Username)</option>
+                        <option value="@customer.Id">@customer.Name @customer.Surname (@customer.Username)</option>
                     }
                 </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
@@ -29,7 +29,7 @@
                     <option value="">-- Select Product --</option>
                     @foreach (var product in Model.Products)
                     {
-                        <option value="@product.RowKey" data-price="@product.Price" data-stock="@product.StockAvailable">
+                        <option value="@product.Id" data-price="@product.Price" data-stock="@product.StockAvailable">
                             @product.ProductName - @product.Price.ToString("C") (Stock: @product.StockAvailable)
                         </option>
                     }

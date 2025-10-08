@@ -38,27 +38,26 @@ namespace ABCRetails.Controllers
 
         [HttpPost, ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Create(Customer customer) 
+        public async Task<IActionResult> Create(Customer customer)
         {
             if (!ModelState.IsValid) return View(customer);
 
             try
             {
-                    await _api.CreateCustomerAsync(customer);
-                    TempData["Success"] = "Customer created successfully!";
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", $"Error creating customer: {ex.Message}");
-                    return View(customer);
-                }
-            
+                await _api.CreateCustomerAsync(customer);
+                TempData["Success"] = "Customer created successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error creating customer: {ex.Message}");
+                return View(customer);
+            }
         }
 
         public async Task<IActionResult> Edit(string id) //Edit action
         {
-            if (string.IsNullOrEmpty(id)) return NotFound();
+            if (string.IsNullOrWhiteSpace(id)) return NotFound();
             
             var customer = await _api.GetCustomerAsync(id);
             
@@ -75,7 +74,7 @@ namespace ABCRetails.Controllers
 
             try
             {
-                await _api.UpdateCustomerAsync(customer.CustomerId, customer);
+                await _api.UpdateCustomerAsync(customer.Id, customer);
                 TempData["Success"] = "Customer updated successfully!";
                 return RedirectToAction(nameof(Index));
             }

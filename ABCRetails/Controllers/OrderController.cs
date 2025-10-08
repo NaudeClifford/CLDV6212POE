@@ -42,6 +42,7 @@ namespace ABCRetails.Controllers
             }
             try
             {
+
                 //get customer and product details
                 var customer = await _api.GetCustomerAsync(model.CustomerId);
                 var product = await _api.GetProductAsync(model.ProductId);
@@ -49,7 +50,7 @@ namespace ABCRetails.Controllers
                 if (customer == null || product == null)
                 {
 
-                    ModelState.AddModelError("", "Invalid customer or product selected.");
+                    ModelState.AddModelError(string.Empty, "Invalid customer or product selected.");
                     await PopulateDropdowns(model);
                     return View(model);
                 }
@@ -108,7 +109,7 @@ namespace ABCRetails.Controllers
             try
             {
                 // Update entity in storage
-                await _api.UpdateOrderStatusAsync(order.OrderId, order.Status.ToString());
+                await _api.UpdateOrderStatusAsync(order.Id, order.Status.ToString());
 
                 TempData["Success"] = "Order updated successfully!";
                     

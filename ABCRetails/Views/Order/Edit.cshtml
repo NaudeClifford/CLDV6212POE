@@ -24,10 +24,8 @@
 <div class="row">
     <div class="col-md-8">
         <form asp-action="Edit" method="post" id="orderEditForm">
-            <input type="hidden" asp-for="RowKey" />
-            <input type="hidden" asp-for="PartitionKey" />
-            <input type="hidden" asp-for="ETag" />
-            <input type="hidden" asp-for="Timestamp" />
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="CustomerId" />
             <input type="hidden" asp-for="ProductId" />
             <input type="hidden" asp-for="UnitPrice" />
@@ -87,13 +85,11 @@
 
                 @if (Model.Status == "Completed" || Model.Status == "Cancelled")
                 {
-                    Console.WriteLine("1");
                     <input type="text" class="form-control" value="@Model.Status" readonly />
                     <input type="hidden" asp-for="Status" />
                 }
                 else
                 {
-                    Console.WriteLine("2");
 
                     <select asp-for="Status" class="form-select">
                         <option value="Pending">Pending</option>
@@ -110,7 +106,7 @@
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save"></i> Update Order
                 </button>
-                <a asp-action="Details" asp-route-id="@Model.RowKey" class="btn btn-info">
+                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-info">
                     <i class="fas fa-eye"></i> View Details
                 </a>
                 <a asp-action="Index" class="btn btn-secondary">
@@ -128,12 +124,7 @@
             <div class="card-body">
                 <p>
                     <strong>Order ID:</strong><br />
-                    <small class="text-muted">@Model.OrderId</small>
-                </p>
-
-                <p>
-                    <strong>Created:</strong><br />
-                    <small class="text-muted">@Model.Timestamp?.ToString("MMM dd, yyyy HH:mm")</small>
+                    <small class="text-muted">@Model.Id</small>
                 </p>
 
                 <p>

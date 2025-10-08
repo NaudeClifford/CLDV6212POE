@@ -29,7 +29,7 @@ namespace ABCRetails.Controllers
             if (!ModelState.IsValid) return View(product);
                         
             try
-            {
+            { 
                 var saved = await _api.CreateProductAsync(product, imageFile);
                 
                 TempData["Success"] = $"Product '{saved.ProductName}' created successfully with price {saved.Price:C}!";
@@ -63,7 +63,7 @@ namespace ABCRetails.Controllers
             try
             {
 
-                var updated = await _api.UpdateProductAsync(product.ProductId, product, imageFile);
+                var updated = await _api.UpdateProductAsync(product.Id, product, imageFile);
                 TempData["Success"] = $"Product '{updated.ProductName}' updated successfully!";
                 return RedirectToAction(nameof(Index));
             }

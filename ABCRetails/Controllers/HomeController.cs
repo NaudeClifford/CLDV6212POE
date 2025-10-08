@@ -31,7 +31,7 @@ namespace ABCRetails.Controllers
 
                 var viewModel = new HomeViewModel
                 {
-                    FeaturedProducts = products.Take(5).ToList(),
+                    FeaturedProducts = products.Take(8).ToList(),
                     ProductCount = products.Count,
                     CustomerCount = customers.Count,
                     OrderCount = orders.Count
@@ -39,7 +39,7 @@ namespace ABCRetails.Controllers
 
                 return View(viewModel);
             }
-            catch (Exception ex)
+            catch
             {
                 TempData["Error"] = "Could not load data. Please try again";
                 return View(new HomeViewModel());
@@ -52,7 +52,7 @@ namespace ABCRetails.Controllers
             return View();
         }
 
-        public IActionResult ContactUs()
+        public IActionResult Contact_Us()
         {
             return View();
         }

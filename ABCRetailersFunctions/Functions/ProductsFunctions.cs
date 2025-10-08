@@ -36,7 +36,7 @@ public class ProductsFunctions
             items.Add(Map.ToDto(e));
         }
 
-        return HttpJson.OK(req, items);
+        return await HttpJson.OK(req, items);
     }
 
     [Function("Products_Get")]
@@ -51,11 +51,11 @@ public class ProductsFunctions
         try
         {
             var entity = await table.GetEntityAsync<ProductEntity>("Product", id);
-            return HttpJson.OK(req, Map.ToDto(entity.Value));
+            return await HttpJson.OK(req, Map.ToDto(entity.Value));
         }
         catch
         {
-            return HttpJson.NotFound(req, "Product not Found");
+            return await HttpJson.NotFound(req, "Product not Found");
         }
     }
 
@@ -108,7 +108,7 @@ public class ProductsFunctions
         }
 
         if (string.IsNullOrWhiteSpace(name))
-            return HttpJson.Bad(req, "ProductName is required");
+            return await HttpJson.Bad(req, "ProductName is required");
 
         var entity = new ProductEntity
         {
@@ -121,7 +121,7 @@ public class ProductsFunctions
 
         await table.AddEntityAsync(entity);
 
-        return HttpJson.Created(req, Map.ToDto(entity));
+        return await HttpJson.Created(req, Map.ToDto(entity));
 
     }
 
@@ -173,11 +173,11 @@ public class ProductsFunctions
 
             await table.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Replace);
 
-            return HttpJson.OK(req, Map.ToDto(entity));
+            return await HttpJson.OK(req, Map.ToDto(entity));
         }
         catch
         {
-            return HttpJson.NotFound(req, "Product not found");
+            return await HttpJson.NotFound(req, "Product not found");
         }
     }
 
@@ -187,6 +187,6 @@ public class ProductsFunctions
     {
         var table = new TableClient(_conn, _table);
         await table.DeleteEntityAsync("Product", id);
-        return HttpJson.NoContent(req);
+        return await HttpJson.NoContent(req);
     }
 }

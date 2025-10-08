@@ -42,7 +42,7 @@
                                 </div>
                             }
                         </td>
-                        <td><code>@product.ProductId.Substring(0, 8)...</code></td>
+                        <td><code>@product.Id.Substring(0, 8)...</code></td>
                         <td>@product.ProductName</td>
                         <td>@(product.Description.Length > 50 ? product.Description.Substring(0, 50) + "..." : product.Description)</td>
                         <td>
@@ -61,10 +61,10 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a asp-action="Edit" asp-route-id="@product.RowKey" class="btn btn-sm btn-outline-primary">
+                                <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-outline-primary">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete('@product.RowKey', '@product.ProductName')">
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete('@product.Id', '@product.ProductName')">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>

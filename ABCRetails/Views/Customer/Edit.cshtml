@@ -9,15 +9,14 @@
 <div class="row">
     <div class="col-md-8">
         <form asp-action="Edit" method="post">
-            <input type="hidden" asp-for="RowKey" />
-            <input type="hidden" asp-for="PartitionKey" />
-            <input type="hidden" asp-for="ETag" />
-            <input type="hidden" asp-for="Timestamp" />
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id"/>
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="alert alert-info">
-                <i class="fas fa-info-circle"></i> <strong>Customer ID:</strong> @Model.CustomerId.Substring(0, 8)...
+                <i class="fas fa-info-circle"></i> <strong>Customer ID:</strong>
+                @(string.IsNullOrEmpty(Model?.Id) ? "-" : Model.Id.Substring(0, Math.Min(8, Model.Id.Length)) + "_")
             </div>
 
             <div class="row">
@@ -72,14 +71,10 @@
                 <h6 class="card-title mb-0">Customer Information</h6>
             </div>
             <div class="card-body">
-                <p>
-                    <strong>Created:</strong><br />
-                    <small class="text-muted">@Model.Timestamp?.ToString("MMM dd, yyyy HH:mm")</small>
-                </p>
 
                 <p>
                     <strong>Full Customer ID:</strong><br />
-                    <small class="text-muted font-monospace">@Model.CustomerId</small>
+                    <small class="text-muted font-monospace">@Model.Id</small>
                 </p>
             </div>
         </div>

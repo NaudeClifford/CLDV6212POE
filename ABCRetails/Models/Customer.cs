@@ -1,21 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Azure;
-using Azure.Data.Tables;
 
 namespace ABCRetails.Models
 {
-    public class Customer: ITableEntity
+    public class Customer
     {
 
-        public string PartitionKey { get; set; } = "Customer";
-        public string RowKey { get; set; } = Guid.NewGuid().ToString();
-
-        public DateTimeOffset? Timestamp { get; set; }
-
-        public ETag ETag { get; set; }
-
         [Display(Name = "Customer ID")]
-        public string CustomerId => RowKey;
+        public string Id { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "First Name")]
@@ -36,5 +27,7 @@ namespace ABCRetails.Models
         [Required]
         [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; } = string.Empty;
+
+
     }
 }

@@ -23,7 +23,7 @@ namespace ABCRetails.Controllers
             
             try
             {
-                if (model.ProofOfPayment == null || model.ProofOfPayment.Length > 0)
+                if (model.ProofOfPayment == null || model.ProofOfPayment.Length < 0)
                 {
                     ModelState.AddModelError("ProofOfPayment", "Please select a file to upload");
                     return View(model);

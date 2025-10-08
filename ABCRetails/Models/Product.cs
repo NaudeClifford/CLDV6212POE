@@ -1,23 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Azure;
-using Azure.Data.Tables;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 namespace ABCRetails.Models
 {
-    public class Product : ITableEntity
+    public class Product 
     {
 
-        public string PartitionKey { get; set; } = "Product";
-        public string RowKey { get; set; } = Guid.NewGuid().ToString();
-
-        public DateTimeOffset? Timestamp { get; set; }
-
-        public ETag ETag { get; set; }
-
         [Display(Name = "Product ID")]
-        public string ProductId => RowKey;
+        public string Id { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "Product Name")]

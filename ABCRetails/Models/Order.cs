@@ -1,21 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Azure;
-using Azure.Data.Tables;
 
 namespace ABCRetails.Models
 {
-    public class Order : ITableEntity
+    public enum OrderStatus
+    {
+        Submitted,
+        Procossing,
+        Completed,
+        Cancelled
+    }
+    public class Order
     {
 
-        public string PartitionKey { get; set; } = "Order";
-        public string RowKey { get; set; } = Guid.NewGuid().ToString();
-
-        public DateTimeOffset? Timestamp { get; set; }
-
-        public ETag ETag { get; set; }
-
         [Display(Name = "Order ID")]
-        public string OrderId => RowKey;
+        public string Id { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "Customer")]
@@ -56,11 +54,4 @@ namespace ABCRetails.Models
         public string Status { get; set; } = "Submitted";
     }
 
-    public enum OrderStatus
-    { 
-        Submitted,
-        Procssing,
-        Completed,
-        Cancelled
-    }
 }

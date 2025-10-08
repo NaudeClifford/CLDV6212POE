@@ -31,11 +31,11 @@ public class UploadsFunctions
         var contentType = req.Headers.TryGetValues("Content-Type", out var values) ? values.First() : "";
 
         if (!contentType.StartsWith("multipart/form-data", StringComparison.OrdinalIgnoreCase))
-            return HttpJson.Bad(req, "Expected multipart/form-data");
+            return await HttpJson.Bad(req, "Expected multipart/form-data");
 
         var form = await MultipartHelper.ParseAsync(req.Body, contentType);
         var file = form.Files.FirstOrDefault(f => f.FieldName == "ProofOfPayment");
-        if (file is null || file.Data.Length == 0) return HttpJson.Bad(req, "ProofOfPayment file is required");
+        if (file is null || file.Data.Length == 0) return await HttpJson.Bad(req, "ProofOfPayment file is required");
 
         var orderId = form.Text.GetValueOrDefault("OrderId");
         var customerName = form.Text.GetValueOrDefault("CustomerName");
@@ -61,6 +61,6 @@ public class UploadsFunctions
         await fileClient.CreateAsync(ms.Length);
         await fileClient.UploadAsync(ms);
 
-        return HttpJson.OK(req, new { fileName = blobName, blobUrl = blob.Uri.ToString()});
+        return await HttpJson.OK(req, new { fileName = blobName, blobUrl = blob.Uri.ToString()});
     }
 }

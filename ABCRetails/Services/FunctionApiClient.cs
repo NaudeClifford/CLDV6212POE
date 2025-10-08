@@ -30,12 +30,14 @@ namespace ABCRetails.Services
 
         private static async Task<T> ReadJsonAsync<T>(HttpResponseMessage resp)
         {
-            resp.EnsureSuccessStatusCode();
+            if (!resp.IsSuccessStatusCode)
+            {
+                var content = await resp.Content.ReadAsStringAsync();
+                throw new HttpRequestException($"Error {(int)resp.StatusCode} ({resp.StatusCode}): {content}");
+            }
 
             var stream = await resp.Content.ReadAsStreamAsync();
-
             var data = await JsonSerializer.DeserializeAsync<T>(stream, _json);
-
             return data!;
         }
 
@@ -46,6 +48,7 @@ namespace ABCRetails.Services
 
         public async Task<Customer?> GetCustomerAsync(string id)
         {
+
             var resp = await _http.GetAsync($"{CustomersRoute}/{id}");
 
             if (resp.StatusCode == System.Net.HttpStatusCode.NotFound) return null;
@@ -84,6 +87,7 @@ namespace ABCRetails.Services
 
         public async Task<Product?> GetProductAsync(string id)
         {
+
             var resp = await _http.GetAsync($"{ProductsRoute}/{id}");
 
             if (resp.StatusCode == System.Net.HttpStatusCode.NotFound) return null;
@@ -208,7 +212,7 @@ namespace ABCRetails.Services
             return new Order
             {
 
-                RowKey = d.Id,
+                Id = d.Id,
                 CustomerId = d.CustomerId,
                 ProductId = d.ProductId,
                 ProductName = d.ProductName,
@@ -223,6 +227,7 @@ namespace ABCRetails.Services
         private sealed record OrderDto(
             string Id,
             string CustomerId,
+            string Username,
             string ProductId,
             string ProductName,
             int Quantity,

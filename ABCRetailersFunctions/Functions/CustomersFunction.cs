@@ -16,7 +16,7 @@ public class CustomersFunctions
     public CustomersFunctions(IConfiguration con)
     {
         _conn = con["STORAGE_CONNECTION"] ?? throw new InvalidOperationException("STORAGE_CONNECTION missing");
-        _table = con["TABLE_PRODUCT"] ?? "Customer";
+        _table = con["TABLE_Customer"] ?? "Customer";
     }
 
     [Function("Customer_List")]
@@ -33,7 +33,7 @@ public class CustomersFunctions
             items.Add(Map.ToDto(e));
         }
 
-        return HttpJson.OK(req, items);
+        return await HttpJson.OK(req, items);
     }
 
     [Function("Customers_Get")]
@@ -47,11 +47,11 @@ public class CustomersFunctions
         try
         {
             var e = await table.GetEntityAsync<CustomerEntity>("Customer", id);
-            return HttpJson.OK(req, Map.ToDto(e.Value));
+            return await HttpJson.OK(req, Map.ToDto(e.Value));
         }
         catch
         {
-            return HttpJson.NotFound(req, "Customer not found");
+            return await HttpJson.NotFound(req, "Customer not found");
         }
 
     }
@@ -67,7 +67,7 @@ public class CustomersFunctions
         var input = await HttpJson.ReadAsync<CustomerCreateUpdate>(req);
 
         if (input == null || string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrWhiteSpace(input.Email))
-            return HttpJson.Bad(req, "Name and Email are required");
+            return await HttpJson.Bad(req, "Name and Email are required");
 
         var table = new TableClient(_conn, _table);
         await table.CreateIfNotExistsAsync();
@@ -82,7 +82,7 @@ public class CustomersFunctions
         };
         await table.AddEntityAsync(e);
 
-        return HttpJson.Created(req, Map.ToDto(e));
+        return await HttpJson.Created(req, Map.ToDto(e));
 
     }
 
@@ -93,7 +93,7 @@ public class CustomersFunctions
     {
         var input = await HttpJson.ReadAsync<CustomerCreateUpdate>(req);
 
-        if (input == null) return HttpJson.Bad(req, "Invalid body");
+        if (input == null) return await HttpJson.Bad(req, "Invalid body");
 
         var table = new TableClient(_conn, _table);
 
@@ -115,11 +115,11 @@ public class CustomersFunctions
 
             await table.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Replace);
 
-            return HttpJson.OK(req, Map.ToDto(entity));
+            return await HttpJson.OK(req, Map.ToDto(entity));
         }
         catch (Exception ex)
         {
-            return HttpJson.NotFound(req, "Customer not found");
+            return await HttpJson.NotFound(req, "Customer not found");
         }
     }
 }

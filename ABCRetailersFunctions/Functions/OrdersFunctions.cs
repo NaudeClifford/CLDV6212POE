@@ -2,12 +2,15 @@ using System.Text.Json;
 using ABCRetailersFunctions.Entities;
 using ABCRetailersFunctions.Helpers;
 using ABCRetailersFunctions.Models;
+using Azure;
 using Azure.Data.Tables;
 using Azure.Storage.Queues;
+using Grpc.Core;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Configuration;
-using static ABCRetailersFunctions.Functions.CustomersFunctions;
+using Microsoft.Extensions.Logging;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ABCRetailersFunctions.Functions;
 
@@ -19,8 +22,8 @@ public class OrdersFunctions
     private readonly string _customersTable;
     private readonly string _queueOrder;
     private readonly string _queueStock;
-
-    public OrdersFunctions(IConfiguration con)
+    private readonly ILogger<OrdersFunctions> _logger;
+    public OrdersFunctions(IConfiguration con, ILogger<OrdersFunctions> logger)
     {
         _conn = con["STORAGE_CONNECTION"] ?? throw new InvalidOperationException("STORAGE_CONNECTION missing");
         _ordersTable = con["TABLE_ORDER"] ?? "Order";
@@ -34,16 +37,35 @@ public class OrdersFunctions
     public async Task<HttpResponseData> List(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "orders")] HttpRequestData req)
     {
-        var table = new TableClient(_conn, _ordersTable);
-        await table.CreateIfNotExistsAsync();
+        var ordersTable = new TableClient(_conn, _ordersTable);
+        var customersTable = new TableClient(_conn, _customersTable);
+
+        await ordersTable.CreateIfNotExistsAsync();
+        await customersTable.CreateIfNotExistsAsync();
 
         var items = new List<OrderDto>();
-        await foreach (var e in table.QueryAsync<OrderEntity>(x => x.PartitionKey == "Order"))
-            items.Add(Map.ToDto(e));
 
-        var ordered = items.OrderByDescending(o => o.OrderDateUtc).ToList();
-        return HttpJson.OK(req, ordered);
+        await foreach (var e in ordersTable.QueryAsync<OrderEntity>(x => x.PartitionKey == "Order"))
+        {
+            string customerUsername = "(Unknown)";
+
+            try
+            {
+                var customer = await customersTable.GetEntityAsync<CustomerEntity>("Customer", e.CustomerId);
+                customerUsername = customer.Value.Username;
+            }
+            catch
+            {
+                // Optionally log missing customer
+            }
+
+            var dto = Map.ToDto(e, customerUsername);
+            items.Add(dto);
+        }
+
+        return await HttpJson.OK(req, items);
     }
+
 
     [Function("Orders_Get")]
     public async Task<HttpResponseData> Get(
@@ -55,11 +77,23 @@ public class OrdersFunctions
         try
         {
             var entity = await table.GetEntityAsync<OrderEntity>("Order", id);
-            return HttpJson.OK(req, Map.ToDto(entity.Value));
+            
+            var customers = new TableClient(_conn, _customersTable);
+            string customerUsername = "(Unknown)";
+            try
+            {
+                var customer = await customers.GetEntityAsync<CustomerEntity>("Customer", entity.Value.CustomerId);
+                customerUsername = customer.Value.Username;
+            }
+            catch {
+                return await HttpJson.NotFound(req, "Customer not found");
+            }
+
+            return await HttpJson.OK(req, Map.ToDto(entity.Value, customerUsername));
         }
         catch
         {
-            return HttpJson.NotFound(req, "Order not found");
+            return await HttpJson.NotFound(req, "Order not found");
         }
     }
 
@@ -71,9 +105,8 @@ public class OrdersFunctions
     {
 
         var input = await HttpJson.ReadAsync<OrderCreate>(req);
-
         if (input == null || string.IsNullOrWhiteSpace(input.CustomerId) || string.IsNullOrWhiteSpace(input.ProductId) || input.Quantity < 1) 
-            return HttpJson.Bad(req, "CustomerId, ProductId, Quantity >= 1 required");
+            return await HttpJson.Bad(req, "CustomerId, ProductId, Quantity >= 1 required");
 
         var orders = new TableClient(_conn, _ordersTable);
         var products = new TableClient(_conn, _productsTable);
@@ -84,26 +117,29 @@ public class OrdersFunctions
 
         ProductEntity product;
         CustomerEntity customer;
-
+        
         try
         {
             product = (await products.GetEntityAsync<ProductEntity>("Product", input.ProductId)).Value;
         }
-        catch {
-            return HttpJson.Bad(req, "Invaild CustomerId");
+        catch (RequestFailedException ex)
+        {
+            _logger.LogWarning(ex, "Failed to get product with ID {ProductId}", input.ProductId);
+            return await HttpJson.Bad(req, "Invalid ProductId");
         }
 
         try
         {
             customer = (await customers.GetEntityAsync<CustomerEntity>("Customer", input.CustomerId)).Value;
         }
-        catch
+        catch (RequestFailedException ex)
         {
-            return HttpJson.Bad(req, "Invaild CustomerId");
+            _logger.LogWarning(ex, "Failed to get customer with ID {CustomerId}", input.CustomerId);
+            return await HttpJson.Bad(req, "Invalid CustomerId");
         }
 
         if (product.StockAvailable < input.Quantity)
-            return HttpJson.Bad(req, $"Insufficient stock. Available: {product.StockAvailable}");
+            return await HttpJson.Bad(req, $"Insufficient stock. Available: {product.StockAvailable}");
 
         var order = new OrderEntity
         {
@@ -135,11 +171,11 @@ public class OrdersFunctions
             order.CustomerId,
             CustomerName = $"{customer.Name} {customer.Surname}",
             order.ProductId,
-            ProductName = product.ProductName,
+            product.ProductName,
             order.Quantity,
             order.UnitPrice,
             TotalAmount = order.UnitPrice * order.Quantity,
-            OrderDateUtc = order.OrderDateUtc,
+            order.OrderDateUtc,
             order.Status
         };
         await queueOrder.SendMessageAsync(JsonSerializer.Serialize(orderMsg));
@@ -148,7 +184,7 @@ public class OrdersFunctions
         {
             Type = "StockUpdated",
             productId = product.RowKey,
-            ProductName = product.ProductName,
+            product.ProductName,
             PreviousStock = product.StockAvailable + input.Quantity,
             NewStock = product.StockAvailable,
             UpdatedDateUtc = DateTimeOffset.UtcNow,
@@ -156,8 +192,10 @@ public class OrdersFunctions
         };
         await queueStock.SendMessageAsync(JsonSerializer.Serialize(stockMsg));
 
-        return HttpJson.Created(req, Map.ToDto(order));
+        return await HttpJson.Created(req, Map.ToDto(order, customer.Username));
     }
+
+    private record OrderStatusUpdate(string Status);
 
     [Function("Orders_UpdateStatus")]
     public async Task<HttpResponseData> UpdateStatus(
@@ -168,7 +206,7 @@ public class OrdersFunctions
         var input = await HttpJson.ReadAsync<OrderStatusUpdate>(req);
 
         if (input == null || string.IsNullOrWhiteSpace(input.Status))
-            return HttpJson.Bad(req, "Status is required");
+            return await HttpJson.Bad(req, "Status is required");
 
         var orders = new TableClient(_conn, _ordersTable);
 
@@ -196,11 +234,22 @@ public class OrdersFunctions
             };
             await queueOrder.SendMessageAsync(JsonSerializer.Serialize(statusMsg));
 
-            return HttpJson.OK(req, Map.ToDto(entity));
+            var customers = new TableClient(_conn, _customersTable);
+            string customerUsername = "(Unknown)";
+            try
+            {
+                var customer = await customers.GetEntityAsync<CustomerEntity>("Customer", entity.CustomerId);
+                customerUsername = customer.Value.Username;
+            }
+            catch {
+                return await HttpJson.NotFound(req, "Customer not found");
+            }
+
+            return await HttpJson.OK(req, Map.ToDto(entity, customerUsername));
         }
         catch
         { 
-            return HttpJson.NotFound(req, "Order not found");
+            return await HttpJson.NotFound(req, "Order not found");
         }
     }
 
@@ -210,6 +259,6 @@ public class OrdersFunctions
     {
         var table = new TableClient(_conn, _ordersTable);
         await table.DeleteEntityAsync("Order", id);
-        return HttpJson.NoContent(req);
+        return await HttpJson.NoContent(req);
     }
 }
