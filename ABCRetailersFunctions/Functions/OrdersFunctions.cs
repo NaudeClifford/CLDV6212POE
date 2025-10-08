@@ -31,6 +31,8 @@ public class OrdersFunctions
         _customersTable = con["TABLE_CUSTOMER"] ?? "Customer";
         _queueOrder = con["QUEUE_ORDER_NOTIFICATIONS"] ?? "order-notifications";
         _queueStock = con["QUEUE_STOCK_UPDATES"] ?? "stock-updates";
+
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [Function("Orders_List")]
@@ -56,7 +58,7 @@ public class OrdersFunctions
             }
             catch
             {
-                // Optionally log missing customer
+                return await HttpJson.NotFound(req, "Customer not found");
             }
 
             var dto = Map.ToDto(e, customerUsername);
@@ -84,6 +86,8 @@ public class OrdersFunctions
             {
                 var customer = await customers.GetEntityAsync<CustomerEntity>("Customer", entity.Value.CustomerId);
                 customerUsername = customer.Value.Username;
+                Console.WriteLine("UserName: " + customerUsername);
+
             }
             catch {
                 return await HttpJson.NotFound(req, "Customer not found");
@@ -158,8 +162,8 @@ public class OrdersFunctions
         await products.UpdateEntityAsync(product, product.ETag, TableUpdateMode.Replace);
 
         //Send queue messages
-        var queueOrder = new QueueClient(_conn, _queueOrder, new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 });
-        var queueStock = new QueueClient(_conn, _queueStock, new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 });
+        var queueOrder = await GetQueueClientAsync(_queueOrder);
+        var queueStock = await GetQueueClientAsync(_queueStock);
 
         await queueOrder.CreateIfNotExistsAsync();
         await queueStock.CreateIfNotExistsAsync();
@@ -178,7 +182,9 @@ public class OrdersFunctions
             order.OrderDateUtc,
             order.Status
         };
+        _logger.LogInformation("Sending message to queue: OrderCreated");
         await queueOrder.SendMessageAsync(JsonSerializer.Serialize(orderMsg));
+        _logger.LogInformation("OrderCreated message sent.");
 
         var stockMsg = new
         {
@@ -190,7 +196,9 @@ public class OrdersFunctions
             UpdatedDateUtc = DateTimeOffset.UtcNow,
             UpdatedBy = "Order System"
         };
+        _logger.LogInformation("Sending message to queue: StockUpdate");
         await queueStock.SendMessageAsync(JsonSerializer.Serialize(stockMsg));
+        _logger.LogInformation("StockUpdated message sent.");
 
         return await HttpJson.Created(req, Map.ToDto(order, customer.Username));
     }
@@ -202,7 +210,6 @@ public class OrdersFunctions
     [HttpTrigger(AuthorizationLevel.Anonymous, "patch","post", "put", Route = "orders/{id}/status")] HttpRequestData req,
     string id)
     {
-
         var input = await HttpJson.ReadAsync<OrderStatusUpdate>(req);
 
         if (input == null || string.IsNullOrWhiteSpace(input.Status))
@@ -218,9 +225,9 @@ public class OrdersFunctions
 
             entity.Status = input.Status;
             await orders.UpdateEntityAsync(entity, entity.ETag, TableUpdateMode.Replace);
+            
+            var queueOrder = await GetQueueClientAsync(_queueOrder);
 
-            var queueOrder = new QueueClient(_conn, _queueOrder, new QueueClientOptions { MessageEncoding = QueueMessageEncoding.Base64 });
-            await queueOrder.CreateIfNotExistsAsync();
 
             var statusMsg = new
             {
@@ -232,7 +239,9 @@ public class OrdersFunctions
                 UpdatedDateUtc = DateTimeOffset.UtcNow,
                 UpdatedBy = "System"
             };
+            _logger.LogInformation("Sending message to queue: statusMsg");
             await queueOrder.SendMessageAsync(JsonSerializer.Serialize(statusMsg));
+            _logger.LogInformation("statusMsg message sent.");
 
             var customers = new TableClient(_conn, _customersTable);
             string customerUsername = "(Unknown)";
@@ -261,4 +270,16 @@ public class OrdersFunctions
         await table.DeleteEntityAsync("Order", id);
         return await HttpJson.NoContent(req);
     }
+
+    private async Task<QueueClient> GetQueueClientAsync(string queueName)
+    {
+        var client = new QueueClient(_conn, queueName, new QueueClientOptions
+        {
+            MessageEncoding = QueueMessageEncoding.Base64
+        });
+
+        await client.CreateIfNotExistsAsync();
+        return client;
+    }
+
 }

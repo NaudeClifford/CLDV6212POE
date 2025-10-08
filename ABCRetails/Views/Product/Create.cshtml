@@ -26,12 +26,12 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group mb-3">
-                        <label asp-for="PriceString" class="form-label">Price</label>
+                        <label asp-for="Price" class="form-label">Price</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input asp-for="PriceString" name="PriceString" class="form-control" type="text" placeholder="29.99" required />
+                            <input asp-for="Price" name="Price" class="form-control" type="text" placeholder="29.99" required />
                         </div>
-                        <span asp-validation-for="PriceString" class="text-danger"></span>
+                        <span asp-validation-for="Price" class="text-danger"></span>
                         <div class="form-text">Enter price in dollars (e.g., 29.99) - Required field</div>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
 
             <div class="form-group mb-3">
                 <label for="imageFile" class="form-label">Product Image</label>
-                <input type="file" name="imageFile" id="imageFile" class="form-control" accept="image/*" />
+                <input type="file" name="ImageFile" id="ImageFile" class="form-control" accept="image/*" />
                 <div class="form-text">Upload an image for this product (optional) - JPG, PNG, GIF formats</div>
             </div>
 

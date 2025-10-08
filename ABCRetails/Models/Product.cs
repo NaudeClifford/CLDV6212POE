@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ABCRetails.Models
 {
@@ -17,28 +18,18 @@ namespace ABCRetails.Models
         [Display(Name = "Description")]
         public string Description { get; set; } = string.Empty;
 
+
         [Required(ErrorMessage = "Price is required")]
         [Display(Name = "Price")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
+        public double Price { get; set; }
 
-        public string PriceString { get; set; } = string.Empty;
-
-        [Display(Name = "Price")]
-
-        public double Price
-        {
-            get
-            {
-                return double.TryParse(PriceString, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : 0;
-            }
-            set
-            {
-                PriceString = value.ToString("F2", CultureInfo.InvariantCulture);
-            }
-        }
 
         [Required]
         [Display(Name = "Stock Available")]
         public int StockAvailable { get; set; }
+
+        [BindNever]
 
         [Display(Name = "Image Url")]
         public string ImageUrl { get; set; } = string.Empty;

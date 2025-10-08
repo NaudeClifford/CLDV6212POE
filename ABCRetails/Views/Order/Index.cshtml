@@ -142,23 +142,21 @@ else
 
 @section Scripts {
     <script>
-        function confirmDelete(orderRowKey, orderId) {
+        function confirmDelete(orderId) {
             document.getElementById('orderId').textContent = orderId.substring(0, 8) + '...';
-            document.getElementById('deleteForm').action = '/Order/Delete/' + orderRowKey;
+            document.getElementById('deleteForm').action = '/Order/Delete/' + orderId;
             new bootstrap.Modal(document.getElementById('deleteModal')).show();
         }
 
-
-        function updateOrderStatus(orderRowKey, newStatus) {
+                function updateOrderStatus(orderId, newStatus) {
             if (confirm(`Are you sure you want to change the status to "${newStatus}"?`)) {
-                fetch('/Order/UpdateOrderStatus', {
-                    method: 'POST',
+        fetch(`/Order/UpdateOrderStatus/${orderId}`, {
+                            method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        id: orderRowKey,
-                        newStatus: newStatus
+                        status: newStatus
                     })
                 })
                 .then(response => response.json())
@@ -171,6 +169,7 @@ else
                     }
                 })
                 .catch(error => {
+                                console.error('Update error:', error);
                     alert('An error occurred while updating the status');
                 });
             }

@@ -6,6 +6,7 @@ using Azure.Storage.Blobs;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using static Grpc.Core.Metadata;
 
 namespace ABCRetailersFunctions.Functions;
@@ -23,7 +24,7 @@ public class ProductsFunctions
         _images = con["BLOB_PRODUCT_IMAGES"] ?? "product-images";
     }
 
-    [Function("Products_List")]
+    [Function("Product_List")]
     public async Task<HttpResponseData> List(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "products")] HttpRequestData req)
     {
@@ -39,7 +40,7 @@ public class ProductsFunctions
         return await HttpJson.OK(req, items);
     }
 
-    [Function("Products_Get")]
+    [Function("Product_Get")]
 
     public async Task<HttpResponseData> Get(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "products/{id}")] HttpRequestData req,
@@ -82,7 +83,7 @@ public class ProductsFunctions
             double.TryParse(form.Text.GetValueOrDefault("Price") ?? "0", out price);
             int.TryParse(form.Text.GetValueOrDefault("StockAvailable") ?? "0", out stock);
 
-            var file = form.Files.FirstOrDefault(f => f.FileName == "ImageFile");
+            var file = form.Files.FirstOrDefault(f => f.FieldName == "ImageFile");
             if (file != null && file.Data.Length > 0)
             {
                 var container = new BlobContainerClient(_conn, _images);
@@ -125,11 +126,12 @@ public class ProductsFunctions
 
     }
 
-    [Function("Products_Update")]
+    [Function("Product_Update")]
     public async Task<HttpResponseData> Update(
     [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "products/{id}")] HttpRequestData req,
     string id)
     {
+
         var contentType = req.Headers.TryGetValues("Content-Type", out var ct) ? ct.First() : "";
         var table = new TableClient(_conn, _table);
 
@@ -175,13 +177,13 @@ public class ProductsFunctions
 
             return await HttpJson.OK(req, Map.ToDto(entity));
         }
-        catch
+        catch(Exception)
         {
             return await HttpJson.NotFound(req, "Product not found");
         }
     }
 
-    [Function("Products_Delete")]
+    [Function("Product_Delete")]
     public async Task<HttpResponseData> Delete(
         [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "products/{id}")] HttpRequestData req, string id)
     {

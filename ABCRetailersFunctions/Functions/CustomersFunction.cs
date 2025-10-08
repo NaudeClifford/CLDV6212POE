@@ -36,7 +36,7 @@ public class CustomersFunctions
         return await HttpJson.OK(req, items);
     }
 
-    [Function("Customers_Get")]
+    [Function("Customer_Get")]
     public async Task<HttpResponseData> Get(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "customers/{id}")] HttpRequestData req
         , string id)
@@ -58,7 +58,7 @@ public class CustomersFunctions
 
     public record CustomerCreateUpdate(string? Name, string? Surname, string? Username, string? Email, string? ShippingAddress);
 
-    [Function("Customers_Create")]
+    [Function("Customer_Create")]
 
     public async Task<HttpResponseData> Create(
         [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "customers")] HttpRequestData req)
@@ -117,9 +117,17 @@ public class CustomersFunctions
 
             return await HttpJson.OK(req, Map.ToDto(entity));
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return await HttpJson.NotFound(req, "Customer not found");
         }
+    }
+    [Function("Customer_Delete")]
+    public async Task<HttpResponseData> Delete(
+        [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "customers/{id}")] HttpRequestData req, string id)
+    {
+        var table = new TableClient(_conn, _table);
+        await table.DeleteEntityAsync("Customer", id);
+        return await HttpJson.NoContent(req);
     }
 }

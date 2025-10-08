@@ -5,7 +5,7 @@ namespace ABCRetails.Models
     public enum OrderStatus
     {
         Submitted,
-        Procossing,
+        Processing,
         Completed,
         Cancelled
     }
@@ -47,7 +47,7 @@ namespace ABCRetails.Models
 
         [Display(Name = "Total Price")]
         [DataType(DataType.Currency)]
-        public double TotalPrice { get; set; }
+        public double TotalPrice => Quantity * UnitPrice;
 
         [Required]
         [Display(Name = "Status")]

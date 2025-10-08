@@ -1,7 +1,8 @@
-﻿using ABCRetails.Models;
+﻿using System.Text.Json;
+using ABCRetails.Models;
 using ABCRetails.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 using ABCRetails.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ABCRetails.Controllers
 {
@@ -91,28 +92,51 @@ namespace ABCRetails.Controllers
         //Edit
         public async Task<IActionResult> Edit(string id)
         {
-            if (string.IsNullOrWhiteSpace(id)) return NotFound();
+
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return NotFound();
+            }
+
 
             var order = await _api.GetOrderAsync(id);
-            
-            return order == null ? NotFound() : View(order);
 
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
         }
+
 
         //Edit Post
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Order order)
         {
-            if (!ModelState.IsValid) return View(order);
+
+            if (!ModelState.IsValid)
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    var state = ModelState[key];
+                    foreach (var error in state.Errors)
+                    {
+                        Console.WriteLine($"Model error on '{key}': {error.ErrorMessage}");
+                    }
+                }
+                return View(order);
+            }
 
             try
             {
+
                 // Update entity in storage
                 await _api.UpdateOrderStatusAsync(order.Id, order.Status.ToString());
 
                 TempData["Success"] = "Order updated successfully!";
-                    
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
@@ -162,20 +186,22 @@ namespace ABCRetails.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<JsonResult> UpdateOrderStatus(string id, string newStatus)
+        [HttpPost("Order/UpdateOrderStatus/{id}")]
+        public async Task<JsonResult> UpdateOrderStatus(string id, [FromBody] JsonElement body)
         {
-
             try
             {
+                var newStatus = body.GetProperty("status").GetString();
                 await _api.UpdateOrderStatusAsync(id, newStatus);
-                return Json(new { success = true, message = $"Order status updated to {newStatus}" });
 
+                return Json(new { success = true, message = $"Order status updated to {newStatus}" });
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
 
         public async Task PopulateDropdowns(OrderCreateViewModel model) //Populate dropdowns
         {

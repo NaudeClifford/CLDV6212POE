@@ -112,7 +112,6 @@ namespace ABCRetails.Services
             return await ReadJsonAsync<Product>(await _http.PostAsync(ProductsRoute, form));
         }
 
-
         public async Task<Product> UpdateProductAsync(string id, Product p, IFormFile? imageFile)
         {
             using var form = new MultipartFormDataContent();
@@ -120,15 +119,18 @@ namespace ABCRetails.Services
             form.Add(new StringContent(p.Description ?? string.Empty), "Description");
             form.Add(new StringContent(p.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)), "Price");
             form.Add(new StringContent(p.StockAvailable.ToString(System.Globalization.CultureInfo.InvariantCulture)), "StockAvailable");
-            if (!string.IsNullOrWhiteSpace(p.ImageUrl)) form.Add(new StringContent(p.ImageUrl), "ImageUrl");
-            if (imageFile is not null && imageFile.Length > 0)
+            if (!string.IsNullOrWhiteSpace(p.ImageUrl))
             {
+                form.Add(new StringContent(p.ImageUrl), "ImageUrl");
+            }
+                if (imageFile is not null && imageFile.Length > 0)
+            {
+
                 var file = new StreamContent(imageFile.OpenReadStream());
                 file.Headers.ContentType = new MediaTypeHeaderValue(imageFile.ContentType ?? "application/octet-stream");
                 form.Add(file, "ImageFile", imageFile.FileName);
             }
-            return await ReadJsonAsync<Product>(await _http.PostAsync($"{ProductsRoute}/{id}", form));
-
+            return await ReadJsonAsync<Product>(await _http.PutAsync($"{ProductsRoute}/{id}", form));
         }
 
         public async Task DeleteProductAsync(string id)
@@ -143,6 +145,7 @@ namespace ABCRetails.Services
         }
         public async Task<Order?> GetOrderAsync(string id)
         {
+            Console.WriteLine("getOrder");
             var resp = await _http.GetAsync($"{OrdersRoute}/{id}");
 
             if (resp.StatusCode == System.Net.HttpStatusCode.NotFound) return null;
@@ -151,7 +154,6 @@ namespace ABCRetails.Services
 
             return ToOrder(dto);
         }
-
 
         public async Task<Order> CreateOrderAsync(string customerId, string productId, int quantity)
         {
@@ -164,13 +166,15 @@ namespace ABCRetails.Services
             return ToOrder(dto);
         }
 
-
-
         public async Task UpdateOrderStatusAsync(string id, string newStatus)
         {
-
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                throw new ArgumentException("Order ID cannot be null or empty");
+            }
             var payload = new { status = newStatus };
             (await _http.PatchAsync($"{OrdersRoute}/{id}/status", JsonBody(payload))).EnsureSuccessStatusCode();
+
         }
 
         public async Task DeleteOrderAsync(string id)
@@ -214,6 +218,7 @@ namespace ABCRetails.Services
 
                 Id = d.Id,
                 CustomerId = d.CustomerId,
+                Username = d.Username,
                 ProductId = d.ProductId,
                 ProductName = d.ProductName,
                 Quantity = d.Quantity,
@@ -244,4 +249,3 @@ namespace ABCRetails.Services
                 => client.SendAsync(new HttpRequestMessage(HttpMethod.Patch, requestUri) { Content = content});
         }
 }
-

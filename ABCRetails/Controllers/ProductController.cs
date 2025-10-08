@@ -57,18 +57,30 @@ namespace ABCRetails.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Product product, IFormFile? imageFile)
         {
-
-            if (!ModelState.IsValid) return View(product);
-            
-            try
+            Console.WriteLine("1");
+            foreach (var modelStateKey in ModelState.Keys)
+            {
+                var value = ModelState[modelStateKey];
+                foreach (var error in value.Errors)
+                {
+                    Console.WriteLine($"Key: {modelStateKey}, Error: {error.ErrorMessage}");
+                }
+            }
+            if (!ModelState.IsValid)
             {
 
+                return View(product);
+
+            }
+            try
+            {
                 var updated = await _api.UpdateProductAsync(product.Id, product, imageFile);
                 TempData["Success"] = $"Product '{updated.ProductName}' updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
+
                 ModelState.AddModelError("", $"Error updating product: {ex.Message}");
                 return View(product);
             }

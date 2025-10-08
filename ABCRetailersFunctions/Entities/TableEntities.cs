@@ -47,7 +47,7 @@ namespace ABCRetailersFunctions.Entities
         public int Quantity { get; set; }
         public double UnitPrice { get; set; }
         public DateTimeOffset OrderDateUtc { get; set; } = DateTimeOffset.UtcNow.Date;
-        public double TotalPrice { get; set; } = 0;
+        public double TotalPrice { get; set; }
         public string Status { get; set; } = "Submitted";
     }
 }

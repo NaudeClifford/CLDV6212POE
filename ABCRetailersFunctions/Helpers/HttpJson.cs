@@ -42,7 +42,7 @@ public static class HttpJson
     {
         var r = req.CreateResponse(code);
         r.Headers.Add("Content-Type", "text/plain; charset=utf-8");
-        await r.WriteStringAsync(message, Encoding.UTF8); // ✅ async call
+        await r.WriteStringAsync(message, Encoding.UTF8);
         return r;
     }
 
@@ -63,9 +63,6 @@ public static class HttpJson
             response = req.CreateResponse(HttpStatusCode.InternalServerError);
             await response.WriteStringAsync("Error serializing response", Encoding.UTF8);
         }
-
         return response;
     }
-
-
 }
