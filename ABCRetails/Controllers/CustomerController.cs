@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ABCRetails.Services;
 
-
 namespace ABCRetails.Controllers
 {
     public class CustomerController : Controller
@@ -10,37 +9,45 @@ namespace ABCRetails.Controllers
         private readonly IFunctionApi _api;
 
         public CustomerController(IFunctionApi api) => _api = api;
-        
+
+        // ------------------------------
+        // LIST CUSTOMERS WITH SEARCH
+        // ------------------------------
         public async Task<IActionResult> Index(string? searchString)
         {
             ViewData["SearchString"] = searchString;
-            
+
             var customers = await _api.GetCustomersAsync();
 
-            if (!string.IsNullOrEmpty(searchString))
+            if (!string.IsNullOrWhiteSpace(searchString))
             {
+                searchString = searchString.Trim();
                 customers = customers.Where(c =>
-                    c.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
-                    c.Surname.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
-                    c.Username.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                    (!string.IsNullOrEmpty(c.Name) && c.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
+                    (!string.IsNullOrEmpty(c.Surname) && c.Surname.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
+                    (!string.IsNullOrEmpty(c.Username) && c.Username.Contains(searchString, StringComparison.OrdinalIgnoreCase))
                 ).ToList();
             }
 
             return View(customers);
-
         }
 
-
-        public IActionResult Create() //Create action
+        // ------------------------------
+        // CREATE CUSTOMER (GET)
+        // ------------------------------
+        public IActionResult Create()
         {
             return View();
         }
 
+        // ------------------------------
+        // CREATE CUSTOMER (POST)
+        // ------------------------------
         [HttpPost, ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Create(Customer customer)
         {
-            if (!ModelState.IsValid) return View(customer);
+            if (!ModelState.IsValid)
+                return View(customer);
 
             try
             {
@@ -55,22 +62,25 @@ namespace ABCRetails.Controllers
             }
         }
 
-        public async Task<IActionResult> Edit(string id) //Edit action
+        // ------------------------------
+        // EDIT CUSTOMER (GET)
+        // ------------------------------
+        public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrWhiteSpace(id)) return NotFound();
-            
+
             var customer = await _api.GetCustomerAsync(id);
-            
-            if (customer == null) return NotFound();
-           
-            return View(customer);
+            return customer == null ? NotFound() : View(customer);
         }
 
+        // ------------------------------
+        // EDIT CUSTOMER (POST)
+        // ------------------------------
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Customer customer)
         {
-
-            if (!ModelState.IsValid) return View(customer);
+            if (!ModelState.IsValid)
+                return View(customer);
 
             try
             {
@@ -85,10 +95,17 @@ namespace ABCRetails.Controllers
             }
         }
 
+        // ------------------------------
+        // DELETE CUSTOMER
+        // ------------------------------
         [HttpPost]
-
-        public async Task<IActionResult> Delete(string id) //Delete action
+        public async Task<IActionResult> Delete(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                TempData["Error"] = "Invalid customer ID.";
+                return RedirectToAction(nameof(Index));
+            }
 
             try
             {
@@ -97,9 +114,9 @@ namespace ABCRetails.Controllers
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", $"Error deleting customer: {ex.Message}");
+                TempData["Error"] = $"Error deleting customer: {ex.Message}";
             }
-               
+
             return RedirectToAction(nameof(Index));
         }
     }

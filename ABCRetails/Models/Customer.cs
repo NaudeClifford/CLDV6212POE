@@ -4,7 +4,7 @@ namespace ABCRetails.Models
 {
     public class Customer
     {
-
+       
         [Display(Name = "Customer ID")]
         public string Id { get; set; } = string.Empty;
 
@@ -23,7 +23,7 @@ namespace ABCRetails.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
-
+       
         [Required]
         [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; } = string.Empty;

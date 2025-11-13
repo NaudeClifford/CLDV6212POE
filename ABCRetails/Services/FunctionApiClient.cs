@@ -218,9 +218,7 @@ namespace ABCRetails.Services
 
                 Id = d.Id,
                 CustomerId = d.CustomerId,
-                Username = d.Username,
                 ProductId = d.ProductId,
-                ProductName = d.ProductName,
                 Quantity = d.Quantity,
                 UnitPrice = (double)d.UnitPrice,
                 OrderDate = d.OrderDateUtc,

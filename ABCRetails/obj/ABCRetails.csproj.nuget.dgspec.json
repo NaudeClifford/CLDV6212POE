@@ -66,37 +66,27 @@
               "target": "Package",
               "version": "[12.23.0, )"
             },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
             "Microsoft.AspNetCore.WebUtilities": {
               "target": "Package",
               "version": "[9.0.9, )"
             },
-            "Microsoft.Azure.Functions.Worker": {
+            "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[2.1.0, )"
+              "version": "[9.0.0, )"
             },
-            "Microsoft.Azure.Functions.Worker.Extensions.Http": {
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[3.3.0, )"
+              "version": "[9.0.0, )"
             },
-            "Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore": {
+            "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
-              "version": "[2.0.2, )"
-            },
-            "Microsoft.Azure.Functions.Worker.Extensions.Storage": {
-              "target": "Package",
-              "version": "[6.8.0, )"
-            },
-            "Microsoft.Azure.Functions.Worker.Extensions.Storage.Queues": {
-              "target": "Package",
-              "version": "[5.5.3, )"
-            },
-            "Microsoft.Azure.Functions.Worker.Sdk": {
-              "target": "Package",
-              "version": "[2.0.5, )"
-            },
-            "Microsoft.Azure.Functions.Worker.Sdk.Analyzers": {
-              "target": "Package",
-              "version": "[1.2.2, )"
+              "version": "[9.0.0, )"
             }
           },
           "imports": [

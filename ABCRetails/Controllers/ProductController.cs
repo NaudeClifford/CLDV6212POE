@@ -10,68 +10,60 @@ namespace ABCRetails.Controllers
 
         public ProductController(IFunctionApi api) => _api = api;
 
+        // ------------------------------
+        // LIST PRODUCTS
+        // ------------------------------
         public async Task<IActionResult> Index()
         {
             var products = await _api.GetProductsAsync();
             return View(products);
         }
 
-        public IActionResult Create() //Create action
-        {
-            return View();
-        }
+        // ------------------------------
+        // CREATE PRODUCT (GET)
+        // ------------------------------
+        public IActionResult Create() => View();
 
+        // ------------------------------
+        // CREATE PRODUCT (POST)
+        // ------------------------------
         [HttpPost, ValidateAntiForgeryToken]
-
         public async Task<IActionResult> Create(Product product, IFormFile? imageFile)
         {
-
             if (!ModelState.IsValid) return View(product);
-                        
+
             try
-            { 
+            {
                 var saved = await _api.CreateProductAsync(product, imageFile);
-                
                 TempData["Success"] = $"Product '{saved.ProductName}' created successfully with price {saved.Price:C}!";
-                
                 return RedirectToAction(nameof(Index));
             }
-            
             catch (Exception ex)
             {
                 ModelState.AddModelError("", $"Error creating product: {ex.Message}");
-                
                 return View(product);
             }
         }
 
-        public async Task<IActionResult> Edit(string id) //Edit action
+        // ------------------------------
+        // EDIT PRODUCT (GET)
+        // ------------------------------
+        public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrWhiteSpace(id)) return NotFound();
 
             var product = await _api.GetProductAsync(id);
- 
             return product == null ? NotFound() : View(product);
         }
 
+        // ------------------------------
+        // EDIT PRODUCT (POST)
+        // ------------------------------
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Product product, IFormFile? imageFile)
         {
-            Console.WriteLine("1");
-            foreach (var modelStateKey in ModelState.Keys)
-            {
-                var value = ModelState[modelStateKey];
-                foreach (var error in value.Errors)
-                {
-                    Console.WriteLine($"Key: {modelStateKey}, Error: {error.ErrorMessage}");
-                }
-            }
-            if (!ModelState.IsValid)
-            {
+            if (!ModelState.IsValid) return View(product);
 
-                return View(product);
-
-            }
             try
             {
                 var updated = await _api.UpdateProductAsync(product.Id, product, imageFile);
@@ -80,16 +72,22 @@ namespace ABCRetails.Controllers
             }
             catch (Exception ex)
             {
-
                 ModelState.AddModelError("", $"Error updating product: {ex.Message}");
                 return View(product);
             }
         }
 
+        // ------------------------------
+        // DELETE PRODUCT
+        // ------------------------------
         [HttpPost]
-
-        public async Task<IActionResult> Delete(string id) //Delete action
+        public async Task<IActionResult> Delete(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                TempData["Error"] = "Invalid product ID.";
+                return RedirectToAction(nameof(Index));
+            }
 
             try
             {

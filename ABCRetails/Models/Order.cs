@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using PROG6212POE.Models;
 
 namespace ABCRetails.Models
 {
@@ -9,14 +10,13 @@ namespace ABCRetails.Models
         Completed,
         Cancelled
     }
+
     public class Order
     {
-
-        [Display(Name = "Order ID")]
+        [Key]
         public string Id { get; set; } = string.Empty;
 
         [Required]
-        [Display(Name = "Customer")]
         public string CustomerId { get; set; } = string.Empty;
 
         [Required]
@@ -24,34 +24,27 @@ namespace ABCRetails.Models
         public string Username { get; set; } = string.Empty;
 
         [Required]
-        [Display(Name = "Product")]
         public string ProductId { get; set; } = string.Empty;
 
         [Required]
         [Display(Name = "Product Name")]
         public string ProductName { get; set; } = string.Empty;
+        [Required]
+        public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.UtcNow;
 
         [Required]
-        [Display(Name = "Order Date")]
-        [DataType(DataType.Date)]
-        public DateTimeOffset OrderDate { get; set; } = DateTimeOffset.UtcNow.Date;
-
-        [Required]
-        [Display(Name = "Quantity")]
-        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be at least 1")]
+        [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
 
-        [Display(Name = "Unit Price")]
-        [DataType(DataType.Currency)]
         public double UnitPrice { get; set; }
 
-        [Display(Name = "Total Price")]
-        [DataType(DataType.Currency)]
         public double TotalPrice => Quantity * UnitPrice;
 
         [Required]
-        [Display(Name = "Status")]
-        public string Status { get; set; } = "Submitted";
-    }
+        public string Status { get; set; } = "pending";
 
+        // Navigation properties
+        public User Customer { get; set; } = null!;
+        public Product Product { get; set; } = null!;
+    }
 }

@@ -3,40 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\customer\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\customer\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:services\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\services\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:services\\iorderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\functions\\queueprocessorfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\services\\functionapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:services\\functionapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\functions\\uploadsfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\helpers\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\models\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:models\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\helpers\\httpjson.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\functions\\ordersfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\home\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\home\\signin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\functions\\customersfunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\functions\\blobfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\home\\mainpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\home\\mainpage.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\entities\\tableentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\migrations\\20251112153043_changeidstostring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:migrations\\20251112153043_changeidstostring.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\models\\order.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -47,104 +55,83 @@
       "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\services\\functionapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:services\\functionapiclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\local.settings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\host.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\models\\apimodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\helpers\\multiparthelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\order\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\order\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\order\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\order\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\order\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\order\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\customer\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\customer\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\product\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:models\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\order\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\order\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\order\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\order\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\controllers\\uploadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:controllers\\uploadcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\services\\ifunctionapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:services\\ifunctionapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\customer\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\customer\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\home\\contact_us.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\home\\contact_us.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\services\\usersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:services\\usersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\models\\fileuploadmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:models\\fileuploadmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\services\\iusersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:services\\iusersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:models\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\services\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:services\\iproductservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Migrations\\20251112142332_Initialise.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20251112142332_Initialise.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\abcretailersfunctions.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\9.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\Targets\\Sdk.Server.props||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretails\\abcretails.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{801F00F6-995E-4368-ACFE-612E30B1F1B0}|ABCRetails.csproj|solutionrelative:abcretails.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\ABCRetails.Models.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Models\\ABCRetails.Models.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{E03ECAEB-E712-4CFD-BFF6-32053F47C065}|..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj|c:\\users\\lab_services_student\\documents\\github\\cldv6212poe\\abcretailersfunctions\\functions\\customersfunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -154,88 +141,188 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "TableEntities.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Entities\\TableEntities.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Entities\\TableEntities.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Entities\\TableEntities.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Entities\\TableEntities.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAywAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T16:22:39.62Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "HttpJson.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Helpers\\HttpJson.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Helpers\\HttpJson.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Helpers\\HttpJson.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Helpers\\HttpJson.cs",
-              "ViewState": "AgIAACEAAAAAAAAAAAAowBkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T18:04:32.091Z",
+              "DocumentIndex": 0,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Customer\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Customer\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Customer\\Edit.cshtml",
+              "RelativeToolTip": "Views\\Customer\\Edit.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-12T15:58:55.964Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "Map.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Helpers\\Map.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Helpers\\Map.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Helpers\\Map.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Helpers\\Map.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\LoginViewModel.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\LoginViewModel.cs",
+              "RelativeToolTip": "Models\\LoginViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T18:04:26.37Z",
+              "WhenOpened": "2025-11-12T15:50:05.676Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "appsettings.Development.json",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\appsettings.Development.json",
-              "RelativeDocumentMoniker": "appsettings.Development.json",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\appsettings.Development.json",
-              "RelativeToolTip": "appsettings.Development.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-07T16:00:12.754Z",
+              "DocumentIndex": 4,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Controllers\\AuthController.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAA5wCgAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T15:45:23.341Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-06T16:56:48.354Z",
+              "DocumentIndex": 7,
+              "Title": "Signin.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Signin.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Signin.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Signin.cshtml",
+              "RelativeToolTip": "Views\\Home\\Signin.cshtml",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAGgAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-12T15:44:12.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Login.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Login.cshtml",
+              "RelativeToolTip": "Views\\Home\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-12T15:44:05.469Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-12T15:44:03.47Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FunctionApiClient.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\FunctionApiClient.cs",
+              "RelativeDocumentMoniker": "Services\\FunctionApiClient.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\FunctionApiClient.cs",
+              "RelativeToolTip": "Services\\FunctionApiClient.cs",
+              "ViewState": "AgIAAM8AAAAAAAAAAAAnwNoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T15:12:12.713Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAkwBMAAAAQAAAAAAAAAA==",
+              "Title": "IOrderService.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\IOrderService.cs",
+              "RelativeDocumentMoniker": "Services\\IOrderService.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\IOrderService.cs",
+              "RelativeToolTip": "Services\\IOrderService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T17:07:48.165Z",
+              "WhenOpened": "2025-11-12T14:30:46.904Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OrderService.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\OrderService.cs",
+              "RelativeDocumentMoniker": "Services\\OrderService.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\OrderService.cs",
+              "RelativeToolTip": "Services\\OrderService.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAgwCUAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:36:34.296Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MainPage.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\MainPage.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\MainPage.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\MainPage.cshtml",
+              "RelativeToolTip": "Views\\Home\\MainPage.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-12T15:43:43.388Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "20251112153043_ChangeIdsToString.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Migrations\\20251112153043_ChangeIdsToString.cs",
+              "RelativeDocumentMoniker": "Migrations\\20251112153043_ChangeIdsToString.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Migrations\\20251112153043_ChangeIdsToString.cs",
+              "RelativeToolTip": "Migrations\\20251112153043_ChangeIdsToString.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T15:30:43.866Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\Order\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Edit.cshtml",
+              "RelativeToolTip": "Views\\Order\\Edit.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAArwB4AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-12T15:24:11.21Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Order\\Index.cshtml",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Index.cshtml",
+              "RelativeToolTip": "Views\\Order\\Index.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAArwCEAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-12T15:23:19.049Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Customer.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\Customer.cs",
+              "RelativeDocumentMoniker": "Models\\Customer.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\Customer.cs",
+              "RelativeToolTip": "Models\\Customer.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAA1wBIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T12:32:57.393Z",
               "EditorCaption": ""
             },
             {
@@ -246,61 +333,22 @@
               "RelativeDocumentMoniker": "Models\\Order.cs",
               "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\Order.cs",
               "RelativeToolTip": "Models\\Order.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAiwCwAAAALAAAAAAAAAA==",
+              "ViewState": "AgIAABQAAAAAAAAAAAAgwBAAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T16:41:48.8Z",
+              "WhenOpened": "2025-11-12T12:48:51.384Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "OrdersFunctions.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\OrdersFunctions.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Functions\\OrdersFunctions.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\OrdersFunctions.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Functions\\OrdersFunctions.cs",
-              "ViewState": "AgIAAPEAAAAAAAAAAAAwwBUBAAA5AAAAAAAAAA==",
+              "DocumentIndex": 16,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\Product.cs",
+              "RelativeDocumentMoniker": "Models\\Product.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\Product.cs",
+              "RelativeToolTip": "Models\\Product.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAmwAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T08:21:32.359Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "CustomersFunction.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\CustomersFunction.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Functions\\CustomersFunction.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\CustomersFunction.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Functions\\CustomersFunction.cs",
-              "ViewState": "AgIAAHEAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T16:58:42.178Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "UploadsFunctions.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\UploadsFunctions.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Functions\\UploadsFunctions.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\UploadsFunctions.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Functions\\UploadsFunctions.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAMwCkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T09:51:10.541Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "QueueProcessorFunctions.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\QueueProcessorFunctions.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Functions\\QueueProcessorFunctions.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\QueueProcessorFunctions.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Functions\\QueueProcessorFunctions.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAcwBcAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T09:59:37.831Z",
+              "WhenOpened": "2025-11-12T12:46:45.094Z",
               "EditorCaption": ""
             },
             {
@@ -311,353 +359,219 @@
               "RelativeDocumentMoniker": "Controllers\\OrderController.cs",
               "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\OrderController.cs",
               "RelativeToolTip": "Controllers\\OrderController.cs",
-              "ViewState": "AgIAAL8AAAAAAAAAAAAUwNQAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHcAAAAAAAAAAAArwIMAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T10:27:39.446Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "FunctionApiClient.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\FunctionApiClient.cs",
-              "RelativeDocumentMoniker": "Services\\FunctionApiClient.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\FunctionApiClient.cs",
-              "RelativeToolTip": "Services\\FunctionApiClient.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAcwJsAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T11:03:03.319Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Program.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Program.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Program.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-08T16:53:16.525Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "local.settings.json",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\local.settings.json",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\local.settings.json",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\local.settings.json",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\local.settings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-06T16:57:35.472Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "BlobFunctions.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\BlobFunctions.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Functions\\BlobFunctions.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\BlobFunctions.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Functions\\BlobFunctions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T09:59:23.257Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "MultipartHelper.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Helpers\\MultipartHelper.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Helpers\\MultipartHelper.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Helpers\\MultipartHelper.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Helpers\\MultipartHelper.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAwCkAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T18:04:28.34Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "host.json",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\host.json",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\host.json",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\host.json",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\host.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-10-07T15:59:54.849Z",
+              "WhenOpened": "2025-11-12T15:04:53.189Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 17,
-              "Title": "ApiModels.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Models\\ApiModels.cs",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Models\\ApiModels.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Models\\ApiModels.cs",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\Models\\ApiModels.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAACBAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T10:50:13.975Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
               "Title": "Details.cshtml",
               "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Details.cshtml",
               "RelativeDocumentMoniker": "Views\\Order\\Details.cshtml",
               "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Details.cshtml",
               "RelativeToolTip": "Views\\Order\\Details.cshtml",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAuwGYAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAEwB8AAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T19:49:39.103Z"
+              "WhenOpened": "2025-11-12T15:21:52.968Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Customer\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\Customer\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Customer\\Edit.cshtml",
-              "RelativeToolTip": "Views\\Customer\\Edit.cshtml",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAAC4AAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T19:34:37.055Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\Order\\Edit.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Edit.cshtml",
-              "RelativeToolTip": "Views\\Order\\Edit.cshtml",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAUwB4AAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T19:50:31.81Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Product\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Product\\Index.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Product\\Index.cshtml",
-              "RelativeToolTip": "Views\\Product\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGQAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T18:25:25.088Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Order\\Index.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Index.cshtml",
-              "RelativeToolTip": "Views\\Order\\Index.cshtml",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAuwKIAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T19:52:17.192Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Create.cshtml",
-              "RelativeDocumentMoniker": "Views\\Order\\Create.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Order\\Create.cshtml",
-              "RelativeToolTip": "Views\\Order\\Create.cshtml",
-              "ViewState": "AgIAABYAAAAAAAAAAAAmwKUAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T17:51:35.379Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "UploadController.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\UploadController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UploadController.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\UploadController.cs",
-              "RelativeToolTip": "Controllers\\UploadController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAAA5AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T10:27:42.103Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 20,
               "Title": "IFunctionApi.cs",
               "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\IFunctionApi.cs",
               "RelativeDocumentMoniker": "Services\\IFunctionApi.cs",
               "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\IFunctionApi.cs",
               "RelativeToolTip": "Services\\IFunctionApi.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAA9wBgAAAA9AAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAgwBMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T11:03:04.836Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Customer\\Create.cshtml",
-              "RelativeDocumentMoniker": "Views\\Customer\\Create.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Customer\\Create.cshtml",
-              "RelativeToolTip": "Views\\Customer\\Create.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T19:36:36.242Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T19:48:28.83Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "Privacy.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Privacy.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Privacy.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Privacy.cshtml",
-              "RelativeToolTip": "Views\\Home\\Privacy.cshtml",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T19:48:34.887Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAYwEIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T10:27:38.134Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Customer\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Customer\\Index.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Customer\\Index.cshtml",
-              "RelativeToolTip": "Views\\Customer\\Index.cshtml",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAAFkAAAAoAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-06T20:21:52.941Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "Contact_Us.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Contact_Us.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Contact_Us.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Home\\Contact_Us.cshtml",
-              "RelativeToolTip": "Views\\Home\\Contact_Us.cshtml",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T16:33:33.326Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "FileUploadModel.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\FileUploadModel.cs",
-              "RelativeDocumentMoniker": "Models\\FileUploadModel.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\FileUploadModel.cs",
-              "RelativeToolTip": "Models\\FileUploadModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-07T19:21:20.283Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "Customer.cs",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\Customer.cs",
-              "RelativeDocumentMoniker": "Models\\Customer.cs",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\Customer.cs",
-              "RelativeToolTip": "Models\\Customer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-07T18:22:34.254Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAADEAAABQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T16:31:32.639Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "ABCRetailersFunctions.csproj",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj",
-              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj",
-              "RelativeToolTip": "..\\ABCRetailersFunctions\\ABCRetailersFunctions.csproj",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-10-05T20:22:12Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 37,
-              "Title": "Sdk.Server.props",
-              "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\9.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\Targets\\Sdk.Server.props",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\Targets\\Sdk.Server.props",
-              "ToolTip": "C:\\Program Files\\dotnet\\sdk\\9.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\Targets\\Sdk.Server.props",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\Targets\\Sdk.Server.props",
-              "ViewState": "AgIAABEAAAAAAAAAAAAIwB8AAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2025-10-05T20:05:28.921Z",
+              "WhenOpened": "2025-11-12T15:11:03.468Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
-              "Title": "Microsoft.Common.CurrentVersion.targets",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ViewState": "AgIAAH4IAAAAAAAAAAAIwIwIAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2025-10-05T19:28:37.425Z"
+              "DocumentIndex": 19,
+              "Title": "Role.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\Role.cs",
+              "RelativeDocumentMoniker": "Models\\Role.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\Role.cs",
+              "RelativeToolTip": "Models\\Role.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T13:39:29.256Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "ABCRetails.Models.csproj",
-              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\ABCRetails.Models.csproj",
-              "RelativeDocumentMoniker": "Models\\ABCRetails.Models.csproj",
-              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\ABCRetails.Models.csproj",
-              "RelativeToolTip": "Models\\ABCRetails.Models.csproj",
+              "DocumentIndex": 18,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T12:34:34.829Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Controllers\\ProductController.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAmwGkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T15:09:41.852Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "Controllers\\CustomerController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAMwBkAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T15:03:51.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "UsersService.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\UsersService.cs",
+              "RelativeDocumentMoniker": "Services\\UsersService.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\UsersService.cs",
+              "RelativeToolTip": "Services\\UsersService.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAmwCUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:31:51.989Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\ProductService.cs",
+              "RelativeDocumentMoniker": "Services\\ProductService.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\ProductService.cs",
+              "RelativeToolTip": "Services\\ProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:33:33.7Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAmwDQAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T13:41:52.471Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T13:36:41.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "IUsersService.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\IUsersService.cs",
+              "RelativeDocumentMoniker": "Services\\IUsersService.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\IUsersService.cs",
+              "RelativeToolTip": "Services\\IUsersService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:38:19.761Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "IProductService.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\IProductService.cs",
+              "RelativeDocumentMoniker": "Services\\IProductService.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Services\\IProductService.cs",
+              "RelativeToolTip": "Services\\IProductService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:35:09.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "20251112142332_Initialise.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Migrations\\20251112142332_Initialise.cs",
+              "RelativeDocumentMoniker": "Migrations\\20251112142332_Initialise.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\Migrations\\20251112142332_Initialise.cs",
+              "RelativeToolTip": "Migrations\\20251112142332_Initialise.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-12T14:23:32.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-12T13:22:45.177Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "ABCRetails.csproj",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\ABCRetails.csproj",
+              "RelativeDocumentMoniker": "ABCRetails.csproj",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetails\\ABCRetails.csproj",
+              "RelativeToolTip": "ABCRetails.csproj",
+              "ViewState": "AgIAABAAAACgsLplwdcmwBgAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-10-05T20:12:47.431Z"
+              "WhenOpened": "2025-11-12T12:05:31.973Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "CustomersFunction.cs",
+              "DocumentMoniker": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\CustomersFunction.cs",
+              "RelativeDocumentMoniker": "..\\ABCRetailersFunctions\\Functions\\CustomersFunction.cs",
+              "ToolTip": "C:\\Users\\lab_services_student\\Documents\\GitHub\\CLDV6212POE\\ABCRetailersFunctions\\Functions\\CustomersFunction.cs",
+              "RelativeToolTip": "..\\ABCRetailersFunctions\\Functions\\CustomersFunction.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAowE4AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T12:36:04.524Z"
             }
           ]
         }
