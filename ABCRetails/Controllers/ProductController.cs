@@ -1,5 +1,6 @@
 ﻿using ABCRetails.Models;
 using ABCRetails.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ABCRetails.Controllers
@@ -10,24 +11,29 @@ namespace ABCRetails.Controllers
 
         public ProductController(IFunctionApi api) => _api = api;
 
-        // ------------------------------
         // LIST PRODUCTS
-        // ------------------------------
+        [AllowAnonymous]
+
         public async Task<IActionResult> Index()
         {
             var products = await _api.GetProductsAsync();
             return View(products);
         }
 
-        // ------------------------------
+        [Authorize(Roles = "Admin")]
+
+        public async Task<IActionResult> AdminView()
+        {
+            var products = await _api.GetProductsAsync();
+            return View(products);
+        }
+
         // CREATE PRODUCT (GET)
-        // ------------------------------
+        [Authorize(Roles = "Admin")]
         public IActionResult Create() => View();
 
-        // ------------------------------
         // CREATE PRODUCT (POST)
-        // ------------------------------
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(Product product, IFormFile? imageFile)
         {
             if (!ModelState.IsValid) return View(product);
@@ -45,9 +51,9 @@ namespace ABCRetails.Controllers
             }
         }
 
-        // ------------------------------
         // EDIT PRODUCT (GET)
-        // ------------------------------
+        [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrWhiteSpace(id)) return NotFound();
@@ -56,10 +62,8 @@ namespace ABCRetails.Controllers
             return product == null ? NotFound() : View(product);
         }
 
-        // ------------------------------
         // EDIT PRODUCT (POST)
-        // ------------------------------
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Product product, IFormFile? imageFile)
         {
             if (!ModelState.IsValid) return View(product);
@@ -77,10 +81,8 @@ namespace ABCRetails.Controllers
             }
         }
 
-        // ------------------------------
         // DELETE PRODUCT
-        // ------------------------------
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (string.IsNullOrWhiteSpace(id))

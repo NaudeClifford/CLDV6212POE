@@ -1,9 +1,12 @@
 ﻿using ABCRetails.Models;
 using ABCRetails.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ABCRetails.Controllers
 {
+    [Authorize(Roles = "Customer")]
+
     public class UploadController : Controller
     {
         private readonly IFunctionApi _api;

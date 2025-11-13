@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using PROG6212POE.Models;
+using ABCRetails.Models;
 
 namespace ABCRetails.Models
 {
@@ -36,15 +36,16 @@ namespace ABCRetails.Models
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }
 
-        public double UnitPrice { get; set; }
+        public decimal UnitPrice { get; set; }
 
-        public double TotalPrice => Quantity * UnitPrice;
+        public decimal TotalPrice => Quantity * UnitPrice;
 
         [Required]
         public string Status { get; set; } = "pending";
 
         // Navigation properties
-        public User Customer { get; set; } = null!;
-        public Product Product { get; set; } = null!;
+        public Customer? Customer { get; set; }
+        
+        public Product? Product { get; set; }
     }
 }

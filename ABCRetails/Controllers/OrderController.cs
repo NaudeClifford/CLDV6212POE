@@ -2,28 +2,35 @@
 using ABCRetails.Models;
 using ABCRetails.Models.ViewModels;
 using ABCRetails.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ABCRetails.Controllers
 {
-    public class OrderController : Controller
+    public class CustomerOrderController : Controller
     {
         private readonly IFunctionApi _api;
 
-        public OrderController(IFunctionApi api) => _api = api;
+        public CustomerOrderController(IFunctionApi api) => _api = api;
 
-        // ------------------------------
         // LIST ALL ORDERS
-        // ------------------------------
+
+        [Authorize(Roles ="Customer")]
         public async Task<IActionResult> Index()
         {
             var orders = await _api.GetOrdersAsync();
             return View(orders.OrderByDescending(o => o.OrderDate).ToList());
         }
+        
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> OrderView()
+        {
+            var orders = await _api.GetOrdersAsync();
+            return View(orders.OrderByDescending(o => o.OrderDate).ToList());
+        }
 
-        // ------------------------------
+
         // CREATE ORDER (GET)
-        // ------------------------------
         public async Task<IActionResult> Create()
         {
             var viewModel = new OrderCreateViewModel
@@ -35,9 +42,8 @@ namespace ABCRetails.Controllers
             return View(viewModel);
         }
 
-        // ------------------------------
         // CREATE ORDER (POST)
-        // ------------------------------
+
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(OrderCreateViewModel model)
         {
@@ -81,9 +87,7 @@ namespace ABCRetails.Controllers
             }
         }
 
-        // ------------------------------
         // DETAILS
-        // ------------------------------
         public async Task<IActionResult> Details(string id)
         {
             if (string.IsNullOrWhiteSpace(id)) return NotFound();
@@ -92,9 +96,7 @@ namespace ABCRetails.Controllers
             return order == null ? NotFound() : View(order);
         }
 
-        // ------------------------------
         // EDIT ORDER (GET)
-        // ------------------------------
         public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrWhiteSpace(id)) return NotFound();
@@ -111,9 +113,8 @@ namespace ABCRetails.Controllers
             return View(order);
         }
 
-        // ------------------------------
         // EDIT ORDER (POST)
-        // ------------------------------
+
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Order order)
         {
@@ -145,9 +146,8 @@ namespace ABCRetails.Controllers
             }
         }
 
-        // ------------------------------
         // DELETE ORDER
-        // ------------------------------
+
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -163,9 +163,8 @@ namespace ABCRetails.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // ------------------------------
-        // AJAX: Get product price & stock
-        // ------------------------------
+        //Get product price & stock
+
         [HttpGet]
         public async Task<JsonResult> GetProductPrice(string productId)
         {
@@ -190,9 +189,8 @@ namespace ABCRetails.Controllers
             }
         }
 
-        // ------------------------------
-        // AJAX: Update Order Status
-        // ------------------------------
+        //Update Order Status
+        [Authorize(Roles = "Admin")]
         [HttpPost("Order/UpdateOrderStatus/{id}")]
         public async Task<JsonResult> UpdateOrderStatus(string id, [FromBody] JsonElement body)
         {
@@ -215,9 +213,7 @@ namespace ABCRetails.Controllers
             }
         }
 
-        // ------------------------------
-        // HELPER: Populate dropdowns
-        // ------------------------------
+        //HELPER: Populate dropdowns
         private async Task PopulateDropdowns(OrderCreateViewModel model)
         {
             model.Customers = await _api.GetCustomersAsync();

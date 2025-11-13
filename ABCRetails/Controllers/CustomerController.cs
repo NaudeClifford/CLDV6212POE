@@ -1,6 +1,7 @@
 ﻿using ABCRetails.Models;
 using Microsoft.AspNetCore.Mvc;
 using ABCRetails.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ABCRetails.Controllers
 {
@@ -10,9 +11,8 @@ namespace ABCRetails.Controllers
 
         public CustomerController(IFunctionApi api) => _api = api;
 
-        // ------------------------------
         // LIST CUSTOMERS WITH SEARCH
-        // ------------------------------
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Index(string? searchString)
         {
             ViewData["SearchString"] = searchString;
@@ -32,18 +32,15 @@ namespace ABCRetails.Controllers
             return View(customers);
         }
 
-        // ------------------------------
         // CREATE CUSTOMER (GET)
-        // ------------------------------
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
 
-        // ------------------------------
         // CREATE CUSTOMER (POST)
-        // ------------------------------
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, AllowAnonymous]
         public async Task<IActionResult> Create(Customer customer)
         {
             if (!ModelState.IsValid)
@@ -62,9 +59,9 @@ namespace ABCRetails.Controllers
             }
         }
 
-        // ------------------------------
         // EDIT CUSTOMER (GET)
-        // ------------------------------
+        [Authorize(Roles = "Customer")]
+
         public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrWhiteSpace(id)) return NotFound();
@@ -73,10 +70,8 @@ namespace ABCRetails.Controllers
             return customer == null ? NotFound() : View(customer);
         }
 
-        // ------------------------------
         // EDIT CUSTOMER (POST)
-        // ------------------------------
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Customer")]
         public async Task<IActionResult> Edit(Customer customer)
         {
             if (!ModelState.IsValid)
@@ -95,9 +90,10 @@ namespace ABCRetails.Controllers
             }
         }
 
-        // ------------------------------
         // DELETE CUSTOMER
-        // ------------------------------
+        [Authorize(Roles = "Customer")]
+        [Authorize(Roles = "Admin")]
+
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {

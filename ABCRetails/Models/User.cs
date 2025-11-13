@@ -1,22 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ABCRetails.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace PROG6212POE.Models
+namespace ABCRetails.Models
 {
     public class User : IdentityUser
     {
         [Required]
-        public string FirstName { get; set; } = string.Empty;
-
+        public required string FirstName { get; set; }
+       
         [Required]
-        public string LastName { get; set; } = string.Empty;
+        public required string LastName { get; set; }
 
-        // Role navigation
-        public int RoleId { get; set; }
-        public Role? Role { get; set; }
+        // Optional shipping address for customers
+        public string? ShippingAddress { get; set; }
 
-        // Orders
-        public ICollection<Order>? Orders { get; set; }
+        public Admin? Admin { get; set; }
+            public Customer? Customer { get; set; }
+            public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
+        
     }
 }

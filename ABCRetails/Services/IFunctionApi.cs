@@ -28,5 +28,11 @@ public interface IFunctionApi
     //Uploads
     Task<string> UploadProofOfPaymentAsync(IFormFile file, string? orderId, string? customerName);
 
+    // Cart operations
+    Task AddToCartAsync(string customerId, string productId, int quantity);
+    Task<List<CartItem>> GetCartAsync(string customerId);
+    Task RemoveFromCartAsync(string customerId, string productId);
+    Task ClearCartAsync(string customerId);
+
 }
 

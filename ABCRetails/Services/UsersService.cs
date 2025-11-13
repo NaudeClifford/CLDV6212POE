@@ -1,7 +1,6 @@
 ﻿using ABCRetails.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PROG6212POE.Models;
 
 namespace ABCRetails.Services
 {

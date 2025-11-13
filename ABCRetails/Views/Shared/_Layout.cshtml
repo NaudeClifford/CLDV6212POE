@@ -21,41 +21,64 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
+                        
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="fas fa-home"></i> Home
+                            <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">
+                                <i class="fas fa-box"></i> Login
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Index">
-                                <i class="fas fa-users"></i> Customers
-                            </a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">
                                 <i class="fas fa-box"></i> Products
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Order" asp-action="Index">
-                                <i class="fas fa-shopping-cart"></i> Orders
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Upload" asp-action="Index">
-                                <i class="fas fa-upload"></i> Upload Files
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">
-                                <i class="fas fa-shield-alt"></i> Privacy
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact_Us">
-                                <i class="fas fa-shield-alt"></i> Contact_Us
-                            </a>
-                        </li>
+						</li> 
+                        
+                        @if (User.IsInRole("Customer"))
+						{
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Order" asp-action="Index">
+                                    <i class="fas fa-shopping-cart"></i> Orders
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Upload" asp-action="Index">
+                                    <i class="fas fa-upload"></i> Upload Files
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">
+                                    <i class="fas fa-shield-alt"></i> Privacy
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact_Us">
+                                    <i class="fas fa-shield-alt"></i> Contact_Us
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="CartItem" asp-action="Cart">
+                                    <i class="fas fa-shield-alt"></i> Cart
+                                </a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Index">
+                                    <i class="fas fa-users"></i> Customers
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Order" asp-action="AdminView">
+                                    <i class="fas fa-shopping-cart"></i> Orders
+                                </a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>

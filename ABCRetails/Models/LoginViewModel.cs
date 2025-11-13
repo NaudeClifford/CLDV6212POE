@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace PROG6212POE.Models
+namespace ABCRetails.Models
 {
     public class LoginViewModel
     {

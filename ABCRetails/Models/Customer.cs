@@ -9,6 +9,11 @@ namespace ABCRetails.Models
         public string Id { get; set; } = string.Empty;
 
         [Required]
+        public string UserId { get; set; } = string.Empty;
+
+        public User? User { get; set; }
+
+        [Required]
         [Display(Name = "First Name")]
         public string Name { get; set; } = string.Empty;
 
@@ -28,6 +33,9 @@ namespace ABCRetails.Models
         [Display(Name = "Shipping Address")]
         public string ShippingAddress { get; set; } = string.Empty;
 
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+
+        public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
 
     }
 }

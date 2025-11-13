@@ -1,36 +1,35 @@
 ﻿using ABCRetails.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PROG6212POE.Models;
 
 namespace ABCRetails.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options) {}
 
-        public DbSet<Role> Roles { get; set; } = null!;
-        public DbSet<Product> Products { get; set; } = null!;
-        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<CartItem> Cart { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            // User <-> Role relationship
-            builder.Entity<User>()
-                .HasOne(u => u.Role)
-                .WithMany(r => r.Users)
-                .HasForeignKey(u => u.RoleId)
-                .OnDelete(DeleteBehavior.Restrict);
+            // User <-> Admin relationship
+            builder.Entity<Admin>()
+               .HasOne(a => a.User)
+               .WithOne(u => u.Admin)
+               .HasForeignKey<Admin>(a => a.UserId)
+               .IsRequired()
+               .OnDelete(DeleteBehavior.Cascade);
 
-            // Order <-> User relationship
+            // Customer <-> Order relationship
             builder.Entity<Order>()
                 .HasOne(o => o.Customer)
-                .WithMany(u => u.Orders)
+                .WithMany(b => b.Orders)
                 .HasForeignKey(o => o.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -41,6 +40,18 @@ namespace ABCRetails.Data
                 .HasForeignKey(o => o.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<CartItem>()
+                .HasOne(ci => ci.Customer)
+                .WithMany(u => u.CartItems)
+                .HasForeignKey(ci => ci.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<CartItem>()
+                .HasOne(ci => ci.Product)
+                .WithMany(p => p.CartItems)
+                .HasForeignKey(ci => ci.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Decimal precision
             builder.Entity<Product>()
                 .Property(p => p.Price)
@@ -48,6 +59,10 @@ namespace ABCRetails.Data
 
             builder.Entity<Order>()
                 .Property(o => o.UnitPrice)
+                .HasColumnType("decimal(10,2)");
+
+            builder.Entity<CartItem>()
+                .Property(ci => ci.UnitPrice)
                 .HasColumnType("decimal(10,2)");
         }
     }

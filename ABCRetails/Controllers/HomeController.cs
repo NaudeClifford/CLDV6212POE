@@ -3,9 +3,11 @@ using ABCRetails.Models;
 using Microsoft.AspNetCore.Mvc;
 using ABCRetails.Models.ViewModels;
 using ABCRetails.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ABCRetails.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly IFunctionApi _api;
@@ -45,7 +47,6 @@ namespace ABCRetails.Controllers
                 return View(new HomeViewModel());
             }
         }
-
 
         public IActionResult Privacy()
         {

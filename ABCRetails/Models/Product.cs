@@ -16,7 +16,7 @@ namespace ABCRetails.Models
 
         [Required]
         [Range(0.01, double.MaxValue)]
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         [Required]
         public int StockAvailable { get; set; }
@@ -24,6 +24,7 @@ namespace ABCRetails.Models
         public string ImageUrl { get; set; } = string.Empty;
 
         // Navigation property
-        public ICollection<Order>? Orders { get; set; }
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
     }
 }
