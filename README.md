@@ -1,2 +1,2 @@
-# CLDV6212POE-Part1
-POE part 1 project for CLDV6212
+# CLDV6212POE-Part2
+POE part 2 project for CLDV6212
