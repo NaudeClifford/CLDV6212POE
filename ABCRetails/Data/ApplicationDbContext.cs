@@ -40,6 +40,7 @@ namespace ABCRetails.Data
                 .HasForeignKey(o => o.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // CartItem: no foreign key to Product
             builder.Entity<CartItem>()
                 .HasOne(ci => ci.Customer)
                 .WithMany(u => u.CartItems)
@@ -47,10 +48,10 @@ namespace ABCRetails.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<CartItem>()
-                .HasOne(ci => ci.Product)
-                .WithMany(p => p.CartItems)
-                .HasForeignKey(ci => ci.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
+    .HasOne(ci => ci.Product)
+    .WithMany(u => u.CartItems)
+    .HasForeignKey(ci => ci.ProductId)
+    .OnDelete(DeleteBehavior.Cascade);
 
             // Decimal precision
             builder.Entity<Product>()
@@ -65,5 +66,6 @@ namespace ABCRetails.Data
                 .Property(ci => ci.UnitPrice)
                 .HasColumnType("decimal(10,2)");
         }
+
     }
 }

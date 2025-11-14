@@ -34,7 +34,6 @@ namespace ABCRetails.Models
         public string ShippingAddress { get; set; } = string.Empty;
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
-
         public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
 
     }

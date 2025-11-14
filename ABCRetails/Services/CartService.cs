@@ -1,78 +1,70 @@
-﻿using ABCRetails.Models;
-using ABCRetails.Data;
+﻿using ABCRetails.Data;
+using ABCRetails.Models;
+using ABCRetails.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace ABCRetails.Services
+public class CartService
 {
-    public class CartService
+    private readonly ApplicationDbContext _context;
+
+    public CartService(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
+        _context = context;
+    }
 
-        public CartService(ApplicationDbContext context) => _context = context;
+    public async Task<List<CartItem>> GetCartItemsAsync(string userId)
+    {
+        return await _context.Cart
+            .Where(c => c.CustomerId == userId)
+            .ToListAsync();
+    }
 
-        public async Task<List<CartItem>> GetCartItemsAsync(string customerId)
+    public async Task AddToCartAsync(string userId, Product product, int quantity)
+    {
+        var existingItem = await _context.Cart
+            .FirstOrDefaultAsync(c => c.CustomerId == userId && c.ProductId == product.Id);
+
+        if (existingItem != null)
         {
-            return await _context.Cart
-                .Include(c => c.Product)
-                .Where(c => c.CustomerId == customerId)
-                .ToListAsync();
+            existingItem.Quantity += quantity;
+        }
+        else
+        {
+            var cartItem = new CartItem
+            {
+                CustomerId = userId,
+                ProductId = product.Id,
+                UnitPrice = product.Price,
+                Quantity = quantity
+            };
+            await _context.Cart.AddAsync(cartItem);
         }
 
-        public async Task AddToCartAsync(string customerId, Product product, int quantity)
-        {
-            var existing = await _context.Cart
-                .FirstOrDefaultAsync(c => c.CustomerId == customerId && c.ProductId == product.Id);
+        await _context.SaveChangesAsync();
+    }
 
-            if (existing != null)
-            {
-                existing.Quantity += quantity;
-            }
-            else
-            {
-                _context.Cart.Add(new CartItem
-                {
-                    CustomerId = customerId,
-                    ProductId = product.Id,
-                    UnitPrice = product.Price,
-                    Quantity = quantity
-                });
-            }
+    public async Task UpdateQuantityAsync(string userId, string productId, int quantity)
+    {
+        var item = await _context.Cart
+            .FirstOrDefaultAsync(c => c.CustomerId == userId && c.ProductId == productId);
+
+        if (item != null)
+        {
+            if (quantity <= 0) _context.Cart.Remove(item);
+            else item.Quantity = quantity;
 
             await _context.SaveChangesAsync();
         }
+    }
 
-        public async Task UpdateQuantityAsync(string customerId, string productId, int quantity)
+    public async Task RemoveItemAsync(string userId, string productId)
+    {
+        var item = await _context.Cart
+            .FirstOrDefaultAsync(c => c.CustomerId == userId && c.ProductId == productId);
+
+        if (item != null)
         {
-            var item = await _context.Cart
-                .FirstOrDefaultAsync(c => c.CustomerId == customerId && c.ProductId == productId);
-
-            if (item != null)
-            {
-                if (quantity <= 0)
-                    _context.Cart.Remove(item);
-                else
-                    item.Quantity = quantity;
-
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task RemoveItemAsync(string customerId, string productId)
-        {
-            var item = await _context.Cart
-                .FirstOrDefaultAsync(c => c.CustomerId == customerId && c.ProductId == productId);
-
-            if (item != null)
-            {
-                _context.Cart.Remove(item);
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task ClearCartAsync(string customerId)
-        {
-            var items = _context.Cart.Where(c => c.CustomerId == customerId);
-            _context.Cart.RemoveRange(items);
+            _context.Cart.Remove(item);
             await _context.SaveChangesAsync();
         }
     }

@@ -29,10 +29,13 @@ namespace ABCRetails
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<CartService>();
 
             // Database
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.Configure<FunctionSettings>(builder.Configuration.GetSection("Functions"));
 
             // Identity
             builder.Services.AddIdentity<User, IdentityRole>(options =>

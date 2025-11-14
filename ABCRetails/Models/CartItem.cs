@@ -9,16 +9,16 @@ namespace ABCRetails.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        public string CustomerId { get; set; } = string.Empty;
+        public string? CustomerId { get; set; }
 
         [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; } = null!;
+        public Customer? Customer { get; set; }
 
         [Required]
         public string ProductId { get; set; } = string.Empty;
 
         [ForeignKey("ProductId")]
-        public Product Product { get; set; } = null!;
+        public Product? Product { get; set; }  // ← navigation property
 
         [Required]
         [Range(1, int.MaxValue)]
@@ -29,4 +29,5 @@ namespace ABCRetails.Models
 
         public decimal Total => Quantity * UnitPrice;
     }
+
 }
