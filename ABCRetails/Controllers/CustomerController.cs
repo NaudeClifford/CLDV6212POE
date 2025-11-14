@@ -1,5 +1,7 @@
 ﻿using ABCRetails.Data;
 using ABCRetails.Models;
+using ABCRetails.Services;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +14,13 @@ namespace ABCRetails.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        public CustomerController(ApplicationDbContext context, UserManager<User> userManager)
+        private readonly IFunctionApi _functionApi;
+
+        public CustomerController(ApplicationDbContext context, UserManager<User> userManager, IFunctionApi functionApi)
         {
             _context = context;
             _userManager = userManager;
+            _functionApi = functionApi;
         }
 
         // LIST CUSTOMERS
@@ -65,7 +70,6 @@ namespace ABCRetails.Controllers
             return View(customer);
         }
 
-        // EDIT CUSTOMER (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Customer,Admin")]
@@ -78,20 +82,37 @@ namespace ABCRetails.Controllers
             if (customer == null)
                 return NotFound();
 
-            // If user is a customer, make sure it's their own account
             if (User.IsInRole("Customer") && customer.Username != User.Identity.Name)
                 return Forbid();
 
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Update only allowed fields
+            // Update SQL
             customer.Name = model.Name;
             customer.Surname = model.Surname;
             customer.Email = model.Email;
+            customer.ShippingAddress = model.ShippingAddress;
 
             await _context.SaveChangesAsync();
-            TempData["Success"] = "Customer updated successfully!";
+
+            // Update Table Storage via API
+            try
+            {
+                var updated = await _functionApi.UpdateCustomerAsync(id, customer);
+                if (updated == null)
+                {
+                    TempData["Warning"] = "Customer updated in SQL but failed in Table Storage.";
+                }
+                else
+                {
+                    TempData["Success"] = "Customer updated in both SQL and Table Storage.";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Warning"] = $"Customer updated in SQL but API update failed: {ex.Message}";
+            }
 
             return RedirectToAction(User.IsInRole("Admin") ? nameof(Index) : "Edit", new { id = customer.Id });
         }
@@ -113,16 +134,28 @@ namespace ABCRetails.Controllers
             if (User.IsInRole("Customer") && customer.Username != User.Identity.Name)
                 return Forbid();
 
+            // Delete from SQL
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
+
+            // Delete from Table Storage via API
+            try
+            {
+                await _functionApi.DeleteCustomerAsync(id);
+                TempData["Success"] = "Customer deleted successfully from SQL and Storage!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Warning"] = $"Deleted from SQL, but failed to delete in Storage: {ex.Message}";
+            }
 
             // If a customer deleted themselves, log them out
             if (User.IsInRole("Customer"))
                 return RedirectToAction("Logout", "Account");
 
-            TempData["Success"] = "Customer deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
+
 
     }
 }
