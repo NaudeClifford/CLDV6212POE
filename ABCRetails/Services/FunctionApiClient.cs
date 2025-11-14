@@ -19,12 +19,10 @@ namespace ABCRetails.Services
 
         public FunctionApiClient(IHttpClientFactory factory)
         {
-            _http = factory.CreateClient("Functions"); // BaseAddress set in Program.cs
+            _http = factory.CreateClient("Functions"); 
         }
 
-        // -------------------------
         // Helpers
-        // -------------------------
         private static HttpContent JsonBody(object obj)
             => new StringContent(JsonSerializer.Serialize(obj, _json), Encoding.UTF8, "application/json");
 
@@ -41,9 +39,7 @@ namespace ABCRetails.Services
             return data!;
         }
 
-        // -------------------------
         // Customers
-        // -------------------------
         public async Task<List<Customer>> GetCustomersAsync()
             => await ReadJsonAsync<List<Customer>>(await _http.GetAsync(CustomersRoute));
 
@@ -57,6 +53,7 @@ namespace ABCRetails.Services
         public async Task<Customer> CreateCustomerAsync(Customer c)
             => await ReadJsonAsync<Customer>(await _http.PostAsync(CustomersRoute, JsonBody(new
             {
+                userId = c.UserId,
                 name = c.Name,
                 surname = c.Surname,
                 username = c.Username,
@@ -77,9 +74,7 @@ namespace ABCRetails.Services
         public async Task DeleteCustomerAsync(string id)
             => (await _http.DeleteAsync($"{CustomersRoute}/{id}")).EnsureSuccessStatusCode();
 
-        // -------------------------
         // Products
-        // -------------------------
         public async Task<List<Product>> GetProductsAsync()
             => await ReadJsonAsync<List<Product>>(await _http.GetAsync(ProductsRoute));
 
@@ -131,9 +126,7 @@ namespace ABCRetails.Services
         public async Task DeleteProductAsync(string id)
             => (await _http.DeleteAsync($"{ProductsRoute}/{id}")).EnsureSuccessStatusCode();
 
-        // -------------------------
         // Orders
-        // -------------------------
         public async Task<List<Order>> GetOrdersAsync()
         {
             var dtos = await ReadJsonAsync<List<OrderDto>>(await _http.GetAsync(OrdersRoute));
@@ -221,9 +214,7 @@ namespace ABCRetails.Services
             response.EnsureSuccessStatusCode();
         }
 
-        // -------------------------
         // Mapping
-        // -------------------------
         private static Order ToOrder(OrderDto d)
         {
             var status = !string.IsNullOrWhiteSpace(d.Status) &&
@@ -256,9 +247,7 @@ namespace ABCRetails.Services
         );
     }
 
-    // -------------------------
     // Minimal PATCH extension
-    // -------------------------
     internal static class HttpClientPatchExtensions
     {
         public static Task<HttpResponseMessage> PatchAsync(this HttpClient client, string requestUri, HttpContent content)

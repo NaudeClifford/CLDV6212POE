@@ -56,7 +56,7 @@ public class CustomersFunctions
 
     }
 
-    public record CustomerCreateUpdate(string? Name, string? Surname, string? Username, string? Email, string? ShippingAddress);
+    public record CustomerCreateUpdate(string? UserId, string? Name, string? Surname, string? Username, string? Email, string? ShippingAddress);
 
     [Function("Customer_Create")]
 
@@ -74,6 +74,7 @@ public class CustomersFunctions
 
         var e = new CustomerEntity
         {
+            UserId = input.UserId ?? "",
             Name = input.Name,
             Surname = input.Surname ?? "",
             Username = input.Username ?? "",

@@ -6,7 +6,7 @@ namespace ABCRetails.Models
     public class Admin
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         public string UserId { get; set; } = string.Empty;

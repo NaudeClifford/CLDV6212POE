@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Security.Claims;
+using System.Text.Json;
 using ABCRetails.Models;
 using ABCRetails.Models.ViewModels;
 using ABCRetails.Services;
@@ -61,6 +62,32 @@ namespace ABCRetails.Controllers
         [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Customer")]
         public async Task<IActionResult> Create(OrderCreateViewModel model)
         {
+
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                TempData["Error"] = "User not identified!";
+                return RedirectToAction("Index"); // redirect to products/cart
+            }
+
+            // Fetch the customer record from API that matches this user
+            var customer = (await _api.GetCustomersAsync())
+                           .FirstOrDefault(c => c.UserId == userId);
+
+            if (customer == null)
+            {
+                TempData["Error"] = "No customer record found for this user!";
+                return RedirectToAction("Index");
+            }
+
+            // Assign the correct CustomerId for the order
+            model.CustomerId = customer.Id;
+
+            // Remove ModelState error for CustomerId since we just assigned it
+            ModelState.Remove("CustomerId");
+
+            // Check other model validation
             if (!ModelState.IsValid)
             {
                 await PopulateDropdowns(model);
@@ -69,17 +96,16 @@ namespace ABCRetails.Controllers
 
             try
             {
-                // Get customer and product details from API
-                var customer = await _api.GetCustomerAsync(model.CustomerId);
+                // Get product details from API
                 var product = await _api.GetProductAsync(model.ProductId);
-
-                if (customer == null || product == null)
+                if (product == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid customer or product selected.");
+                    ModelState.AddModelError(string.Empty, "Invalid product selected.");
                     await PopulateDropdowns(model);
                     return View(model);
                 }
 
+                // Check stock availability
                 if (product.StockAvailable < model.Quantity)
                 {
                     ModelState.AddModelError("Quantity", $"Insufficient stock. Available: {product.StockAvailable}");
@@ -100,6 +126,7 @@ namespace ABCRetails.Controllers
                 return View(model);
             }
         }
+
         [Authorize(Roles = "Customer, Admin")]
         // DETAILS
         public async Task<IActionResult> Details(string id)

@@ -31,7 +31,10 @@
                     <th>Description</th>
                     <th>Price</th>
                     <th>Stock Available</th>
-                    <th>Actions</th>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <th>Actions</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -67,24 +70,32 @@
                             </span>
                         </td>
                         <td>
-                            <div class="btn-group" role="group">
-                                <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-outline-primary">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete('@product.Id', '@product.ProductName')">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-
-                            <!-- Add to Cart Form -->
-                            <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mt-2 d-flex align-items-center">
-                                <input type="hidden" name="productId" value="@product.Id" />
-                                <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm me-2" style="width: 70px;" />
-                                <button type="submit" class="btn btn-sm btn-success">
-                                    <i class="fas fa-cart-plus"></i> Add
-                                </button>
-                            </form>
+                            @if (User.IsInRole("Admin"))
+                            {
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="confirmDelete('@product.Id', '@product.ProductName')">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        }
+                            @if (User.IsInRole("Customer"))
+                            {
+                                <!-- Add to Cart Form -->
+                                <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mt-2 d-flex align-items-center">
+                                    <input type="hidden" name="productId" value="@product.Id" />
+                                    <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm me-2" style="width: 70px;" />
+                                    <button type="submit" class="btn btn-sm btn-success">
+                                        <i class="fas fa-cart-plus"></i> Add
+                                    </button>
+                                </form>
+                            }
                         </td>
+
                     </tr>
                 }
             </tbody>

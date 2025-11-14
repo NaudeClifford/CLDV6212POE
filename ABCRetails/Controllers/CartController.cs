@@ -43,7 +43,7 @@ namespace ABCRetails.Controllers
             HttpContext.Session.SetObjectAsJson("Cart", cart);
 
             TempData["Success"] = "Product added to cart!";
-            return RedirectToAction(nameof(Products));
+            return RedirectToAction("Index", "Product");
         }
 
         // View Cart

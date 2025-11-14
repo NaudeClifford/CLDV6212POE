@@ -26,4 +26,8 @@
     <Folder Include="Content\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ABCRetailersFunctions\ABCRetailersFunctions.csproj" />
+  </ItemGroup>
+
 </Project>

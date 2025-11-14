@@ -5,13 +5,12 @@ namespace ABCRetails.Models
     public class Product
     {
         [Key]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         [Display(Name = "Product Name")]
         public string ProductName { get; set; } = string.Empty;
 
-        [Required]
         public string Description { get; set; } = string.Empty;
 
         [Required]

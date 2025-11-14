@@ -1,5 +1,8 @@
-﻿using ABCRetails.Data;
+﻿using ABCRetailersFunctions.Entities;
+using ABCRetails.Data;
 using ABCRetails.Models;
+using ABCRetails.Services;
+using Azure.Data.Tables;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +17,16 @@ namespace ABCRetails.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;
+        private readonly IFunctionApi _functionApi;
 
-        public AccountController(SignInManager<User> signInManager, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
+        public AccountController(SignInManager<User> signInManager, UserManager<User> userManager, 
+            RoleManager<IdentityRole> roleManager, ApplicationDbContext context, IFunctionApi functionApi)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
+            _functionApi = functionApi;
         }
 
         [HttpGet]
@@ -33,9 +39,20 @@ namespace ABCRetails.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
-            if (!ModelState.IsValid)
-                return View(model);
 
+            if (!ModelState.IsValid)
+            {
+                foreach (var entry in ModelState)
+                {
+                    var key = entry.Key;
+                    var errors = entry.Value.Errors;
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"ModelState Error - {key}: {error.ErrorMessage}");
+                    }
+                }
+                return View(model);
+            }
             model.UserNameOrEmail = model.UserNameOrEmail?.Trim();
             model.Password = model.Password?.Trim();
 
@@ -69,13 +86,28 @@ namespace ABCRetails.Controllers
         }
 
 
-
+        public IActionResult Signin(string? returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(new RegisterViewModel());
+        }
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Signin(RegisterViewModel model)
         {
             if (!ModelState.IsValid)
+            {
+                foreach (var entry in ModelState)
+                {
+                    var key = entry.Key;
+                    var errors = entry.Value.Errors;
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine($"ModelState Error - {key}: {error.ErrorMessage}");
+                    }
+                }
                 return View(model);
+            }
 
             // Check if email already exists
             if (await _userManager.FindByEmailAsync(model.Email) != null)
@@ -87,23 +119,20 @@ namespace ABCRetails.Controllers
             // Create Identity user
             var user = new User
             {
-                UserName = model.Email,
+                UserName = model.Username,
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName
             };
 
-            // Customers get a shipping address
             if (model.Role == "Customer")
                 user.ShippingAddress = model.ShippingAddress;
 
             var result = await _userManager.CreateAsync(user, model.Password);
-
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
                     ModelState.AddModelError("", error.Description);
-
                 return View(model);
             }
 
@@ -114,12 +143,13 @@ namespace ABCRetails.Controllers
             // Assign role
             await _userManager.AddToRoleAsync(user, model.Role);
 
-            // SAVE to your own tables
+            // Save to SQL database
             if (model.Role == "Customer")
             {
                 var customer = new Customer
                 {
-                    Id = user.Id,
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = user.Id,
                     User = user,
                     Name = user.FirstName,
                     Surname = user.LastName,
@@ -127,8 +157,10 @@ namespace ABCRetails.Controllers
                     Username = user.UserName,
                     ShippingAddress = user.ShippingAddress
                 };
-
                 _context.Customers.Add(customer);
+
+                await _functionApi.CreateCustomerAsync(customer);
+
             }
             else if (model.Role == "Admin")
             {
@@ -142,13 +174,12 @@ namespace ABCRetails.Controllers
                     Username = user.UserName,
                     Role = "Admin"
                 };
-
                 _context.Admins.Add(admin);
             }
 
             await _context.SaveChangesAsync();
 
-            // Auto login and redirect
+            // Auto-login
             await _signInManager.SignInAsync(user, isPersistent: false);
 
             TempData["WelcomeMessage"] =
@@ -156,6 +187,8 @@ namespace ABCRetails.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+
 
         [HttpPost, ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout(string? returnUrl = null)

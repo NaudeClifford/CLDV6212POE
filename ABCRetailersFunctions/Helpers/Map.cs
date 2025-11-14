@@ -10,6 +10,7 @@ public static class Map
     public static CustomerDto ToDto(CustomerEntity e) => new(
 
         Id: e.RowKey,
+        UserId: e.UserId,
         Name: e.Name,
         Surname: e.Surname,
         Username: e.Username,

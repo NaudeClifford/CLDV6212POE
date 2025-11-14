@@ -46,57 +46,30 @@ namespace ABCRetails.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Optional: Validate file if one is uploaded
-            if (imageFile != null && imageFile.Length > 0)
-            {
-                // Check file size (limit: 5MB)
-                long maxSize = 5 * 1024 * 1024;
-                if (imageFile.Length > maxSize)
-                {
-                    ModelState.AddModelError("ImageFile", "File size must be under 5MB.");
-                    return View(model);
-                }
-
-                // Check allowed types
-                var extension = Path.GetExtension(imageFile.FileName).ToLower();
-                var allowed = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-                if (!allowed.Contains(extension))
-                {
-                    ModelState.AddModelError("ImageFile", "Only JPG, PNG, or GIF files are allowed.");
-                    return View(model);
-                }
-            }
-
             try
             {
-                // 1️⃣ Save to database first
+                // Save to database first
                 var product = new Product
                 {
                     ProductName = model.ProductName,
                     Description = model.Description,
                     Price = model.Price,
                     StockAvailable = model.StockAvailable,
-                    ImageUrl = model.ImageUrl
+                    ImageUrl = model.ImageUrl,
                 };
 
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
 
-                // 2️⃣ Save to API / cloud storage
-                Product savedProduct;
+                // Save to cloud storage
                 if (imageFile != null && imageFile.Length > 0)
                 {
-                    savedProduct = await _api.CreateProductAsync(product, imageFile);
-                }
-                else
-                {
-                    savedProduct = await _api.CreateProductAsync(product, null);
-                }
+                    var savedProduct = await _api.CreateProductAsync(product, imageFile);
+                    product.ImageUrl = savedProduct.ImageUrl;
 
-                // 3️⃣ Optional: Update DB with cloud info if returned
-                product.ImageUrl = savedProduct.ImageUrl;
-                _context.Products.Update(product);
-                await _context.SaveChangesAsync();
+                    _context.Products.Update(product);
+                    await _context.SaveChangesAsync();
+                }
 
                 TempData["Success"] = $"Product '{product.ProductName}' created successfully!";
                 return RedirectToAction(nameof(Index));
@@ -107,6 +80,7 @@ namespace ABCRetails.Controllers
                 return View(model);
             }
         }
+
 
         // EDIT PRODUCT (GET)
         [Authorize(Roles = "Admin")]
@@ -120,36 +94,71 @@ namespace ABCRetails.Controllers
 
         // EDIT PRODUCT (POST)
         [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(Product product, IFormFile? imageFile)
+        public async Task<IActionResult> Edit(string id, Product model, IFormFile? imageFile)
         {
-            if (!ModelState.IsValid) return View(product);
+            if (id != model.Id)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return View(model);
 
             try
             {
-                // Update DB first
-                _context.Update(product);
-                await _context.SaveChangesAsync();
+                // Load the existing product from the DB
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+                if (product == null)
+                    return NotFound();
 
-                // Update cloud via API
-                var updatedFromApi = await _api.UpdateProductAsync(product.Id, product, imageFile);
+                // Update product fields
+                product.ProductName = model.ProductName;
+                product.Description = model.Description;
+                product.Price = model.Price;
+                product.StockAvailable = model.StockAvailable;
+                product.ImageUrl = model.ImageUrl;
 
-                // Sync ImageUrl if changed
-                if (!string.IsNullOrEmpty(updatedFromApi.ImageUrl) && updatedFromApi.ImageUrl != product.ImageUrl)
+                // Handle new image upload
+                if (imageFile != null && imageFile.Length > 0)
                 {
-                    product.ImageUrl = updatedFromApi.ImageUrl;
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    // Save new image to cloud storage
+                    var savedProduct = await _api.CreateProductAsync(product, imageFile);
+
+                    // Delete old image if it exists
+                    if (!string.IsNullOrWhiteSpace(product.ImageUrl))
+                    {
+                        try
+                        {
+                            await _api.DeleteProductAsync(product.Id); // Or a specific DeleteImageAsync method
+                        }
+                        catch
+                        {
+                            // Log error but continue
+                            Console.WriteLine("Failed to delete old image from cloud storage");
+                        }
+                    }
+
+                    // Update ImageUrl
+                    product.ImageUrl = savedProduct.ImageUrl;
                 }
+
+                // Save changes to the database
+                _context.Products.Update(product);
+                await _context.SaveChangesAsync();
 
                 TempData["Success"] = $"Product '{product.ProductName}' updated successfully!";
                 return RedirectToAction(nameof(Index));
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                ModelState.AddModelError("", "This product was updated or deleted by someone else. Please reload and try again.");
+                return View(model);
+            }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", $"Error updating product: {ex.Message}");
-                return View(product);
+                return View(model);
             }
         }
+
 
 
         // DELETE PRODUCT

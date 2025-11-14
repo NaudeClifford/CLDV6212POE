@@ -11,17 +11,7 @@
         <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group mb-3">
-                <label asp-for="CustomerId" class="form-label">Select Customer</label>
-                <select asp-for="CustomerId" class="form-select" id="customerSelect">
-                    <option value="">-- Select Customer --</option>
-                    @foreach (var customer in Model.Customers)
-                    {
-                        <option value="@customer.Id">@customer.Name @customer.Surname (@customer.Username)</option>
-                    }
-                </select>
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="CustomerId" />
 
             <div class="form-group mb-3">
                 <label asp-for="ProductId" class="form-label">Select Product</label>

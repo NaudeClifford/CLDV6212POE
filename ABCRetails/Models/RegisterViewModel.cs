@@ -28,7 +28,6 @@ namespace ABCRetails.Models
         [Required, Display(Name = "Role")]
         public string Role { get; set; } = "Customer"; // Default role
 
-        // ✅ New: Shipping Address
         [Display(Name = "Shipping Address (Optional)")]
         public string? ShippingAddress { get; set; } = string.Empty;
     }

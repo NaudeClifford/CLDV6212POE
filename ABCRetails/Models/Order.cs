@@ -14,17 +14,15 @@ namespace ABCRetails.Models
     public class Order
     {
         [Key]
-        public string Id { get; set; } = string.Empty;
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
-        [Required]
-        public string CustomerId { get; set; } = string.Empty;
+        public string? CustomerId { get; set; }
 
         [Required]
         [Display(Name = "Username")]
         public string Username { get; set; } = string.Empty;
 
-        [Required]
-        public string ProductId { get; set; } = string.Empty;
+        public string? ProductId { get; set; }
 
         [Required]
         [Display(Name = "Product Name")]

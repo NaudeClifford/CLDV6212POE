@@ -5,7 +5,6 @@ namespace ABCRetails.Models.ViewModels
     public class OrderCreateViewModel
     {
 
-        [Required]
         [Display(Name = "Customer")]
         public string CustomerId { get; set; } = string.Empty;
 

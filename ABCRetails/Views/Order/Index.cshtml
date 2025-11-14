@@ -31,6 +31,7 @@
                 @foreach (var order in Model.OrderByDescending(o => o.OrderDate))
                 {
                     <tr>
+
                         <td><code>@order.Id.Substring(0, 8)...</code></td>
                         <td>@order.Username</td>
                         <td>@order.ProductName</td>
