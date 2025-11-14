@@ -1,119 +1,128 @@
-﻿using ABCRetails.Models;
-using Microsoft.AspNetCore.Mvc;
-using ABCRetails.Services;
+﻿using ABCRetails.Data;
+using ABCRetails.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ABCRetails.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
-        private readonly IFunctionApi _api;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
+        public CustomerController(ApplicationDbContext context, UserManager<User> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
 
-        public CustomerController(IFunctionApi api) => _api = api;
-
-        // LIST CUSTOMERS WITH SEARCH
-        [Authorize(Roles ="Admin")]
+        // LIST CUSTOMERS
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Index(string? searchString)
         {
-            ViewData["SearchString"] = searchString;
+            IQueryable<Customer> customersQuery = _context.Customers.AsNoTracking();
 
-            var customers = await _api.GetCustomersAsync();
+            if (User.IsInRole("Customer"))
+            {
+                // Only show the logged-in customer
+                var username = User.Identity.Name;
+                customersQuery = customersQuery.Where(c => c.Username == username);
+            }
 
             if (!string.IsNullOrWhiteSpace(searchString))
             {
-                searchString = searchString.Trim();
-                customers = customers.Where(c =>
-                    (!string.IsNullOrEmpty(c.Name) && c.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
-                    (!string.IsNullOrEmpty(c.Surname) && c.Surname.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
-                    (!string.IsNullOrEmpty(c.Username) && c.Username.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-                ).ToList();
+                searchString = searchString.Trim().ToLower();
+                customersQuery = customersQuery.Where(c =>
+                    c.Name.ToLower().Contains(searchString) ||
+                    c.Surname.ToLower().Contains(searchString) ||
+                    c.Username.ToLower().Contains(searchString)
+                );
             }
 
+            var customers = await customersQuery.ToListAsync();
+            ViewData["SearchString"] = searchString;
             return View(customers);
         }
 
-        // CREATE CUSTOMER (GET)
-        [AllowAnonymous]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // CREATE CUSTOMER (POST)
-        [HttpPost, ValidateAntiForgeryToken, AllowAnonymous]
-        public async Task<IActionResult> Create(Customer customer)
-        {
-            if (!ModelState.IsValid)
-                return View(customer);
-
-            try
-            {
-                await _api.CreateCustomerAsync(customer);
-                TempData["Success"] = "Customer created successfully!";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"Error creating customer: {ex.Message}");
-                return View(customer);
-            }
-        }
 
         // EDIT CUSTOMER (GET)
-        [Authorize(Roles = "Customer")]
-
+        [Authorize(Roles = "Customer,Admin")]
         public async Task<IActionResult> Edit(string id)
         {
-            if (string.IsNullOrWhiteSpace(id)) return NotFound();
+            if (string.IsNullOrWhiteSpace(id))
+                return NotFound();
 
-            var customer = await _api.GetCustomerAsync(id);
-            return customer == null ? NotFound() : View(customer);
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
+                return NotFound();
+
+            // If user is a customer, make sure it's their own account
+            if (User.IsInRole("Customer") && customer.Username != User.Identity.Name)
+                return Forbid(); // 403 Forbidden
+
+            return View(customer);
         }
 
         // EDIT CUSTOMER (POST)
-        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Customer")]
-        public async Task<IActionResult> Edit(Customer customer)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Customer,Admin")]
+        public async Task<IActionResult> Edit(string id, Customer model)
         {
-            if (!ModelState.IsValid)
-                return View(customer);
+            if (id != model.Id)
+                return BadRequest();
 
-            try
-            {
-                await _api.UpdateCustomerAsync(customer.Id, customer);
-                TempData["Success"] = "Customer updated successfully!";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"Error updating customer: {ex.Message}");
-                return View(customer);
-            }
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
+                return NotFound();
+
+            // If user is a customer, make sure it's their own account
+            if (User.IsInRole("Customer") && customer.Username != User.Identity.Name)
+                return Forbid();
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            // Update only allowed fields
+            customer.Name = model.Name;
+            customer.Surname = model.Surname;
+            customer.Email = model.Email;
+
+            await _context.SaveChangesAsync();
+            TempData["Success"] = "Customer updated successfully!";
+
+            return RedirectToAction(User.IsInRole("Admin") ? nameof(Index) : "Edit", new { id = customer.Id });
         }
 
         // DELETE CUSTOMER
-        [Authorize(Roles = "Customer")]
-        [Authorize(Roles = "Admin")]
-
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Customer,Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
-            {
-                TempData["Error"] = "Invalid customer ID.";
-                return RedirectToAction(nameof(Index));
-            }
+                return BadRequest();
 
-            try
-            {
-                await _api.DeleteCustomerAsync(id);
-                TempData["Success"] = "Customer deleted successfully!";
-            }
-            catch (Exception ex)
-            {
-                TempData["Error"] = $"Error deleting customer: {ex.Message}";
-            }
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer == null)
+                return NotFound();
 
+            // Customer can only delete their own account
+            if (User.IsInRole("Customer") && customer.Username != User.Identity.Name)
+                return Forbid();
+
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+
+            // If a customer deleted themselves, log them out
+            if (User.IsInRole("Customer"))
+                return RedirectToAction("Logout", "Account");
+
+            TempData["Success"] = "Customer deleted successfully!";
             return RedirectToAction(nameof(Index));
         }
+
     }
 }

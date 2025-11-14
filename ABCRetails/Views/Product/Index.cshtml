@@ -1,5 +1,4 @@
-﻿<!-- Views/Product/Index.cshtml -->
-@model IEnumerable<ABCRetails.Models.Product>
+﻿@model IEnumerable<ABCRetails.Models.Product>
 @{
     ViewData["Title"] = "Products";
 }
@@ -10,6 +9,15 @@
         <i class="fas fa-plus"></i> Add New Product
     </a>
 </div>
+
+<form class="mb-3" method="get" asp-action="Index">
+    <div class="input-group">
+        <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" class="form-control" placeholder="Search by Product Name or ID" />
+        <button class="btn btn-primary" type="submit">
+            <i class="fas fa-search"></i> Search
+        </button>
+    </div>
+</form>
 
 @if (Model.Any())
 {
@@ -50,7 +58,6 @@
                             @if (product.Price <= 0)
                             {
                                 <br />
-
                                 <small class="text-danger">⚠️ Price not set</small>
                             }
                         </td>
@@ -68,6 +75,15 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
+
+                            <!-- Add to Cart Form -->
+                            <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mt-2 d-flex align-items-center">
+                                <input type="hidden" name="productId" value="@product.Id" />
+                                <input type="number" name="quantity" value="1" min="1" class="form-control form-control-sm me-2" style="width: 70px;" />
+                                <button type="submit" class="btn btn-sm btn-success">
+                                    <i class="fas fa-cart-plus"></i> Add
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 }

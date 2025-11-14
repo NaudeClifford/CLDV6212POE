@@ -1,0 +1,55 @@
+﻿@model List<ABCRetails.Controllers.CartItemViewModel>
+
+@{
+    ViewData["Title"] = "My Cart";
+}
+
+<h2>My Cart</h2>
+
+@if (!(Model?.Any() ?? false))
+{
+    <div class="alert alert-info">Your cart is empty.</div>
+}
+
+else
+{
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th style="width: 200px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>R @item.UnitPrice</td>
+                    <td>@item.Quantity</td>
+                    <td>R @item.Total</td>
+                    <td>
+                        <form asp-action="EditCartItem" method="post" class="d-inline">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control d-inline w-auto" />
+                            <button type="submit" class="btn btn-sm btn-warning">Update</button>
+                        </form>
+                        <form asp-action="RemoveCartItem" method="post" class="d-inline">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Total: R @Model.Sum(x => x.Total)</h4>
+
+    <form asp-action="Checkout" method="post">
+        <button class="btn btn-success">Checkout</button>
+    </form>
+}

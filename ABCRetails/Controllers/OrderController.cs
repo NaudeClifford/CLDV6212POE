@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ABCRetails.Controllers
 {
-    public class CustomerOrderController : Controller
+
+    public class OrderController : Controller
     {
         private readonly IFunctionApi _api;
 
-        public CustomerOrderController(IFunctionApi api) => _api = api;
+        public OrderController(IFunctionApi api) => _api = api;
 
         // LIST ALL ORDERS
 
@@ -21,15 +22,29 @@ namespace ABCRetails.Controllers
             var orders = await _api.GetOrdersAsync();
             return View(orders.OrderByDescending(o => o.OrderDate).ToList());
         }
-        
+
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> OrderView()
+        public async Task<IActionResult> AdminView(string? searchString)
         {
-            var orders = await _api.GetOrdersAsync();
+            var orders = await _api.GetOrdersAsync() ?? new List<Order>();
+
+            if (!string.IsNullOrWhiteSpace(searchString))
+            {
+                searchString = searchString.Trim();
+                orders = orders
+                    .Where(o =>
+                        (!string.IsNullOrEmpty(o.Username) && o.Username.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
+                        (!string.IsNullOrEmpty(o.ProductName) && o.ProductName.Contains(searchString, StringComparison.OrdinalIgnoreCase)) ||
+                        (!string.IsNullOrEmpty(o.Id) && o.Id.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                    ).ToList();
+            }
+
+            ViewData["SearchString"] = searchString;
+
             return View(orders.OrderByDescending(o => o.OrderDate).ToList());
         }
 
-
+        [Authorize(Roles = "Customer")]
         // CREATE ORDER (GET)
         public async Task<IActionResult> Create()
         {
@@ -43,8 +58,7 @@ namespace ABCRetails.Controllers
         }
 
         // CREATE ORDER (POST)
-
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Customer")]
         public async Task<IActionResult> Create(OrderCreateViewModel model)
         {
             if (!ModelState.IsValid)
@@ -86,7 +100,7 @@ namespace ABCRetails.Controllers
                 return View(model);
             }
         }
-
+        [Authorize(Roles = "Customer, Admin")]
         // DETAILS
         public async Task<IActionResult> Details(string id)
         {
@@ -96,6 +110,7 @@ namespace ABCRetails.Controllers
             return order == null ? NotFound() : View(order);
         }
 
+        [Authorize(Roles = "Customer")]
         // EDIT ORDER (GET)
         public async Task<IActionResult> Edit(string id)
         {
@@ -115,7 +130,7 @@ namespace ABCRetails.Controllers
 
         // EDIT ORDER (POST)
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost, ValidateAntiForgeryToken, Authorize(Roles = "Customer")]
         public async Task<IActionResult> Edit(Order order)
         {
             if (!ModelState.IsValid)
@@ -148,7 +163,7 @@ namespace ABCRetails.Controllers
 
         // DELETE ORDER
 
-        [HttpPost]
+        [HttpPost, Authorize(Roles = "Customer, Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             try
@@ -165,7 +180,7 @@ namespace ABCRetails.Controllers
 
         //Get product price & stock
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles = "Customer, Admin")]
         public async Task<JsonResult> GetProductPrice(string productId)
         {
             try
@@ -190,8 +205,7 @@ namespace ABCRetails.Controllers
         }
 
         //Update Order Status
-        [Authorize(Roles = "Admin")]
-        [HttpPost("Order/UpdateOrderStatus/{id}")]
+        [Authorize(Roles = "Admin"), HttpPost("Order/UpdateOrderStatus/{id}")]
         public async Task<JsonResult> UpdateOrderStatus(string id, [FromBody] JsonElement body)
         {
             try
@@ -212,7 +226,7 @@ namespace ABCRetails.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
-
+        [Authorize(Roles = "Customer, Admin")]
         //HELPER: Populate dropdowns
         private async Task PopulateDropdowns(OrderCreateViewModel model)
         {

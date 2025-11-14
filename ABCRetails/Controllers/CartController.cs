@@ -5,13 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ABCRetails.Controllers
 {
-    [Authorize(Roles = "Admin")]
-
+    [AllowAnonymous]
     public class CartController : Controller
     {
         private readonly IFunctionApi _api;
 
         public CartController(IFunctionApi api) => _api = api;
+        public IActionResult Index()
+        {
+            // Show cart items
+            return View();
+        }
 
         // List Products
         public async Task<IActionResult> Products()
@@ -112,33 +116,67 @@ namespace ABCRetails.Controllers
             TempData["Success"] = "Order cancelled successfully!";
             return RedirectToAction(nameof(MyOrders));
         }
-    }
 
-    // Session Helpers
-    public static class SessionExtensions
-    {
-        public static void SetObjectAsJson(this ISession session, string key, object value)
-            => session.SetString(key, System.Text.Json.JsonSerializer.Serialize(value));
 
-        public static T? GetObjectFromJson<T>(this ISession session, string key)
+        [HttpPost]
+        public IActionResult EditCartItem(string productId, int quantity)
         {
-            var value = session.GetString(key);
-            return value == null ? default : System.Text.Json.JsonSerializer.Deserialize<T>(value);
+            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            var item = cart.FirstOrDefault(c => c.ProductId == productId);
+            if (item != null)
+            {
+                if (quantity <= 0)
+                    cart.Remove(item);
+                else
+                    item.Quantity = quantity;
+            }
+
+            HttpContext.Session.SetObjectAsJson("Cart", cart);
+            TempData["Success"] = "Cart updated!";
+            return RedirectToAction(nameof(ViewCart));
+        }
+
+        [HttpPost]
+        public IActionResult RemoveCartItem(string productId)
+        {
+            var cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
+
+            var item = cart.FirstOrDefault(c => c.ProductId == productId);
+            if (item != null)
+                cart.Remove(item);
+
+            HttpContext.Session.SetObjectAsJson("Cart", cart);
+            TempData["Success"] = "Item removed!";
+            return RedirectToAction(nameof(ViewCart));
+        }
+    }
+        // Session Helpers
+        public static class SessionExtensions
+        {
+            public static void SetObjectAsJson(this ISession session, string key, object value)
+                => session.SetString(key, System.Text.Json.JsonSerializer.Serialize(value));
+
+            public static T? GetObjectFromJson<T>(this ISession session, string key)
+            {
+                var value = session.GetString(key);
+                return value == null ? default : System.Text.Json.JsonSerializer.Deserialize<T>(value);
+            }
+        }
+
+        public class CartItem
+        {
+            public string ProductId { get; set; } = null!;
+            public int Quantity { get; set; }
+        }
+
+        public class CartItemViewModel
+        {
+            public string ProductId { get; set; } = null!;
+            public string ProductName { get; set; } = null!;
+            public double UnitPrice { get; set; }
+            public int Quantity { get; set; }
+            public double Total => UnitPrice * Quantity;
         }
     }
 
-    public class CartItem
-    {
-        public string ProductId { get; set; } = null!;
-        public int Quantity { get; set; }
-    }
-
-    public class CartItemViewModel
-    {
-        public string ProductId { get; set; } = null!;
-        public string ProductName { get; set; } = null!;
-        public double UnitPrice { get; set; }
-        public int Quantity { get; set; }
-        public double Total => UnitPrice * Quantity;
-    }
-}

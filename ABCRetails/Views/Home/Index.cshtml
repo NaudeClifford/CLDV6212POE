@@ -4,6 +4,13 @@
     ViewData["Title"] = "Home";
 }
 
+@if (TempData["WelcomeMessage"] != null)
+{
+    <div class="alert alert-success text-center" style="font-size: 1.3rem;">
+        @TempData["WelcomeMessage"]
+    </div>
+}
+
 <div class="text-center mb-5">
     <h1 class="display-4 text-primary">
         <i class="fas fa-store"></i> Welcome to ABC Retailers!

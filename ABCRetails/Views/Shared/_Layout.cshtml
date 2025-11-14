@@ -48,6 +48,16 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Cart" asp-action="Index">
+                                    <i class="fas fa-shield-alt"></i> Cart
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Index">
+                                    <i class="fas fa-shield-alt"></i> Profile
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">
                                     <i class="fas fa-shield-alt"></i> Privacy
                                 </a>
@@ -55,11 +65,6 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact_Us">
                                     <i class="fas fa-shield-alt"></i> Contact_Us
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="CartItem" asp-action="Cart">
-                                    <i class="fas fa-shield-alt"></i> Cart
                                 </a>
                             </li>
                         }
@@ -77,6 +82,13 @@
                                     <i class="fas fa-shopping-cart"></i> Orders
                                 </a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="Index">
+                                    <i class="fas fa-shield-alt"></i> Profile
+                                </a>
+                            </li>
+
                         }
 
                     </ul>

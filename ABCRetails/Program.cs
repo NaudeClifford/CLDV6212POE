@@ -5,18 +5,16 @@ using ABCRetails.Services;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using ABCRetails.Models;
 
 namespace ABCRetails
 {
     public class Program
     {
-
         public static async Task Main(string[] args)
-       {
+        {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container
+            // Global authentication policy (Require login by default)
             builder.Services.AddControllersWithViews(options =>
             {
                 var policy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
@@ -24,26 +22,26 @@ namespace ABCRetails
                     .Build();
 
                 options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
-
             });
 
-            // Register application services
+            // App services
             builder.Services.AddScoped<IFunctionApi, FunctionApiClient>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IUserService, UserService>();
 
+            // Database
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // Configure Identity
+            // Identity
             builder.Services.AddIdentity<User, IdentityRole>(options =>
             {
-                options.Password.RequiredLength = 0;
-                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequiredLength = 8;
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = true;
                 options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -57,16 +55,15 @@ namespace ABCRetails
                 options.AccessDeniedPath = "/Account/Login";
             });
 
-            // Configure HttpClient for Azure Functions API
+            // Http Client for API
             builder.Services.AddHttpClient("Functions", (sp, client) =>
             {
                 var config = sp.GetRequiredService<IConfiguration>();
                 var baseUrl = config["Functions:BaseUrl"] ?? throw new InvalidOperationException();
                 client.BaseAddress = new Uri(baseUrl.TrimEnd('/') + "/api/");
-                client.Timeout = TimeSpan.FromSeconds(100);
             });
 
-            // Configure session and memory cache
+            // Session + Memory cache
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession(options =>
             {
@@ -75,37 +72,47 @@ namespace ABCRetails
                 options.Cookie.IsEssential = true;
             });
 
-            // Allow large multipart uploads
             builder.Services.Configure<FormOptions>(o =>
             {
-                o.MultipartBodyLengthLimit = 50 * 1024 * 1024; // 50MB
+                o.MultipartBodyLengthLimit = 50 * 1024 * 1024;
             });
-
-            builder.Services.AddLogging();
 
             var app = builder.Build();
 
-            // Set culture for decimal handling
-            var culture = new CultureInfo("en-US");
-            CultureInfo.DefaultThreadCurrentCulture = culture;
-            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            // Decimal culture fix
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
 
-            // Configure middleware pipeline
+            // Error handling
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
 
-            // Seed roles and default admin
+            // ?RUN MIGRATIONS & SEED USERS
             using (var scope = app.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
-                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                var userManager = services.GetRequiredService<UserManager<User>>();
-                await SeedRolesAsync(roleManager, userManager);
+                try
+                {
+                    var services = scope.ServiceProvider;
+                    var context = services.GetRequiredService<ApplicationDbContext>();
+
+                    // Ensures tables exist
+                    context.Database.Migrate();
+
+                    // Run your user seeder
+                    await UserSeeder.SeedAsync(services);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("ERROR DURING SEEDING: ");
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+                }
             }
 
+            // Middleware
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
@@ -118,32 +125,6 @@ namespace ABCRetails
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
-        }
-
-        private static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
-        {
-            string[] roleNames = { "Admin", "Customer" };
-            foreach (var roleName in roleNames)
-            {
-                if (!await roleManager.RoleExistsAsync(roleName))
-                    await roleManager.CreateAsync(new IdentityRole(roleName));
-            }
-
-            // Create default admin
-            var adminEmail = "admin@example.com";
-            var adminUser = await userManager.FindByEmailAsync(adminEmail);
-            if (adminUser == null)
-            {
-                var user = new User
-                {
-                    UserName = "admin",
-                    Email = adminEmail,
-                    FirstName = "System",
-                    LastName = "Admin"
-                };
-                await userManager.CreateAsync(user, "Admin123!");
-                await userManager.AddToRoleAsync(user, "Admin");
-            }
         }
     }
 }

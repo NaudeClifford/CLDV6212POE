@@ -1,89 +1,47 @@
-﻿<!-- Views/Customer/Edit.cshtml -->
-@model ABCRetails.Models.Customer
+﻿@model ABCRetails.Models.User
 @{
-    ViewData["Title"] = "Edit Customer";
+    ViewData["Title"] = "Edit Profile";
 }
 
-<h2><i class="fas fa-user-edit"></i> Edit Customer</h2>
+<h2><i class="fas fa-edit"></i> Edit Profile</h2>
 
-<div class="row">
-    <div class="col-md-8">
-        <form asp-action="Edit" method="post">
-            @Html.AntiForgeryToken()
-            <input type="hidden" asp-for="Id"/>
-            <input type="hidden" asp-for="Username" />
-
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="alert alert-info">
-                <i class="fas fa-info-circle"></i> <strong>Customer ID:</strong>
-                @(string.IsNullOrEmpty(Model?.Id) ? "-" : Model.Id.Substring(0, Math.Min(8, Model.Id.Length)) + "_")
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label asp-for="Name" class="form-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group mb-3">
-                        <label asp-for="Surname" class="form-label"></label>
-                        <input asp-for="Surname" class="form-control" />
-                        <span asp-validation-for="Surname" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="Username" class="form-label"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" type="email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="ShippingAddress" class="form-label"></label>
-                <textarea asp-for="ShippingAddress" class="form-control" rows="3"></textarea>
-                <span asp-validation-for="ShippingAddress" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Update Customer
-                </button>
-                <a asp-action="Index" class="btn btn-secondary">
-                    <i class="fas fa-times"></i> Cancel
-                </a>
-            </div>
-        </form>
+<form asp-action="Edit" method="post" class="mt-3" style="max-width: 600px;">
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h6 class="card-title mb-0">Customer Information</h6>
-            </div>
-            <div class="card-body">
-
-                <p>
-                    <strong>Full Customer ID:</strong><br />
-                    <small class="text-muted font-monospace">@Model.Id</small>
-                </p>
-            </div>
-        </div>
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
-</div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PhoneNumber" class="form-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UserName" class="form-label"></label>
+        <input asp-for="UserName" class="form-control" disabled />
+        <small class="text-muted">Username cannot be changed.</small>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        <i class="fas fa-save"></i> Save Changes
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }
